@@ -2,13 +2,13 @@ import { View, Text, Pressable, TextInput } from "react-native";
 import { useCallback, useState } from "react";
 import { UserAuthentication } from "../types/user";
 import { authenticateUser } from "../services/UserService";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getSecureItem, saveSecureAuth, setSecureItem } from "../utils/SecureStore";
 import { router, useFocusEffect } from "expo-router";
 import { stringToUserRole } from "../utils/map";
 import Checkbox from "expo-checkbox";
 
-const Login = () => {
+const LoginPage = () => {
   const [userAuth, setUserAuth] = useState<UserAuthentication>({
     username: "",
     password: "",
@@ -31,14 +31,9 @@ const Login = () => {
     }, [])
   );
 
-  const { data, isLoading, isError, error, refetch } = useQuery({
-    queryKey: ["authenticateUser"],
-    queryFn: () => authenticateUser(userAuth),
-    enabled: false,
-  });
-
-  if (data) {
-    const saveAuth = async () => {
+  const { isPending, isError, error, mutate } = useMutation({
+    mutationFn: () => authenticateUser(userAuth),
+    onSuccess: async ({ data }) => {
       await saveSecureAuth({
         ...data,
         role: stringToUserRole(data.role),
@@ -46,17 +41,16 @@ const Login = () => {
       await setSecureItem("remember-me", rememberMe.toString());
       queryClient.removeQueries({ queryKey: ["authenticateUser"] });
       router.push("/admin/home");
-    };
-    saveAuth();
-  }
+    },
+  });
 
   if (isError) {
     console.log(error);
   }
 
   const handleClick = () => {
-    if (!isLoading) {
-      refetch();
+    if (!isPending) {
+      mutate();
     }
   };
 
@@ -99,19 +93,13 @@ const Login = () => {
           className="flex flex-row justify-center p-2.5 mt-5 bg-green-400 rounded"
           onPress={handleClick}
         >
-          {isLoading ? (
-            <Text className="text-base font-semibold text-white tracking-wider">
-              Loading...
-            </Text>
-          ) : (
-            <Text className="text-base font-semibold text-white tracking-wider">
-              LOGIN
-            </Text>
-          )}
+          <Text className="text-base font-semibold text-white tracking-wider">
+            {isPending ? "Loading..." : "LOGIN"}
+          </Text>
         </Pressable>
       </View>
     </View>
   );
 };
 
-export default Login;
+export default LoginPage;

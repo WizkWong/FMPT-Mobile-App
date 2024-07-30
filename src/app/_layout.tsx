@@ -23,13 +23,9 @@ const RootLayout = () => {
           headerShown: false
         }}
       >
-        <Stack.Screen
-          name="login"
-          options={{
-            headerTitle: "Login",
-          }}
-        />
-        <Stack.Screen name="admin" options={{ headerShown: false }} />
+        <Stack.Screen name="login"/>
+        <Stack.Screen name="admin" />
+        <Stack.Screen name="users" />
       </Stack>
     </QueryClientProvider>
   );

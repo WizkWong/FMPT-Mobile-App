@@ -11,3 +11,11 @@ export interface AuthenticationUserDetails {
   role: UserRole;
   token: string;
 }
+
+export interface User {
+  id?: number;
+  username?: string;
+  phoneNo?: string;
+  role?: UserRole;
+  createdDateTime?: string;
+}

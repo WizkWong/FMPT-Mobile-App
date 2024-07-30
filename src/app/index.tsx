@@ -1,4 +1,4 @@
-import { Pressable, View } from "react-native";
+import { View, Text } from "react-native";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback } from "react";
 import { getSecureAuth } from "../utils/SecureStore";
@@ -24,6 +24,7 @@ const App = () => {
               router.replace('/admin/home');
               return;
             }
+            router.replace('/login');
           },
           () => router.replace('/login')
         );
@@ -34,7 +35,6 @@ const App = () => {
 
   return (
     <View className="flex-1 items-center justify-center bg-white">
-      <Pressable className="p-4 border-b-2" onPress={() => router.push("/login")}></Pressable>
     </View>
   );
 }

@@ -1,10 +1,9 @@
-import { useEffect, useState } from "react";
-import { View, Text, Alert, BackHandler } from "react-native";
-import { AuthenticationUserDetails } from "../../types/user";
-import { getSecureAuth } from "../../utils/SecureStore";
+import { useEffect } from "react";
+import { View, Text, Alert, BackHandler, Pressable } from "react-native";
+import { router } from "expo-router";
+import * as SecureStore from "expo-secure-store";
 
-const Home = () => {
-  const [userDetails, setUserDetails] = useState<AuthenticationUserDetails>();
+const HomePage = () => {
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
@@ -30,23 +29,26 @@ const Home = () => {
     return () => backHandler.remove();
   }, []);
 
-  useEffect(() => {
-    const getUserDetails = async () => {
-      try {
-        const data = await getSecureAuth();
-        data.ifPresent((s) => setUserDetails(s as unknown as AuthenticationUserDetails));
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getUserDetails();
-  }, []);
+  const logOut = async () => {
+    await SecureStore.deleteItemAsync('auth');
+    router.replace('/login');
+  }
 
   return (
     <View className="flex-1 items-center justify-center">
       <Text>Home Page</Text>
+      <Pressable className="p-4 border-2" onPress={() => router.push("/users/create")}>
+        <Text>
+          Create Customer
+        </Text>
+      </Pressable>
+      <Pressable className="p-4 border-2" onPress={() => logOut()}>
+        <Text>
+          Logout
+        </Text>
+      </Pressable>
     </View>
   );
 };
 
-export default Home;
+export default HomePage;

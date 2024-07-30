@@ -1,5 +1,6 @@
-import axios from "axios";
-import { UserAuthentication, AuthenticationUserDetails } from "../types/user";
+import axios, { AxiosResponse } from "axios";
+import { UserAuthentication, AuthenticationUserDetails, User } from "../types/user";
+import { setAuthorizationHeader } from "../utils/header";
 
 const api = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
@@ -8,9 +9,8 @@ const api = axios.create({
 
 type AuthenticationUserDetailsRoleAsStr = Omit<AuthenticationUserDetails, 'role'> & { role: string };
 
-export const authenticateUser = async (userAuth: UserAuthentication): Promise<AuthenticationUserDetailsRoleAsStr> => {
-  const res = await api.post('/auth/authenticate', userAuth);
-  return res.data;
+export const authenticateUser = async (userAuth: UserAuthentication): Promise<AxiosResponse<AuthenticationUserDetailsRoleAsStr, any>> => {
+  return await api.post('/auth/authenticate', userAuth);
 }
 
 export const validateToken = async (userDetails: AuthenticationUserDetails): Promise<boolean> => {
@@ -25,3 +25,7 @@ export const validateToken = async (userDetails: AuthenticationUserDetails): Pro
   }
   return false;
 };
+
+export const createUser = async (user: User): Promise<AxiosResponse<any, any>> => {
+  return await api.post('/users', user, await setAuthorizationHeader());
+}
