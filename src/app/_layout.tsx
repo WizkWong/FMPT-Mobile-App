@@ -2,6 +2,7 @@ import React from "react";
 import { Stack } from "expo-router";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useReactQueryDevTools } from "@dev-plugins/react-query";
+import config from "../constants/config";
 
 const queryClient = new QueryClient({});
 
@@ -13,7 +14,7 @@ const RootLayout = () => {
       <Stack
         screenOptions={{
           headerStyle: {
-            backgroundColor: "#a6a22b",
+            backgroundColor: config.colorTheme.header,
           },
           headerTintColor: "#fff",
           headerTitleStyle: {
@@ -23,7 +24,7 @@ const RootLayout = () => {
           headerShown: false
         }}
       >
-        <Stack.Screen name="login"/>
+        <Stack.Screen name="login" />
         <Stack.Screen name="admin" />
         <Stack.Screen name="users" />
       </Stack>

@@ -2,11 +2,11 @@ import { View, Text, Pressable, TextInput } from "react-native";
 import { useCallback, useState } from "react";
 import { UserAuthentication } from "../types/user";
 import { authenticateUser } from "../services/UserService";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getSecureItem, saveSecureAuth, setSecureItem } from "../utils/SecureStore";
 import { router, useFocusEffect } from "expo-router";
-import { stringToUserRole } from "../utils/map";
 import Checkbox from "expo-checkbox";
+import { UserRole } from "../types/enum";
 
 const LoginPage = () => {
   const [userAuth, setUserAuth] = useState<UserAuthentication>({
@@ -36,11 +36,12 @@ const LoginPage = () => {
     onSuccess: async ({ data }) => {
       await saveSecureAuth({
         ...data,
-        role: stringToUserRole(data.role),
       });
       await setSecureItem("remember-me", rememberMe.toString());
       queryClient.removeQueries({ queryKey: ["authenticateUser"] });
-      router.push("/admin/home");
+      if (data.role === UserRole.ADMIN) {
+        router.push("/admin/home");
+      }
     },
   });
 

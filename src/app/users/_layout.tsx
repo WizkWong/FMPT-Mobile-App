@@ -1,12 +1,13 @@
 import React from "react";
 import { Stack } from "expo-router";
+import config from "../../constants/config";
 
 const UserLayout = () => {
   return (
     <Stack
       screenOptions={{
         headerStyle: {
-          backgroundColor: "#a6a22b",
+          backgroundColor: config.colorTheme.header,
         },
         headerTintColor: "#fff",
         headerTitleStyle: {

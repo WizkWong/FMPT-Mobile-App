@@ -1,9 +1,9 @@
 import { getSecureAuth } from "./SecureStore";
 
-export async function setAuthorizationHeader() {
+export const setAuthorizationHeader = async () => {
   const userDetails = await getSecureAuth();
   if (userDetails.isEmpty()) {
-    throw "Authorization Token does not exist!";
+    throw Error("Authorization Token does not exist!");
   }
   return {
     headers: {

@@ -7,10 +7,8 @@ const api = axios.create({
   timeout: 5000,
 });
 
-type AuthenticationUserDetailsRoleAsStr = Omit<AuthenticationUserDetails, 'role'> & { role: string };
-
-export const authenticateUser = async (userAuth: UserAuthentication): Promise<AxiosResponse<AuthenticationUserDetailsRoleAsStr, any>> => {
-  return await api.post('/auth/authenticate', userAuth);
+export const authenticateUser = (userAuth: UserAuthentication): Promise<AxiosResponse<AuthenticationUserDetails, any>> => {
+  return api.post('/auth/authenticate', userAuth);
 }
 
 export const validateToken = async (userDetails: AuthenticationUserDetails): Promise<boolean> => {
@@ -26,6 +24,24 @@ export const validateToken = async (userDetails: AuthenticationUserDetails): Pro
   return false;
 };
 
+export const getAllUsers = async (): Promise<AxiosResponse<User[], any>> => {
+  console.log("fetch all users")
+  return api.get('/users', await setAuthorizationHeader());
+}
+
+export const getUserById = async (id: number): Promise<AxiosResponse<User, any>> => {
+  console.log("fetch user " + id)
+  return api.get(`/users/${id}`, await setAuthorizationHeader());
+}
+
 export const createUser = async (user: User): Promise<AxiosResponse<any, any>> => {
-  return await api.post('/users', user, await setAuthorizationHeader());
+  return api.post('/users', user, await setAuthorizationHeader());
+}
+
+export const updateUser = async (user: User): Promise<AxiosResponse<any, any>> => {
+  return api.put('/users', user, await setAuthorizationHeader());
+}
+
+export const deleteUser = async (id: number): Promise<AxiosResponse<any, any>> => {
+  return api.delete(`/users/${id}`, await setAuthorizationHeader());
 }
