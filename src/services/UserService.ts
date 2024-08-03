@@ -25,12 +25,10 @@ export const validateToken = async (userDetails: AuthenticationUserDetails): Pro
 };
 
 export const getAllUsers = async (): Promise<AxiosResponse<User[], any>> => {
-  console.log("fetch all users")
   return api.get('/users', await setAuthorizationHeader());
 }
 
 export const getUserById = async (id: number): Promise<AxiosResponse<User, any>> => {
-  console.log("fetch user " + id)
   return api.get(`/users/${id}`, await setAuthorizationHeader());
 }
 

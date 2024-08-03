@@ -1,53 +1,79 @@
 import { useState } from "react";
-import { View, Text, TextInput, Pressable } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import { User } from "../../types/user";
 import { Picker } from "@react-native-picker/picker";
 import { UserRole } from "../../types/enum";
 import { useMutation } from "@tanstack/react-query";
 import { createUser } from "../../services/UserService";
 import { router } from "expo-router";
+import InputWithError from "../../components/InputWithError";
+import { AxiosError } from "axios";
 
 const CreateUserPage = () => {
   const [user, setUser] = useState<User>({
     role: UserRole.EMPLOYEE,
   });
+  const [errorField, setErrorField] = useState({
+    username: "",
+    phoneNo: "",
+  });
 
-  const { isPending, isError, error, mutate } = useMutation({
+  const { isPending, mutate } = useMutation({
     mutationFn: () => createUser(user),
     onSuccess: () => {
       router.back();
-    }
+    },
+    onError: (error: AxiosError<any, any>) => {
+      console.log(error);
+      const errorMsg = error.response?.data?.message?.split("\n");
+      if (errorMsg?.length !== 0) {
+        setErrorField({
+          username: errorMsg.find((msg) => msg.includes("Username")),
+          phoneNo: errorMsg.find((msg) => msg.includes("Phone Number")),
+        });
+      }
+    },
   });
 
-  if (isError) {
-    console.log(error);
-  }
-
   const handleClick = () => {
-    if (!isPending) {
-      mutate();
+    if (isPending) {
+      return;
     }
+    const error = {
+      username: "",
+      phoneNo: "",
+    };
+    if (!user.username) {
+      error.username = "Username cannot be empty!";
+    }
+    if (user.username?.length < 4) {
+      error.username = "Username must more than or equal 4 character!";
+    }
+    if (!user.phoneNo) {
+      error.phoneNo = "Phone Number cannot be empty!";
+    }
+    if (error.username || error.phoneNo) {
+      setErrorField(error);
+      return;
+    }
+    mutate();
   };
 
   return (
     <View className="flex-1 flex-col justify-between m-5">
       <View className="flex flex-col space-y-2">
-        <Text className="text-base font-medium">Username</Text>
-        <View className="flex flex-col p-2.5 mt-2.5 bg-gray-200 rounded tracking-wider">
-          <TextInput
-            className="text-base text-black"
-            onChangeText={(text) => setUser({ ...user, username: text })}
-            value={user.username}
-          />
-        </View>
-        <Text className="text-base font-medium">Phone Number</Text>
-        <View className="flex flex-col p-2.5 mt-2.5 bg-gray-200 rounded tracking-wider">
-          <TextInput
-            className="pt-1 text-base text-black"
-            onChangeText={(text) => setUser({ ...user, phoneNo: text })}
-            value={user.phoneNo}
-          />
-        </View>
+        <InputWithError
+          label="Username"
+          onChangeText={(text) => setUser({ ...user, username: text })}
+          value={user.username}
+          errorMsg={errorField.username}
+        />
+        <InputWithError
+          label="Phone Number"
+          onChangeText={(text) => setUser({ ...user, phoneNo: text })}
+          value={user.phoneNo}
+          errorMsg={errorField.phoneNo}
+        />
         <Text className="text-base font-medium">Role</Text>
         <Picker
           style={{
@@ -63,7 +89,7 @@ const CreateUserPage = () => {
       </View>
       <View>
         <Pressable
-          className={`flex flex-row justify-center p-2.5 mt-5 bg-amber-550 rounded`}
+          className="flex flex-row justify-center p-2.5 mt-5 bg-amber-550 rounded"
           onPress={handleClick}
         >
           <Text className="text-base font-semibold text-white tracking-wider">

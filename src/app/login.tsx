@@ -2,7 +2,7 @@ import { View, Text, Pressable, TextInput } from "react-native";
 import { useCallback, useState } from "react";
 import { UserAuthentication } from "../types/user";
 import { authenticateUser } from "../services/UserService";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { getSecureItem, saveSecureAuth, setSecureItem } from "../utils/SecureStore";
 import { router, useFocusEffect } from "expo-router";
 import Checkbox from "expo-checkbox";
@@ -14,7 +14,6 @@ const LoginPage = () => {
     password: "",
   });
   const [rememberMe, setRememberMe] = useState(true);
-  const queryClient = useQueryClient();
 
   useFocusEffect(
     useCallback(() => {
@@ -38,7 +37,6 @@ const LoginPage = () => {
         ...data,
       });
       await setSecureItem("remember-me", rememberMe.toString());
-      queryClient.removeQueries({ queryKey: ["authenticateUser"] });
       if (data.role === UserRole.ADMIN) {
         router.push("/admin/home");
       }

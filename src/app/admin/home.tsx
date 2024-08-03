@@ -1,9 +1,11 @@
 import { useEffect } from "react";
 import { View, Text, Alert, BackHandler, Pressable } from "react-native";
-import { router } from "expo-router";
+import { Link, router } from "expo-router";
 import * as SecureStore from "expo-secure-store";
+import { useQueryClient } from "@tanstack/react-query";
 
 const HomePage = () => {
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener(
@@ -30,6 +32,7 @@ const HomePage = () => {
   }, []);
 
   const logOut = async () => {
+    queryClient.removeQueries();
     await SecureStore.deleteItemAsync('auth');
     router.replace('/login');
   }
@@ -37,11 +40,12 @@ const HomePage = () => {
   return (
     <View className="flex-1 items-center justify-center">
       <Text>Home Page</Text>
-      <Pressable className="p-4 border-2" onPress={() => router.push("/users/create")}>
-        <Text>
-          Create Customer
-        </Text>
-      </Pressable>
+      <Link className="p-4 border-2" push href="/users/list">
+        View Customer
+      </Link>
+      <Link className="p-4 border-2" push href="/users/create">
+        Create Customer
+      </Link>
       <Pressable className="p-4 border-2" onPress={() => logOut()}>
         <Text>
           Logout
