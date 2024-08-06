@@ -17,5 +17,6 @@ export interface User {
   username?: string;
   phoneNo?: string;
   role?: UserRole;
+  image?: string;
   createdDateTime?: string;
 }

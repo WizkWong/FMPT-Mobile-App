@@ -34,7 +34,13 @@
           "root": "./src/app"
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app need to access your photos to upload the image."
+        }
+      ]
     ]
   }
 }

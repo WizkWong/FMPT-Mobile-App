@@ -10,6 +10,7 @@ import InputWithError from "../../components/InputWithError";
 import { AxiosError } from "axios";
 import Loading from "../../components/Loading";
 import CustomError from "../../components/CustomError";
+import ImageInput from "../../components/ImageInput";
 
 const UpdateUserPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -35,6 +36,7 @@ const UpdateUserPage = () => {
     username: data?.data.username,
     phoneNo: data?.data.phoneNo,
     role: data?.data.role,
+    image: data?.data.image,
   });
   const [errorField, setErrorField] = useState({
     username: "",
@@ -111,6 +113,10 @@ const UpdateUserPage = () => {
           <Picker.Item label="Manager" value={UserRole.MANAGER} />
           <Picker.Item label="Admin" value={UserRole.ADMIN} />
         </Picker>
+        <View>
+          <Text className="text-base font-medium mb-3">Profile Picture</Text>
+          <ImageInput image={user.image} setImage={(img) => setUser({ ...user, image: img.base64 })} />
+        </View>
       </View>
       <View>
         <Pressable

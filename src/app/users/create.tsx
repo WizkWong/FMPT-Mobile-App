@@ -3,13 +3,15 @@ import { View, Text, Pressable } from "react-native";
 import { User } from "../../types/user";
 import { Picker } from "@react-native-picker/picker";
 import { UserRole } from "../../types/enum";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createUser } from "../../services/UserService";
 import { router } from "expo-router";
 import InputWithError from "../../components/InputWithError";
 import { AxiosError } from "axios";
+import ImageInput from "../../components/ImageInput";
 
 const CreateUserPage = () => {
+  const queryClient = useQueryClient();
   const [user, setUser] = useState<User>({
     role: UserRole.EMPLOYEE,
   });
@@ -21,6 +23,7 @@ const CreateUserPage = () => {
   const { isPending, mutate } = useMutation({
     mutationFn: () => createUser(user),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["fetchUserList"] });
       router.back();
     },
     onError: (error: AxiosError<any, any>) => {
@@ -86,6 +89,10 @@ const CreateUserPage = () => {
           <Picker.Item label="Manager" value={UserRole.MANAGER} />
           <Picker.Item label="Admin" value={UserRole.ADMIN} />
         </Picker>
+        <View>
+          <Text className="text-base font-medium mb-3">Profile Picture</Text>
+          <ImageInput image={user.image} setImage={(img) => setUser({ ...user, image: img.base64 })} />
+        </View>
       </View>
       <View>
         <Pressable

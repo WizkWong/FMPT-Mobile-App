@@ -38,13 +38,10 @@ const HomePage = () => {
   }
 
   return (
-    <View className="flex-1 items-center justify-center">
+    <View className="flex-1 items-center justify-center space-y-4">
       <Text>Home Page</Text>
       <Link className="p-4 border-2" push href="/users/list">
-        View Customer
-      </Link>
-      <Link className="p-4 border-2" push href="/users/create">
-        Create Customer
+        Customer Management
       </Link>
       <Pressable className="p-4 border-2" onPress={() => logOut()}>
         <Text>
