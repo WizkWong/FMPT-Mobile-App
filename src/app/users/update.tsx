@@ -17,7 +17,7 @@ const UpdateUserPage = () => {
   const queryClient = useQueryClient();
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["fetchUser"],
+    queryKey: ["fetchUser", id],
     queryFn: () => getUserById(+id),
     refetchOnWindowFocus: "always",
   });
