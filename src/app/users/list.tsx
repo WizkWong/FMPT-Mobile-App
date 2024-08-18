@@ -7,17 +7,24 @@ import Loading from "../../components/Loading";
 import CustomError from "../../components/CustomError";
 import { Image } from "expo-image";
 import { useEffect } from "react";
+import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 
 const UserListPage = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
     navigation.setOptions({
+      headerSearchBarOptions: {
+        placeHolder: "Search",
+        headerTransparent: false,
+        onChangeText: (e) => {
+          console.log(e.nativeEvent.text)
+        }
+      },
       headerRight: () => {
-        const imagePath = require("../../assets/plus-sign.svg");
         return (
           <Pressable onPress={() => router.push(`users/create`)}>
-            <Image className="p-4" source={imagePath} placeholder={"Create"} />
+            <SimpleLineIcons name="plus" size={28} color="black" />
           </Pressable>
         );
       },

@@ -6,6 +6,7 @@ import Loading from "../../components/Loading";
 import CustomError from "../../components/CustomError";
 import { Image } from "expo-image";
 import { useEffect } from "react";
+import Feather from '@expo/vector-icons/Feather';
 
 const UserPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -14,10 +15,9 @@ const UserPage = () => {
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => {
-        const imagePath = require("../../assets/edit.png");
         return (
           <Pressable onPress={() => router.push(`users/update?id=${id}`)}>
-            <Image className="p-4" source={imagePath} placeholder={"Edit"} />
+            <Feather name="edit" size={28} color="black" />
           </Pressable>
         );
       },
