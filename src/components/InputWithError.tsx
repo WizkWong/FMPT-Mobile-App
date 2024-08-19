@@ -5,7 +5,7 @@ const InputWithError = ({ label, value, onChangeText, errorMsg } : { label: stri
     <>
       <Text className="text-base font-medium my-2">{label}</Text>
       <TextInput
-        className="p-2.5 bg-gray-200 rounded tracking-wider text-base text-black"
+        className="p-2.5 bg-gray-200 text-base"
         onChangeText={onChangeText}
         value={value}
       />

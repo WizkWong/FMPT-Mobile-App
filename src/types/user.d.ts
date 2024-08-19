@@ -16,7 +16,13 @@ export interface User {
   id?: number;
   username?: string;
   phoneNo?: string;
-  role?: UserRole;
   image?: string;
+  role?: UserRole;
+  department?: string;
   createdDateTime?: string;
+}
+
+export interface Department {
+  id: number;
+  name: string;
 }

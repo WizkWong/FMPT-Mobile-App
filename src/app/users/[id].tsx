@@ -59,6 +59,10 @@ const UserPage = () => {
         <Text className="text-base font-medium">{data?.data.role ?? "-"}</Text>
       </View>
       <View className="border-b-1">
+        <Text className="text-base font-medium">Department:</Text>
+        <Text className="text-base font-medium">{data?.data.department ?? "-"}</Text>
+      </View>
+      <View className="border-b-1">
         <Text className="text-base font-medium">Created Date & Time:</Text>
         <Text className="text-base font-medium">
           {data?.data.createdDateTime ?? "-"}

@@ -6,16 +6,14 @@ import { createUser } from "../../services/UserService";
 import { router } from "expo-router";
 import { AxiosError } from "axios";
 import UserForm from "../../components/UserForm";
+import { UserErrorField } from "../../types/form";
 
 const CreateUserPage = () => {
   const queryClient = useQueryClient();
   const [user, setUser] = useState<User>({
     role: UserRole.EMPLOYEE,
   });
-  const [errorField, setErrorField] = useState({
-    username: "",
-    phoneNo: "",
-  });
+  const [errorField, setErrorField] = useState<UserErrorField>({});
 
   const { isPending, mutate } = useMutation({
     mutationFn: () => createUser(user),
@@ -30,6 +28,7 @@ const CreateUserPage = () => {
         setErrorField({
           username: errorMsg.find((msg) => msg.includes("Username")),
           phoneNo: errorMsg.find((msg) => msg.includes("Phone Number")),
+          department: errorMsg.find((msg) => msg.includes("Department")),
         });
       }
     },
@@ -39,10 +38,8 @@ const CreateUserPage = () => {
     if (isPending) {
       return;
     }
-    const error = {
-      username: "",
-      phoneNo: "",
-    };
+    const error : UserErrorField = {};
+
     if (!user.username) {
       error.username = "Username cannot be empty!";
     }
@@ -52,7 +49,10 @@ const CreateUserPage = () => {
     if (!user.phoneNo) {
       error.phoneNo = "Phone Number cannot be empty!";
     }
-    if (error.username || error.phoneNo) {
+    if (!user.department) {
+      error.department = "Department cannot be empty!";
+    }
+    if (!error) {
       setErrorField(error);
       return;
     }

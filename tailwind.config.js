@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const config = require("./src/constants/config")
+
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
   theme: {
@@ -8,6 +10,7 @@ module.exports = {
       },
       colors: {
         'amber-550': '#e78b09',
+        'header-theme': config.colorTheme.header,
       },
     },
   },

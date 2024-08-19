@@ -4,6 +4,10 @@ import { UserRole } from "../types/enum";
 import { Picker } from "@react-native-picker/picker";
 import ImageInput from "./ImageInput";
 import { User } from "../types/user";
+import { UserErrorField } from "../types/form";
+import { useState } from "react";
+import DepartmentListModal from "./DepartmentListModal";
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 const UserForm = ({
   user,
@@ -15,16 +19,15 @@ const UserForm = ({
 }: {
   user: User;
   setUser: (value: React.SetStateAction<User>) => void;
-  errorField: {
-    username: string;
-    phoneNo: string;
-  };
-  buttonText: string,
+  errorField: UserErrorField;
+  buttonText: string;
   handleClick: () => void;
   buttonStatus: boolean;
 }) => {
+  const [isModalVisible, setModalVisible] = useState(false);
+
   return (
-    <View className="flex-1 flex-col justify-between m-5">
+    <View className="flex-1 flex-col justify-between mx-5 mt-1 mb-5">
       <View className="flex flex-col space-y-2">
         <InputWithError
           label="Username"
@@ -50,6 +53,24 @@ const UserForm = ({
           <Picker.Item label="Manager" value={UserRole.MANAGER} />
           <Picker.Item label="Admin" value={UserRole.ADMIN} />
         </Picker>
+        <Text className="text-base font-medium">Department</Text>
+        <Pressable
+          className="flex flex-row items-center p-2.5 bg-gray-200"
+          onPress={() => setModalVisible(true)}
+        >
+          <Text className="text-base">{user.department ?? "Choose a department"}</Text>
+          <View className="flex-1 flex flex-row justify-end mr-2">
+            <AntDesign name="caretdown" size={9} color="dimgray" />
+          </View>
+        </Pressable>
+        <DepartmentListModal
+          visible={isModalVisible}
+          onRequestClose={() => setModalVisible(false)}
+          componentOnClick={(department) => {
+            setUser({ ...user, department: department.name });
+            setModalVisible(false);
+          }}
+        />
         <View>
           <Text className="text-base font-medium mb-3">Profile Picture</Text>
           <ImageInput

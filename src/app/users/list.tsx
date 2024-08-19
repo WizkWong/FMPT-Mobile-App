@@ -3,11 +3,9 @@ import { View, Text, FlatList, Pressable } from "react-native";
 import { getAllUsers } from "../../services/UserService";
 import { Link, router, useNavigation } from "expo-router";
 import { User } from "../../types/user";
-import Loading from "../../components/Loading";
-import CustomError from "../../components/CustomError";
 import { Image } from "expo-image";
 import { useEffect } from "react";
-import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
+import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 
 const UserListPage = () => {
   const navigation = useNavigation();
@@ -18,8 +16,8 @@ const UserListPage = () => {
         placeHolder: "Search",
         headerTransparent: false,
         onChangeText: (e) => {
-          console.log(e.nativeEvent.text)
-        }
+          console.log(e.nativeEvent.text);
+        },
       },
       headerRight: () => {
         return (
@@ -31,20 +29,11 @@ const UserListPage = () => {
     });
   }, []);
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ["fetchUserList"],
     queryFn: () => getAllUsers(),
-    staleTime: Infinity,
+    staleTime: 60000,
   });
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (isError) {
-    console.log(error);
-    return <CustomError errorMsg={error.message} />;
-  }
 
   const renderItem = ({ item }: { item: User }) => {
     return (
@@ -62,24 +51,28 @@ const UserListPage = () => {
                 : require("../../assets/default-profile-img.svg")
             }
           />
-
           <Text className="text-base font-semibold">{item.username}</Text>
         </View>
       </Link>
     );
   };
 
+  const renderError = () => {
+    return <Text className="text-lg font-medium">Empty Users</Text>;
+  };
+
   return (
     <View className="flex flex-col justify-center mx-5 my-2">
-      {data?.data.length === 0 ? (
-        <Text className="text-lg font-medium">Empty Users</Text>
-      ) : (
-        <FlatList
-          data={data.data}
-          renderItem={renderItem}
-          keyExtractor={(item) => item.id.toString()}
-        />
-      )}
+      <FlatList
+        data={data?.data ?? []}
+        renderItem={renderItem}
+        ListEmptyComponent={() => (
+          <Text className="text-lg font-medium">Empty Users</Text>
+        )}
+        keyExtractor={(item) => item.id.toString()}
+        onRefresh={() => refetch()}
+        refreshing={isLoading}
+      />
     </View>
   );
 };

@@ -7,6 +7,7 @@ import { AxiosError } from "axios";
 import Loading from "../../components/Loading";
 import CustomError from "../../components/CustomError";
 import UserForm from "../../components/UserForm";
+import { UserErrorField } from "../../types/form";
 
 const UpdateUserPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -34,10 +35,7 @@ const UpdateUserPage = () => {
     role: data?.data.role,
     image: data?.data.image,
   });
-  const [errorField, setErrorField] = useState({
-    username: "",
-    phoneNo: "",
-  });
+  const [errorField, setErrorField] = useState<UserErrorField>({});
 
   const { isPending, mutate } = useMutation({
     mutationFn: () => updateUser(user),
@@ -53,6 +51,7 @@ const UpdateUserPage = () => {
         setErrorField({
           username: errorMsg.find((msg) => msg.includes("Username")),
           phoneNo: errorMsg.find((msg) => msg.includes("Phone Number")),
+          department: errorMsg.find((msg) => msg.includes("Department")),
         });
       }
     },
@@ -62,10 +61,7 @@ const UpdateUserPage = () => {
     if (isPending) {
       return;
     }
-    const error = {
-      username: "",
-      phoneNo: "",
-    };
+    const error : UserErrorField = {};
     if (!user.username) {
       error.username = "Username cannot be empty!";
     }
@@ -75,7 +71,10 @@ const UpdateUserPage = () => {
     if (!user.phoneNo) {
       error.phoneNo = "Phone Number cannot be empty!";
     }
-    if (error.username || error.phoneNo) {
+    if (!user.department) {
+      error.department = "Department cannot be empty!";
+    }
+    if (!error) {
       setErrorField(error);
       return;
     }

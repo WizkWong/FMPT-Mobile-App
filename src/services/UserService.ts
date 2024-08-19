@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { UserAuthentication, AuthenticationUserDetails, User } from "../types/user";
+import { UserAuthentication, AuthenticationUserDetails, User, Department } from "../types/user";
 import { setAuthorizationHeader } from "../utils/header";
 
 const api = axios.create({
@@ -42,4 +42,12 @@ export const updateUser = async (user: User): Promise<AxiosResponse<any, any>> =
 
 export const deleteUser = async (id: number): Promise<AxiosResponse<any, any>> => {
   return api.delete(`/users/${id}`, await setAuthorizationHeader());
+}
+
+export const getAllDepartments = async (): Promise<AxiosResponse<Department[], any>> => {
+  return api.get('/departments', await setAuthorizationHeader());
+}
+
+export const createDepartment = async (departmentName: string): Promise<AxiosResponse<any, any>> => {
+  return api.post(`/departments?department=${departmentName}`, null, await setAuthorizationHeader());
 }
