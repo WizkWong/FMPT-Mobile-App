@@ -38,7 +38,7 @@ const LoginPage = () => {
       });
       await setSecureItem("remember-me", rememberMe.toString());
       if (data.role === UserRole.ADMIN) {
-        router.push("/admin/home");
+        router.push("/admin");
       }
     },
   });

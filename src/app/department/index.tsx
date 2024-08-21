@@ -8,11 +8,6 @@ import DepartmentList from "../../components/department/DepartmentList";
 const DepartmentPage = () => {
   const navigation = useNavigation();
   const [isDialogVisible, setDialogVisible] = useState(false);
-  const [visible, setVisible] = useState(false);
-
-  const openMenu = () => setVisible(true);
-
-  const closeMenu = () => setVisible(false);
 
   useEffect(() => {
     navigation.setOptions({
@@ -30,8 +25,8 @@ const DepartmentPage = () => {
     <View>
       <DepartmentList />
       <CreateDepartmentDialog
-        isDialogVisible={isDialogVisible}
-        setDialogVisible={setDialogVisible}
+        visible={isDialogVisible}
+        onDismiss={() => setDialogVisible(false)}
       />
     </View>
   );

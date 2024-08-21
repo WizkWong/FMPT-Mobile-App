@@ -58,9 +58,6 @@ const UpdateUserPage = () => {
   });
 
   const handleClick = () => {
-    if (isPending) {
-      return;
-    }
     const error : UserErrorField = {};
     if (!user.username) {
       error.username = "Username cannot be empty!";
@@ -74,7 +71,8 @@ const UpdateUserPage = () => {
     if (!user.department) {
       error.department = "Department cannot be empty!";
     }
-    if (!error) {
+    console.log(error)
+    if (Object.keys(error).length !== 0) {
       setErrorField(error);
       return;
     }
@@ -88,7 +86,7 @@ const UpdateUserPage = () => {
       errorField={errorField}
       buttonText="Update"
       handleClick={handleClick}
-      buttonStatus={isPending}
+      loading={isPending}
     />
   );
 };

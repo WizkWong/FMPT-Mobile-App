@@ -25,10 +25,16 @@ const DepartmentList = ({
           <ItemMenu
             key={item.id}
             title={item.name}
-            onPress={() => {componentOnClick(item)}}
+            onPress={() => {
+              componentOnClick(item);
+            }}
             itemMenu={[
               { title: "Modify", onPress: () => {} },
-              { title: "Delete", onPress: () => {}, titleStyle: globalStyles.redText },
+              {
+                title: "Delete",
+                onPress: () => {},
+                titleStyle: globalStyles.redText,
+              },
             ]}
           ></ItemMenu>
         )}

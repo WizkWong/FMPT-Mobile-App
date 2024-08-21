@@ -35,11 +35,7 @@ const CreateUserPage = () => {
   });
 
   const handleClick = () => {
-    if (isPending) {
-      return;
-    }
     const error : UserErrorField = {};
-
     if (!user.username) {
       error.username = "Username cannot be empty!";
     }
@@ -52,7 +48,7 @@ const CreateUserPage = () => {
     if (!user.department) {
       error.department = "Department cannot be empty!";
     }
-    if (!error) {
+    if (Object.keys(error).length !== 0) {
       setErrorField(error);
       return;
     }
@@ -66,7 +62,7 @@ const CreateUserPage = () => {
       errorField={errorField}
       buttonText="Create"
       handleClick={handleClick}
-      buttonStatus={isPending}
+      loading={isPending}
     />
   );
 };

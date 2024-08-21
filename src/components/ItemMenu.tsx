@@ -1,12 +1,11 @@
-import React from "react";
 import {
   Text,
   GestureResponderEvent,
   StyleProp,
   TextStyle,
   Pressable,
-  View,
 } from "react-native";
+import { useState } from "react";
 import { Menu, IconButton } from "react-native-paper";
 import globalStyles from "../constants/globalStyles";
 
@@ -25,7 +24,7 @@ const ItemMenu = ({
   onPress: (e: GestureResponderEvent) => void;
   itemMenu: ItemMenu[];
 }) => {
-  const [visible, setVisible] = React.useState(false);
+  const [visible, setVisible] = useState(false);
 
   return (
     <Pressable
@@ -45,8 +44,9 @@ const ItemMenu = ({
         }
         anchorPosition="bottom"
       >
-        {itemMenu.map((item) => (
+        {itemMenu.map((item, index) => (
           <Menu.Item
+            key={index}
             title={item.title}
             titleStyle={item.titleStyle}
             onPress={item.onPress}

@@ -1,6 +1,6 @@
 import { Text, TextInput } from "react-native";
 
-const InputWithError = ({ label, value, onChangeText, errorMsg } : { label: string, value: any, onChangeText : (text: string) => void, errorMsg: string }) => {
+const InputWithError = ({ label, value, onChangeText, errorMsg } : { label: string, value: any, onChangeText : (text: string) => void, errorMsg?: string }) => {
   return (
     <>
       <Text className="text-base font-medium my-2">{label}</Text>

@@ -11,7 +11,7 @@ import CustomHeader from "./CustomHeader";
 import CreateDepartmentDialog from "./department/CreateDepartmentDialog";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import DepartmentList from "./department/DepartmentList";
-import { Portal, Provider } from "react-native-paper";
+import { Button, Portal, Provider } from "react-native-paper";
 
 const UserForm = ({
   user,
@@ -19,14 +19,14 @@ const UserForm = ({
   errorField,
   buttonText,
   handleClick,
-  buttonStatus,
+  loading,
 }: {
   user: User;
   setUser: (value: React.SetStateAction<User>) => void;
   errorField: UserErrorField;
   buttonText: string;
   handleClick: () => void;
-  buttonStatus: boolean;
+  loading: boolean;
 }) => {
   const [isModalVisible, setModalVisible] = useState(false);
   const [isDialogVisible, setDialogVisible] = useState(false);
@@ -71,6 +71,7 @@ const UserForm = ({
               <AntDesign name="caretdown" size={9} color="dimgray" />
             </View>
           </Pressable>
+          {errorField.department && <Text className="text-sm text-red-500">{errorField.department}</Text>}
           <Modal
             visible={isModalVisible}
             onRequestClose={() => setModalVisible(false)}
@@ -95,8 +96,8 @@ const UserForm = ({
                 />
               </View>
               <CreateDepartmentDialog
-                isDialogVisible={isDialogVisible}
-                setDialogVisible={setDialogVisible}
+                visible={isDialogVisible}
+                onDismiss={() => setDialogVisible(false)}
               />
             </Portal.Host>
           </Modal>
@@ -109,14 +110,17 @@ const UserForm = ({
           </View>
         </View>
         <View>
-          <Pressable
-            className="flex flex-row justify-center p-2.5 mt-5 bg-amber-550 rounded"
+          <Button
+            mode="contained-tonal"
+            className="mt-5 bg-amber-550 rounded font-bold"
+            textColor="white"
+            labelStyle={{ fontWeight: "bold" }}
             onPress={handleClick}
+            loading={loading}
+            disabled={loading}
           >
-            <Text className="text-base font-semibold text-white tracking-wider">
-              {buttonStatus ? "Loading..." : buttonText}
-            </Text>
-          </Pressable>
+            {buttonText}
+          </Button>
         </View>
       </View>
     </Provider>
