@@ -1,12 +1,12 @@
 import { useCallback } from "react";
-import { StyleSheet } from "react-native";
 import { View, Text, Alert, BackHandler, Pressable } from "react-native";
 import { router, useFocusEffect } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { useQueryClient } from "@tanstack/react-query";
 import { Image } from "expo-image";
+import globalStyles from "../../constants/globalStyles";
 
-const HomePage = () => {
+const AdminPage = () => {
   const queryClient = useQueryClient();
 
   useFocusEffect(
@@ -52,29 +52,21 @@ const HomePage = () => {
       link: "/users/list",
       image: require("../../assets/default-profile-img.svg"),
     },
-  ];
-
-  const styles = StyleSheet.create({
-    shadow: {
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 3,
-      },
-      shadowOpacity: 0.27,
-      shadowRadius: 4.65,
-      elevation: 6,
+    {
+      title: "Manage Department",
+      link: "/department",
+      image: require("../../assets/default-profile-img.svg"),
     },
-  });
+  ];
 
   return (
     <View className="flex-1 items-center justify-center">
-      <Text>Home Page</Text>
+      <Text>Admin Page</Text>
       <View className="flex flex-row flex-wrap bg-zinc-200 p-3">
         {moduleList.map((m, id) => (
           <Pressable
             key={id}
-            style={styles.shadow}
+            style={globalStyles.shadow}
             className="w-[26%] mx-3 my-1 p-1 flex flex-col items-center bg-white rounded"
             onPress={() => router.push(m.link)}
           >
@@ -84,7 +76,7 @@ const HomePage = () => {
         ))}
         <Pressable
           className="flex justify-center w-[26%] mx-3 my-1 p-1 border-2 bg-amber-550 rounded"
-          style={styles.shadow}
+          style={globalStyles.shadow}
           onPress={() => logOut()}
         >
           <Text className="text-center font-medium">Logout</Text>
@@ -94,4 +86,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default AdminPage;

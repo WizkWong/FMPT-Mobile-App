@@ -1,5 +1,5 @@
-import { View, Text } from "react-native";
-import { router, useFocusEffect } from "expo-router";
+import { View } from "react-native";
+import { Link, router, useFocusEffect } from "expo-router";
 import { useCallback } from "react";
 import { getSecureAuth } from "../utils/SecureStore";
 import { validateToken } from "../services/UserService";
@@ -21,7 +21,7 @@ const App = () => {
               return;
             }
             if (userDetails.role === UserRole.ADMIN) {
-              router.replace('/admin/home');
+              router.replace('/admin');
               return;
             }
             router.replace('/login');
@@ -35,6 +35,7 @@ const App = () => {
 
   return (
     <View className="flex-1 items-center justify-center bg-white">
+      <Link replace href='/admin'>Go to Admin</Link>
     </View>
   );
 }
