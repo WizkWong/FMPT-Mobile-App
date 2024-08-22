@@ -49,7 +49,10 @@ const ItemMenu = ({
             key={index}
             title={item.title}
             titleStyle={item.titleStyle}
-            onPress={item.onPress}
+            onPress={(e) => {
+              setVisible(false);
+              item.onPress(e);
+            }}
           />
         ))}
       </Menu>

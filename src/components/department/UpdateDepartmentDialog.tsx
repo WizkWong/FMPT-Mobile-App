@@ -1,28 +1,35 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { createDepartment } from "../../services/UserService";
-import { useState } from "react";
+import { updateDepartment } from "../../services/UserService";
+import { useEffect, useState } from "react";
 import DepartmentDialog from "./DepartmentDialog";
+import { Department } from "../../types/user";
 
-const CreateDepartmentDialog = ({
+const UpdateDepartmentDialog = ({
+  department,
   visible,
   onDismiss,
 }: {
+  department: Department
   visible: boolean;
   onDismiss: () => void;
 }) => {
   const queryClient = useQueryClient();
-  const [departmentInput, setDepartmentInput] = useState("");
+  const [departmentInput, setDepartmentInput] = useState<Department>(department);
   const [errorMsg, setErrorMsg] = useState("");
 
+  useEffect(() => {
+    setDepartmentInput(department);
+  }, [department])
+
   const closeDialog = () => {
-    setDepartmentInput("");
+    setDepartmentInput(department);
     setErrorMsg("");
     onDismiss();
   };
 
   const { isPending, mutate } = useMutation({
-    mutationFn: () => createDepartment(departmentInput),
+    mutationFn: () => updateDepartment(departmentInput),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["fetchDepartmentList"] });
       closeDialog();
@@ -34,8 +41,12 @@ const CreateDepartmentDialog = ({
   });
 
   const onSubmit = () => {
-    if (!departmentInput) {
+    if (!departmentInput.name) {
       setErrorMsg("Department cannot be empty!");
+      return;
+    }
+    if (departmentInput.name === department.name) {
+      closeDialog();
       return;
     }
     mutate();
@@ -43,10 +54,10 @@ const CreateDepartmentDialog = ({
 
   return (
     <DepartmentDialog
-      title="Create Department"
+      title="Modify Department"
       visible={visible}
-      value={departmentInput}
-      onChangeText={(text) => setDepartmentInput(text)}
+      value={departmentInput.name}
+      onChangeText={(text) => setDepartmentInput({...department, name: text})}
       errorMsg={errorMsg}
       isLoading={isPending}
       onDismiss={closeDialog}
@@ -55,4 +66,4 @@ const CreateDepartmentDialog = ({
   );
 };
 
-export default CreateDepartmentDialog;
+export default UpdateDepartmentDialog;

@@ -51,3 +51,11 @@ export const getAllDepartments = async (): Promise<AxiosResponse<Department[], a
 export const createDepartment = async (departmentName: string): Promise<AxiosResponse<any, any>> => {
   return api.post(`/departments?department=${departmentName}`, null, await setAuthorizationHeader());
 }
+
+export const updateDepartment = async (department: Department): Promise<AxiosResponse<any, any>> => {
+  return api.put('/departments', department, await setAuthorizationHeader());
+}
+
+export const deleteDepartment = async (id: number): Promise<AxiosResponse<any, any>> => {
+  return api.delete(`/departments/${id}`, await setAuthorizationHeader());
+}

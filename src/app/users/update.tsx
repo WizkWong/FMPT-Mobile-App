@@ -71,7 +71,6 @@ const UpdateUserPage = () => {
     if (!user.department) {
       error.department = "Department cannot be empty!";
     }
-    console.log(error)
     if (Object.keys(error).length !== 0) {
       setErrorField(error);
       return;
