@@ -1,5 +1,4 @@
 import {
-  Text,
   GestureResponderEvent,
   StyleProp,
   TextStyle,
@@ -16,13 +15,13 @@ type ItemMenu = {
 };
 
 const ItemMenu = ({
-  title,
   onPress,
   itemMenu,
+  children,
 }: {
-  title: string;
   onPress: (e: GestureResponderEvent) => void;
   itemMenu: ItemMenu[];
+  children?: React.ReactNode;
 }) => {
   const [visible, setVisible] = useState(false);
 
@@ -32,7 +31,7 @@ const ItemMenu = ({
       className="flex flex-row m-1 p-1 bg-white rounded"
       onPress={onPress}
     >
-      <Text className="flex-1 self-center ml-2 text-2xl">{title}</Text>
+      {children}
       <Menu
         visible={visible}
         onDismiss={() => setVisible(false)}

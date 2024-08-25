@@ -32,7 +32,12 @@ const DepartmentDialog = ({
       <Dialog visible={visible} onDismiss={() => onDismiss()}>
         <View className="flex flex-row justify-between items-center">
           <Dialog.Title className="text-lg font-bold">{title}</Dialog.Title>
-          <IconButton icon="close" size={24} onPress={() => onDismiss()} />
+          <IconButton
+            className="mr-3"
+            icon="close"
+            size={24}
+            onPress={() => onDismiss()}
+          />
         </View>
         <Dialog.Content>
           <TextInput

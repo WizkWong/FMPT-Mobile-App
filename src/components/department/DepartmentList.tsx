@@ -11,6 +11,7 @@ import UpdateDepartmentDialog from "./UpdateDepartmentDialog";
 import { useState } from "react";
 import { Button, Dialog, IconButton, Portal } from "react-native-paper";
 import { AxiosError } from "axios";
+import WarningDialog from "../WarningDialog";
 
 const DepartmentList = ({
   componentOnClick = () => {},
@@ -20,6 +21,7 @@ const DepartmentList = ({
   const queryClient = useQueryClient();
   const [isModifyDialogVisible, setModifyDialogVisible] = useState(false);
   const [isDeleteDialogVisible, setDeleteDialogVisible] = useState(false);
+  const [isWarningDialogVisible, setWarningDialogVisible] = useState(false);
   const [selectedDepartment, setSelectedDepartment] = useState<Department>({
     id: -1,
     name: "",
@@ -53,7 +55,6 @@ const DepartmentList = ({
           renderItem={({ item }: { item: Department }) => (
             <ItemMenu
               key={item.id}
-              title={item.name}
               onPress={() => {
                 componentOnClick(item);
               }}
@@ -68,13 +69,25 @@ const DepartmentList = ({
                 {
                   title: "Delete",
                   onPress: () => {
-                    setSelectedDepartment(item);
-                    setDeleteDialogVisible(true);
+                    if (item.totalEmployee === 0) {
+                      setSelectedDepartment(item);
+                      setDeleteDialogVisible(true);
+                    } else {
+                      setWarningDialogVisible(true);
+                    }
                   },
                   titleStyle: globalStyles.redText,
                 },
               ]}
-            ></ItemMenu>
+            >
+              <Text className="flex-1 self-center ml-2 text-2xl">
+                {item.name}
+              </Text>
+              <View className="self-center flex flex-row">
+                <Text className="text-xs">Total Employee:</Text>
+                <Text className="w-6 text-xs text-right">{item.totalEmployee}</Text>
+              </View>
+            </ItemMenu>
           )}
           ListEmptyComponent={() => (
             <Text className="text-lg font-medium">Empty Departments</Text>
@@ -99,6 +112,7 @@ const DepartmentList = ({
               Warning!
             </Dialog.Title>
             <IconButton
+              className="mr-3"
               icon="close"
               size={24}
               onPress={() => setDeleteDialogVisible(false)}
@@ -121,7 +135,7 @@ const DepartmentList = ({
             <Button
               className="px-1"
               textColor="#d97706"
-              style={{borderColor: '#d97706'}}
+              style={{ borderColor: "#d97706" }}
               mode="outlined"
               loading={isPending}
               disabled={isPending}
@@ -132,6 +146,12 @@ const DepartmentList = ({
           </Dialog.Actions>
         </Dialog>
       </Portal>
+      <WarningDialog
+        visible={isWarningDialogVisible}
+        onDismiss={() => setWarningDialogVisible(false)}
+      >
+        The department must have 0 employee before delete!
+      </WarningDialog>
     </>
   );
 };
