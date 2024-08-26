@@ -16,6 +16,7 @@ const DepartmentDialog = ({
   errorMsg,
   isLoading,
   onDismiss,
+  onSubmitText,
   onSubmit,
 }: {
   title: string;
@@ -25,6 +26,7 @@ const DepartmentDialog = ({
   errorMsg: string;
   isLoading: boolean;
   onDismiss: () => void;
+  onSubmitText: string;
   onSubmit: () => void;
 }) => {
   return (
@@ -58,7 +60,7 @@ const DepartmentDialog = ({
             disabled={isLoading}
             onPress={() => onSubmit()}
           >
-            Submit
+            {onSubmitText}
           </Button>
         </Dialog.Actions>
       </Dialog>

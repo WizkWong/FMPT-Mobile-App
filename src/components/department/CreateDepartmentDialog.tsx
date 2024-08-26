@@ -50,6 +50,7 @@ const CreateDepartmentDialog = ({
       errorMsg={errorMsg}
       isLoading={isPending}
       onDismiss={closeDialog}
+      onSubmitText="Create"
       onSubmit={onSubmit}
     />
   );

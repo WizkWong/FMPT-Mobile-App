@@ -61,6 +61,7 @@ const UpdateDepartmentDialog = ({
       errorMsg={errorMsg}
       isLoading={isPending}
       onDismiss={closeDialog}
+      onSubmitText="Modify"
       onSubmit={onSubmit}
     />
   );
