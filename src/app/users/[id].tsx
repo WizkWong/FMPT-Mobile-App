@@ -31,14 +31,13 @@ const UserPage = () => {
 
   const queryClient = useQueryClient();
   const [isResetVisible, setResetDialogVisible] = useState(false);
-  const [isDeactivateDialogVisible, setDeactivateDialogVisible] =
-    useState(false);
+  const [isDeactivateDialogVisible, setDeactivateDialogVisible] = useState(false);
 
   const { isPending, mutate } = useMutation({
     mutationFn: (fn: () => Promise<any>) => fn(),
     onError: (error: AxiosError<any, any>) => {
       console.log(error);
-      Alert.alert("Error!", error.response.data?.message, [{ text: "Close" }]);
+      Alert.alert("Error!", error.response?.data?.message ?? error.message, [{ text: "Close" }]);
     },
   });
 

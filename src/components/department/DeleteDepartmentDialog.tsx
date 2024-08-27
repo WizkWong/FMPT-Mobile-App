@@ -25,7 +25,7 @@ const DeleteDepartmentDialog = ({
     onError: (error: AxiosError<any, any>) => {
       console.log(error);
       onDismiss();
-      Alert.alert("Error!", error.response.data?.message, [{ text: "Close" }]);
+      Alert.alert("Error!", error.response?.data?.message ?? error.message, [{ text: "Close" }]);
     },
   });
 
