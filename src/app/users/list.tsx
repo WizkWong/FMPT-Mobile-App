@@ -1,14 +1,20 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { View, Text, FlatList, Pressable } from "react-native";
-import { getAllUsers } from "../../services/UserService";
-import { Link, router, useNavigation } from "expo-router";
+import { getUserByFilter } from "../../services/UserService";
+import { Link, router, useFocusEffect, useNavigation } from "expo-router";
 import { User } from "../../types/user";
 import { Image } from "expo-image";
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
+import { ActivityIndicator } from "react-native-paper";
+import useUtilityQuery from "../../hooks/useUtilityQuery";
 
 const UserListPage = () => {
   const navigation = useNavigation();
+  const [searchText, setSearchText] = useState("");
+  const [timer, setTimer] = useState<NodeJS.Timeout>(null);
+  const queryKey = ["fetchUserList"];
+  const utilityQuery = useUtilityQuery();
 
   useEffect(() => {
     navigation.setOptions({
@@ -16,7 +22,7 @@ const UserListPage = () => {
         placeHolder: "Search",
         headerTransparent: false,
         onChangeText: (e) => {
-          console.log(e.nativeEvent.text);
+          setSearchText(e.nativeEvent.text);
         },
       },
       headerRight: () => {
@@ -29,11 +35,46 @@ const UserListPage = () => {
     });
   }, []);
 
-  const { data, isLoading, refetch } = useQuery({
-    queryKey: ["fetchUserList"],
-    queryFn: () => getAllUsers(),
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    refetch,
+  } = useInfiniteQuery({
+    queryKey: queryKey,
+    queryFn: ({ pageParam }) => getUserByFilter(pageParam, searchText),
+    initialPageParam: 0,
     staleTime: 60000,
+    getNextPageParam: (lastPage, pages, lastPageParam) =>
+      lastPage.data.hasNext ? lastPageParam + 1 : null,
   });
+
+  const fetchMore = () => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  };
+
+  const refresh = () => {
+    utilityQuery.resetInfiniteQueryPagination(queryKey);
+    refetch();
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      if (timer !== null) {
+        clearTimeout(timer);
+        setTimer(null);
+      }
+      const timerId = setTimeout(() => {
+        refresh();
+        setTimer(null);
+      }, 500);
+      setTimer(timerId);
+    }, [searchText])
+  );
 
   const renderItem = ({ item }: { item: User }) => {
     return (
@@ -57,21 +98,22 @@ const UserListPage = () => {
     );
   };
 
-  const renderError = () => {
-    return <Text className="text-lg font-medium">Empty Users</Text>;
-  };
-
   return (
     <View className="flex flex-col justify-center mx-5 my-2">
       <FlatList
-        data={data?.data ?? []}
+        data={data?.pages.flatMap((d) => d.data.userList)}
         renderItem={renderItem}
         ListEmptyComponent={() => (
           <Text className="text-lg font-medium">Empty Users</Text>
         )}
         keyExtractor={(item) => item.id.toString()}
-        onRefresh={() => refetch()}
-        refreshing={isLoading}
+        onRefresh={refresh}
+        refreshing={isFetching}
+        onEndReached={fetchMore}
+        onEndReachedThreshold={0}
+        ListFooterComponent={
+          <ActivityIndicator animating={isFetchingNextPage} />
+        }
       />
     </View>
   );

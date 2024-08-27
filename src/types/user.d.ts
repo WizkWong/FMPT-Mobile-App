@@ -22,6 +22,11 @@ export interface User {
   createdDateTime?: string;
 }
 
+export interface UserPage {
+  userList: User[];
+  hasNext: boolean;
+}
+
 export interface Department {
   id: number;
   name: string;

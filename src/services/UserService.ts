@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { UserAuthentication, AuthenticationUserDetails, User, Department } from "../types/user";
+import { UserAuthentication, AuthenticationUserDetails, User, Department, UserPage } from "../types/user";
 import { setAuthorizationHeader } from "../utils/header";
 
 const api = axios.create({
@@ -24,8 +24,8 @@ export const validateToken = async (userDetails: AuthenticationUserDetails): Pro
   return false;
 };
 
-export const getAllUsers = async (): Promise<AxiosResponse<User[], any>> => {
-  return api.get('/users', await setAuthorizationHeader());
+export const getUserByFilter = async (page: number, search: string): Promise<AxiosResponse<UserPage, any>> => {
+  return api.get(`/users?page=${page}&search=${search}`, await setAuthorizationHeader());
 }
 
 export const getUserById = async (id: number): Promise<AxiosResponse<User, any>> => {
