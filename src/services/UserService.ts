@@ -44,6 +44,10 @@ export const deleteUser = async (id: number): Promise<AxiosResponse<any, any>> =
   return api.delete(`/users/${id}`, await setAuthorizationHeader());
 }
 
+export const resetUserPassword = async (id: number): Promise<AxiosResponse<any, any>> => {
+  return api.post(`/users/${id}`, null, await setAuthorizationHeader());
+}
+
 export const getAllDepartments = async (): Promise<AxiosResponse<Department[], any>> => {
   return api.get('/departments', await setAuthorizationHeader());
 }

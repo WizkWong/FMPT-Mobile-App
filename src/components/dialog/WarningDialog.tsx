@@ -7,7 +7,7 @@ const WarningDialog = ({
   onDismiss,
 }: {
   visible: boolean;
-  children: string;
+  children: string | string[];
   onDismiss: () => void;
 }) => {
   return (
