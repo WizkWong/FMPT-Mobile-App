@@ -1,24 +1,19 @@
-import { View, Text, FlatList, Alert } from "react-native";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  deleteDepartment,
-  getAllDepartments,
-} from "../../services/UserService";
+import { View, Text, FlatList } from "react-native";
+import { useQuery } from "@tanstack/react-query";
+import { getAllDepartments } from "../../services/UserService";
 import { Department } from "../../types/user";
 import ItemMenu from "../ItemMenu";
 import globalStyles from "../../constants/globalStyles";
 import UpdateDepartmentDialog from "./UpdateDepartmentDialog";
 import { useState } from "react";
-import { Button, Dialog, IconButton, Portal } from "react-native-paper";
-import { AxiosError } from "axios";
-import WarningDialog from "../WarningDialog";
+import WarningDialog from "../dialog/WarningDialog";
+import DeleteDepartmentDialog from "./DeleteDepartmentDialog";
 
 const DepartmentList = ({
   componentOnClick = () => {},
 }: {
   componentOnClick?: (department: Department) => void;
 }) => {
-  const queryClient = useQueryClient();
   const [isModifyDialogVisible, setModifyDialogVisible] = useState(false);
   const [isDeleteDialogVisible, setDeleteDialogVisible] = useState(false);
   const [isWarningDialogVisible, setWarningDialogVisible] = useState(false);
@@ -32,19 +27,6 @@ const DepartmentList = ({
     queryFn: () => getAllDepartments(),
     staleTime: 60000,
     refetchOnWindowFocus: "always",
-  });
-
-  const { isPending, mutate } = useMutation({
-    mutationFn: () => deleteDepartment(selectedDepartment.id),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["fetchDepartmentList"] });
-      setDeleteDialogVisible(false);
-    },
-    onError: (error: AxiosError<any, any>) => {
-      console.log(error);
-      setDeleteDialogVisible(false);
-      Alert.alert("Error!", error.response.data?.message, [{ text: "OK" }]);
-    },
   });
 
   return (
@@ -85,7 +67,9 @@ const DepartmentList = ({
               </Text>
               <View className="self-center flex flex-row">
                 <Text className="text-xs">Total Employee:</Text>
-                <Text className="w-6 text-xs text-right">{item.totalEmployee}</Text>
+                <Text className="w-6 text-xs text-right">
+                  {item.totalEmployee}
+                </Text>
               </View>
             </ItemMenu>
           )}
@@ -102,50 +86,11 @@ const DepartmentList = ({
         visible={isModifyDialogVisible}
         onDismiss={() => setModifyDialogVisible(false)}
       />
-      <Portal>
-        <Dialog
-          visible={isDeleteDialogVisible}
-          onDismiss={() => setDeleteDialogVisible(false)}
-        >
-          <View className="flex flex-row justify-between items-center">
-            <Dialog.Title className="text-lg font-bold text-red-500">
-              Warning!
-            </Dialog.Title>
-            <IconButton
-              className="mr-3"
-              icon="close"
-              size={24}
-              onPress={() => setDeleteDialogVisible(false)}
-            />
-          </View>
-          <Dialog.Content>
-            <Text className="leading-normal">
-              Are you sure you want to delete Deparment{" "}
-              {selectedDepartment.name} ?
-            </Text>
-          </Dialog.Content>
-          <Dialog.Actions className="space-x-2">
-            <Button
-              className="bg-amber-550 px-1"
-              mode="contained"
-              onPress={() => setDeleteDialogVisible(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              className="px-1"
-              textColor="#d97706"
-              style={{ borderColor: "#d97706" }}
-              mode="outlined"
-              loading={isPending}
-              disabled={isPending}
-              onPress={() => mutate()}
-            >
-              Comfirm
-            </Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
+      <DeleteDepartmentDialog
+        department={selectedDepartment}
+        visible={isDeleteDialogVisible}
+        onDismiss={() => setDeleteDialogVisible(false)}
+      />
       <WarningDialog
         visible={isWarningDialogVisible}
         onDismiss={() => setWarningDialogVisible(false)}

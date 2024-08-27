@@ -1,7 +1,7 @@
-import { View, Text } from "react-native";
-import { Button, Dialog, IconButton, Portal } from "react-native-paper";
+import { Text } from "react-native";
+import { Button, Dialog, Portal } from "react-native-paper";
 
-const WarningDialog = ({
+const ErrorDialog = ({
   visible,
   children,
   onDismiss,
@@ -13,17 +13,9 @@ const WarningDialog = ({
   return (
     <Portal>
       <Dialog visible={visible} onDismiss={() => onDismiss()}>
-        <View className="flex flex-row justify-between items-center">
-          <Dialog.Title className="text-lg font-bold text-red-500">
-            Warning!
-          </Dialog.Title>
-          <IconButton
-            className="mr-3"
-            icon="close"
-            size={24}
-            onPress={() => onDismiss()}
-          />
-        </View>
+        <Dialog.Title className="text-lg font-bold text-red-500">
+          Error!
+        </Dialog.Title>
         <Dialog.Content>
           <Text className="leading-normal">{children}</Text>
         </Dialog.Content>
@@ -33,7 +25,7 @@ const WarningDialog = ({
             mode="contained"
             onPress={() => onDismiss()}
           >
-            OK
+            Close
           </Button>
         </Dialog.Actions>
       </Dialog>
@@ -41,4 +33,4 @@ const WarningDialog = ({
   );
 };
 
-export default WarningDialog;
+export default ErrorDialog;
