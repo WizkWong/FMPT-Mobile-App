@@ -45,7 +45,6 @@ const UserForm = ({
             label="Phone Number"
             onChangeText={(text) => setUser({ ...user, phoneNo: text })}
             value={user.phoneNo}
-            errorMsg={errorField.phoneNo}
           />
           <Text className="text-base font-medium">Role</Text>
           <Picker

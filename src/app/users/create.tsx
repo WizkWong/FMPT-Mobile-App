@@ -27,7 +27,6 @@ const CreateUserPage = () => {
       if (errorMsg?.length !== 0) {
         setErrorField({
           username: errorMsg.find((msg) => msg.includes("Username")),
-          phoneNo: errorMsg.find((msg) => msg.includes("Phone Number")),
           department: errorMsg.find((msg) => msg.includes("Department")),
         });
       }
@@ -41,9 +40,6 @@ const CreateUserPage = () => {
     }
     if (user.username?.length < 4) {
       error.username = "Username must more than or equal 4 character!";
-    }
-    if (!user.phoneNo) {
-      error.phoneNo = "Phone Number cannot be empty!";
     }
     if (!user.department) {
       error.department = "Department cannot be empty!";
