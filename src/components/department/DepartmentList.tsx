@@ -40,7 +40,7 @@ const DepartmentList = ({
               onPress={() => {
                 componentOnClick(item);
               }}
-              itemMenu={[
+              item={[
                 {
                   title: "Modify",
                   onPress: () => {

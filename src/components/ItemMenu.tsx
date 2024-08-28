@@ -8,7 +8,7 @@ import { useState } from "react";
 import { Menu, IconButton } from "react-native-paper";
 import globalStyles from "../constants/globalStyles";
 
-type ItemMenu = {
+type Item = {
   title: string;
   onPress: (e: GestureResponderEvent) => void;
   titleStyle?: StyleProp<TextStyle>;
@@ -16,11 +16,11 @@ type ItemMenu = {
 
 const ItemMenu = ({
   onPress,
-  itemMenu,
+  item,
   children,
 }: {
   onPress: (e: GestureResponderEvent) => void;
-  itemMenu: ItemMenu[];
+  item: Item[];
   children?: React.ReactNode;
 }) => {
   const [visible, setVisible] = useState(false);
@@ -43,7 +43,7 @@ const ItemMenu = ({
         }
         anchorPosition="bottom"
       >
-        {itemMenu.map((item, index) => (
+        {item.map((item, index) => (
           <Menu.Item
             key={index}
             title={item.title}

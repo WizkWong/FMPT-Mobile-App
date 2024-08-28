@@ -40,7 +40,7 @@ const UpdateUserPage = () => {
   const { isPending, mutate } = useMutation({
     mutationFn: () => updateUser(user),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["fetchUser"] });
+      queryClient.invalidateQueries({ queryKey: ["fetchUser", id] });
       queryClient.invalidateQueries({ queryKey: ["fetchUserList"] });
       router.back();
     },
