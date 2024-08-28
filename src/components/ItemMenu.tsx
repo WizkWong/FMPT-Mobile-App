@@ -5,8 +5,8 @@ import {
   Pressable,
 } from "react-native";
 import { useState } from "react";
-import { Menu, IconButton } from "react-native-paper";
-import globalStyles from "../constants/globalStyles";
+import { Menu } from "react-native-paper";
+import { Icon } from "react-native-paper";
 
 type Item = {
   title: string;
@@ -15,47 +15,35 @@ type Item = {
 };
 
 const ItemMenu = ({
-  onPress,
   item,
-  children,
 }: {
-  onPress: (e: GestureResponderEvent) => void;
   item: Item[];
-  children?: React.ReactNode;
 }) => {
   const [visible, setVisible] = useState(false);
 
   return (
-    <Pressable
-      style={globalStyles.shadow}
-      className="flex flex-row m-1 p-1 bg-white rounded"
-      onPress={onPress}
+    <Menu
+      visible={visible}
+      onDismiss={() => setVisible(false)}
+      anchor={
+        <Pressable onPress={() => setVisible(true)}>
+          <Icon source="dots-vertical" size={24}></Icon>
+        </Pressable>
+      }
+      anchorPosition="bottom"
     >
-      {children}
-      <Menu
-        visible={visible}
-        onDismiss={() => setVisible(false)}
-        anchor={
-          <IconButton
-            icon="dots-vertical"
-            onPress={() => setVisible(true)}
-          ></IconButton>
-        }
-        anchorPosition="bottom"
-      >
-        {item.map((item, index) => (
-          <Menu.Item
-            key={index}
-            title={item.title}
-            titleStyle={item.titleStyle}
-            onPress={(e) => {
-              setVisible(false);
-              item.onPress(e);
-            }}
-          />
-        ))}
-      </Menu>
-    </Pressable>
+      {item.map((item, index) => (
+        <Menu.Item
+          key={index}
+          title={item.title}
+          titleStyle={item.titleStyle}
+          onPress={(e) => {
+            setVisible(false);
+            item.onPress(e);
+          }}
+        />
+      ))}
+    </Menu>
   );
 };
 

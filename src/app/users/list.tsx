@@ -84,7 +84,7 @@ const UserListPage = () => {
   const renderItem = ({ item }: { item: User }) => {
     return (
       <Card
-        className="mx-1 my-2 pr-2"
+        className="mx-4 my-2 pr-3"
         onPress={() => router.push(`/users/${item.id}`)}
       >
         <Card.Title
@@ -110,7 +110,7 @@ const UserListPage = () => {
   };
 
   return (
-    <View className="flex flex-col justify-center mx-3 my-2">
+    <View className="flex flex-col justify-center my-1">
       <FlatList
         data={data?.pages.flatMap((d) => d.data.userList)}
         renderItem={renderItem}

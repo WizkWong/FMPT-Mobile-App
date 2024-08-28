@@ -8,6 +8,7 @@ import UpdateDepartmentDialog from "./UpdateDepartmentDialog";
 import { useState } from "react";
 import WarningDialog from "../dialog/WarningDialog";
 import DeleteDepartmentDialog from "./DeleteDepartmentDialog";
+import { Card } from "react-native-paper";
 
 const DepartmentList = ({
   componentOnClick = () => {},
@@ -31,47 +32,45 @@ const DepartmentList = ({
 
   return (
     <>
-      <View className="flex flex-col justify-center mx-5 my-2">
+      <View className="flex flex-col justify-center my-1">
         <FlatList
           data={data?.data ?? []}
           renderItem={({ item }: { item: Department }) => (
-            <ItemMenu
-              key={item.id}
-              onPress={() => {
-                componentOnClick(item);
-              }}
-              item={[
-                {
-                  title: "Modify",
-                  onPress: () => {
-                    setSelectedDepartment(item);
-                    setModifyDialogVisible(true);
-                  },
-                },
-                {
-                  title: "Delete",
-                  onPress: () => {
-                    if (item.totalEmployee === 0) {
-                      setSelectedDepartment(item);
-                      setDeleteDialogVisible(true);
-                    } else {
-                      setWarningDialogVisible(true);
-                    }
-                  },
-                  titleStyle: globalStyles.redText,
-                },
-              ]}
-            >
-              <Text className="flex-1 self-center ml-2 text-lg">
-                {item.name}
-              </Text>
-              <View className="self-center flex flex-row">
-                <Text className="text-sm">Total: </Text>
-                <Text className="w-4 text-sm text-right">
-                  {item.totalEmployee}
-                </Text>
-              </View>
-            </ItemMenu>
+            <Card className="mx-4 my-2" onPress={() => componentOnClick(item)}>
+              <Card.Content>
+                <View className="flex flex-row items-center justify-end">
+                  <Text className="mr-auto text-lg">{item.name}</Text>
+                  <Text className="text-sm">Total: </Text>
+                  <Text className="mr-4 w-6 text-sm text-right">
+                    {item.totalEmployee}
+                  </Text>
+                  <ItemMenu
+                    key={item.id}
+                    item={[
+                      {
+                        title: "Modify",
+                        onPress: () => {
+                          setSelectedDepartment(item);
+                          setModifyDialogVisible(true);
+                        },
+                      },
+                      {
+                        title: "Delete",
+                        onPress: () => {
+                          if (item.totalEmployee === 0) {
+                            setSelectedDepartment(item);
+                            setDeleteDialogVisible(true);
+                          } else {
+                            setWarningDialogVisible(true);
+                          }
+                        },
+                        titleStyle: globalStyles.redText,
+                      },
+                    ]}
+                  ></ItemMenu>
+                </View>
+              </Card.Content>
+            </Card>
           )}
           ListEmptyComponent={() => (
             <Text className="text-lg font-medium">Empty Departments</Text>
