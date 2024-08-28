@@ -9,6 +9,7 @@ import { useState } from "react";
 import WarningDialog from "../dialog/WarningDialog";
 import DeleteDepartmentDialog from "./DeleteDepartmentDialog";
 import { Card } from "react-native-paper";
+import CustomError from "../CustomError";
 
 const DepartmentList = ({
   componentOnClick = () => {},
@@ -73,7 +74,7 @@ const DepartmentList = ({
             </Card>
           )}
           ListEmptyComponent={() => (
-            <Text className="text-lg font-medium">Empty Departments</Text>
+            <CustomError errorMsg="Empty Departments" />
           )}
           keyExtractor={(item) => item.id.toString()}
           onRefresh={() => refetch()}

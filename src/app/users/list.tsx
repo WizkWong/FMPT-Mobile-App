@@ -13,6 +13,7 @@ import {
 } from "react-native-paper";
 import useUtilityQuery from "../../hooks/useUtilityQuery";
 import { capitalizedCase } from "../../utils/format";
+import CustomError from "../../components/CustomError";
 
 const UserListPage = () => {
   const navigation = useNavigation();
@@ -115,7 +116,7 @@ const UserListPage = () => {
         data={data?.pages.flatMap((d) => d.data.userList)}
         renderItem={renderItem}
         ListEmptyComponent={() => (
-          <Text className="text-lg font-medium">Empty Users</Text>
+          <CustomError errorMsg="Empty Users" />
         )}
         keyExtractor={(item) => item.id.toString()}
         onRefresh={refresh}
