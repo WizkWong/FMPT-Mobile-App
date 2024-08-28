@@ -62,12 +62,12 @@ const DepartmentList = ({
                 },
               ]}
             >
-              <Text className="flex-1 self-center ml-2 text-2xl">
+              <Text className="flex-1 self-center ml-2 text-lg">
                 {item.name}
               </Text>
               <View className="self-center flex flex-row">
-                <Text className="text-xs">Total Employee:</Text>
-                <Text className="w-6 text-xs text-right">
+                <Text className="text-sm">Total: </Text>
+                <Text className="w-4 text-sm text-right">
                   {item.totalEmployee}
                 </Text>
               </View>

@@ -1,13 +1,18 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { View, Text, FlatList, Pressable } from "react-native";
 import { getUserByFilter } from "../../services/UserService";
-import { Link, router, useFocusEffect, useNavigation } from "expo-router";
+import { router, useFocusEffect, useNavigation } from "expo-router";
 import { User } from "../../types/user";
-import { Image } from "expo-image";
 import { useCallback, useEffect, useState } from "react";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
-import { ActivityIndicator } from "react-native-paper";
+import {
+  ActivityIndicator,
+  Avatar,
+  Card,
+  Icon,
+} from "react-native-paper";
 import useUtilityQuery from "../../hooks/useUtilityQuery";
+import { capitalizedCase } from "../../utils/format";
 
 const UserListPage = () => {
   const navigation = useNavigation();
@@ -78,28 +83,34 @@ const UserListPage = () => {
 
   const renderItem = ({ item }: { item: User }) => {
     return (
-      <Link
-        className="p-2 border-2 rounded my-1"
-        push
-        href={`/users/${item.id}`}
+      <Card
+        className="mx-1 my-2 pr-2"
+        onPress={() => router.push(`/users/${item.id}`)}
       >
-        <View className="flex flex-row justify-center items-center space-x-4">
-          <Image
-            className="p-8 rounded-full"
-            source={
-              item.image
-                ? { uri: `data:image/jpg;base64,${item.image}` }
-                : require("../../assets/default-profile-img.svg")
-            }
-          />
-          <Text className="text-base font-semibold">{item.username}</Text>
-        </View>
-      </Link>
+        <Card.Title
+          className="py-2"
+          title={item.username}
+          subtitle={`Role: ${capitalizedCase(item.role)}\nDepartment: ${item.department}`}
+          subtitleNumberOfLines={2}
+          left={(props) =>
+            item.image ? (
+              <Avatar.Image
+                {...props}
+                size={45}
+                source={{ uri: `data:image/jpg;base64,${item.image}` }}
+              />
+            ) : (
+              <Avatar.Icon {...props} size={45} icon="account" />
+            )
+          }
+          right={(props) => <Icon {...props} source="chevron-right" />}
+        />
+      </Card>
     );
   };
 
   return (
-    <View className="flex flex-col justify-center mx-5 my-2">
+    <View className="flex flex-col justify-center mx-3 my-2">
       <FlatList
         data={data?.pages.flatMap((d) => d.data.userList)}
         renderItem={renderItem}

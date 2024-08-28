@@ -32,8 +32,9 @@ const UpdateUserPage = () => {
     id: data?.data.id,
     username: data?.data.username,
     phoneNo: data?.data.phoneNo,
-    role: data?.data.role,
     image: data?.data.image,
+    role: data?.data.role,
+    department: data?.data.department,
   });
   const [errorField, setErrorField] = useState<UserErrorField>({});
 
