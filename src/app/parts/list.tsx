@@ -39,15 +39,21 @@ const PartListPage = () => {
     });
   }, []);
 
-  const { data, fetchNextPage, hasNextPage, isFetching, isFetchingNextPage } =
-    useInfiniteQuery({
-      queryKey: queryKey,
-      queryFn: ({ pageParam }) => getPartByFilter(pageParam, searchText),
-      initialPageParam: 0,
-      staleTime: 60000,
-      getNextPageParam: (lastPage, pages, lastPageParam) =>
-        lastPage.data.hasNext ? lastPageParam + 1 : null,
-    });
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: queryKey,
+    queryFn: ({ pageParam }) => getPartByFilter(pageParam, searchText),
+    initialPageParam: 0,
+    staleTime: 60000,
+    getNextPageParam: (lastPage, pages, lastPageParam) =>
+      lastPage.data.hasNext ? lastPageParam + 1 : null,
+  });
 
   const fetchMore = () => {
     if (hasNextPage) {
@@ -75,7 +81,12 @@ const PartListPage = () => {
                 source={{ uri: `data:image/jpg;base64,${item.image}` }}
               />
             ) : (
-              <Avatar.Icon className="rounded-none" {...props} size={45} icon="account" />
+              <Avatar.Icon
+                className="rounded-none"
+                {...props}
+                size={45}
+                icon="account"
+              />
             )
           }
           right={(props) => <Icon {...props} source="chevron-right" />}
@@ -89,7 +100,9 @@ const PartListPage = () => {
       <FlatList
         data={data?.pages.flatMap((d) => d.data.partList)}
         renderItem={renderItem}
-        ListEmptyComponent={() => <CustomError errorMsg="Empty Users" />}
+        ListEmptyComponent={() => (
+          <CustomError errorMsg={error.message ?? "No results of Parts"} />
+        )}
         keyExtractor={(item) => item.id.toString()}
         onRefresh={refresh}
         refreshing={isFetching}

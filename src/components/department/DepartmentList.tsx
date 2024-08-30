@@ -24,7 +24,7 @@ const DepartmentList = ({
     name: "",
   });
 
-  const { data, isLoading, refetch } = useQuery({
+  const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["fetchDepartmentList"],
     queryFn: () => getAllDepartments(),
     staleTime: 60000,
@@ -74,7 +74,9 @@ const DepartmentList = ({
             </Card>
           )}
           ListEmptyComponent={() => (
-            <CustomError errorMsg="Empty Departments" />
+            <CustomError
+              errorMsg={error.message ?? "No results of Departments"}
+            />
           )}
           keyExtractor={(item) => item.id.toString()}
           onRefresh={() => refetch()}

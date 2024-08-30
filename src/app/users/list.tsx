@@ -5,12 +5,7 @@ import { router, useNavigation } from "expo-router";
 import { User } from "../../types/user";
 import { useEffect } from "react";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
-import {
-  ActivityIndicator,
-  Avatar,
-  Card,
-  Icon,
-} from "react-native-paper";
+import { ActivityIndicator, Avatar, Card, Icon } from "react-native-paper";
 import useUtilityQuery from "../../hooks/useUtilityQuery";
 import { capitalizedCase } from "../../utils/format";
 import CustomError from "../../components/CustomError";
@@ -20,7 +15,7 @@ const UserListPage = () => {
   const navigation = useNavigation();
   const queryKey = ["fetchUserList"];
   const utilityQuery = useUtilityQuery();
-  
+
   const refresh = () => {
     utilityQuery.resetInfiniteQueryPagination(queryKey);
   };
@@ -48,6 +43,7 @@ const UserListPage = () => {
 
   const {
     data,
+    error,
     fetchNextPage,
     hasNextPage,
     isFetching,
@@ -76,7 +72,9 @@ const UserListPage = () => {
         <Card.Title
           className="py-2"
           title={item.username}
-          subtitle={`Role: ${capitalizedCase(item.role)}\nDepartment: ${item.department}`}
+          subtitle={`Role: ${capitalizedCase(item.role)}\nDepartment: ${
+            item.department
+          }`}
           subtitleNumberOfLines={2}
           left={(props) =>
             item.image ? (
@@ -101,7 +99,7 @@ const UserListPage = () => {
         data={data?.pages.flatMap((d) => d.data.userList)}
         renderItem={renderItem}
         ListEmptyComponent={() => (
-          <CustomError errorMsg="Empty Users" />
+          <CustomError errorMsg={error.message ?? "No results of Users"} />
         )}
         keyExtractor={(item) => item.id.toString()}
         onRefresh={refresh}
