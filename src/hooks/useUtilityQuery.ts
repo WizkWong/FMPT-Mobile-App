@@ -14,6 +14,7 @@ const useUtilityQuery = () => {
           pageParams: oldData.pageParams.slice(0, 1),
         };
       });
+      queryClient.refetchQueries({ queryKey: queryKey })
     },
   }
 }
