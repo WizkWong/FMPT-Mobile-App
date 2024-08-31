@@ -84,7 +84,7 @@ const UserListPage = () => {
                 source={{ uri: `data:image/jpg;base64,${item.image}` }}
               />
             ) : (
-              <Avatar.Icon {...props} size={45} icon="account" />
+              <Avatar.Icon {...props} className="bg-amber-500" size={45} color="white" icon="account" />
             )
           }
           right={(props) => <Icon {...props} source="chevron-right" />}
@@ -99,7 +99,7 @@ const UserListPage = () => {
         data={data?.pages.flatMap((d) => d.data.userList)}
         renderItem={renderItem}
         ListEmptyComponent={() => (
-          <CustomError errorMsg={error.message ?? "No results of Users"} />
+          <CustomError errorMsg={error?.message ?? "No results of Users"} />
         )}
         keyExtractor={(item) => item.id.toString()}
         onRefresh={refresh}

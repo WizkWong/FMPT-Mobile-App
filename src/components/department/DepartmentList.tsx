@@ -75,7 +75,7 @@ const DepartmentList = ({
           )}
           ListEmptyComponent={() => (
             <CustomError
-              errorMsg={error.message ?? "No results of Departments"}
+              errorMsg={error?.message ?? "No results of Departments"}
             />
           )}
           keyExtractor={(item) => item.id.toString()}

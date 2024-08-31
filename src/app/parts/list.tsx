@@ -31,7 +31,7 @@ const PartListPage = () => {
       },
       headerRight: () => {
         return (
-          <Pressable onPress={() => router.push(`users/create`)}>
+          <Pressable onPress={() => router.push(`parts/create`)}>
             <SimpleLineIcons name="plus" size={28} color="black" />
           </Pressable>
         );
@@ -82,10 +82,11 @@ const PartListPage = () => {
               />
             ) : (
               <Avatar.Icon
-                className="rounded-none"
+                className="rounded-none bg-amber-500"
                 {...props}
+                color="white"
                 size={45}
-                icon="account"
+                icon="image-off-outline"
               />
             )
           }
@@ -101,7 +102,7 @@ const PartListPage = () => {
         data={data?.pages.flatMap((d) => d.data.partList)}
         renderItem={renderItem}
         ListEmptyComponent={() => (
-          <CustomError errorMsg={error.message ?? "No results of Parts"} />
+          <CustomError errorMsg={error?.message ?? "No results of Parts"} />
         )}
         keyExtractor={(item) => item.id.toString()}
         onRefresh={refresh}
