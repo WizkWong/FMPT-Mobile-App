@@ -27,7 +27,7 @@ const DepartmentList = ({
   const { data, error, isLoading, refetch } = useQuery({
     queryKey: ["fetchDepartmentList"],
     queryFn: () => getAllDepartments(),
-    staleTime: 60000,
+    staleTime: Infinity,
     refetchOnWindowFocus: "always",
   });
 

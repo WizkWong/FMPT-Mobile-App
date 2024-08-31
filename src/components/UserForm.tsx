@@ -103,6 +103,7 @@ const UserForm = ({
           <View>
             <Text className="text-base font-medium mb-3">Profile Picture</Text>
             <ImageInput
+              label="Select Profile Picture"
               image={user.image}
               setImage={(img) => setUser({ ...user, image: img.base64 })}
             />

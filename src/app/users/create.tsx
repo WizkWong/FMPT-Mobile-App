@@ -48,6 +48,7 @@ const CreateUserPage = () => {
       setErrorField(error);
       return;
     }
+    setErrorField({});
     mutate();
   };
 

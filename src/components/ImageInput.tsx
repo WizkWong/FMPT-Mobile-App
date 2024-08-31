@@ -3,9 +3,11 @@ import * as ImagePicker from "expo-image-picker";
 import { Image } from "react-native";
 
 const ImageInput = ({
+  label,
   image,
   setImage,
 }: {
+  label: string;
   image: string;
   setImage: (imagePicker: ImagePicker.ImagePickerAsset) => any;
 }) => {
@@ -49,7 +51,7 @@ const ImageInput = ({
           </View>
         </View>
       ) : (
-        <Text className="text-center">Select Profile Picture</Text>
+        <Text className="text-center">{label}</Text>
       )}
     </Pressable>
   );

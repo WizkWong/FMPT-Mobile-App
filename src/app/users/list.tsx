@@ -7,9 +7,9 @@ import { useEffect } from "react";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import { ActivityIndicator, Avatar, Card, Icon } from "react-native-paper";
 import useUtilityQuery from "../../hooks/useUtilityQuery";
-import { capitalizedCase } from "../../utils/format";
 import CustomError from "../../components/CustomError";
 import useSearchBar from "../../hooks/useSearchBar";
+import { capitalizedCase } from "../../utils/utility";
 
 const UserListPage = () => {
   const navigation = useNavigation();
@@ -52,7 +52,7 @@ const UserListPage = () => {
     queryKey: queryKey,
     queryFn: ({ pageParam }) => getUserByFilter(pageParam, searchText),
     initialPageParam: 0,
-    staleTime: 60000,
+    staleTime: Infinity,
     getNextPageParam: (lastPage, pages, lastPageParam) =>
       lastPage.data.hasNext ? lastPageParam + 1 : null,
   });

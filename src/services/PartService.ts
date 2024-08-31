@@ -4,7 +4,7 @@ import { Part, PartPage } from "../types/productPart";
 
 const api = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
-  timeout: 5000,
+  timeout: 10000,
 });
 
 export const getPartByFilter = async (page: number, search: string): Promise<AxiosResponse<PartPage, any>> => {

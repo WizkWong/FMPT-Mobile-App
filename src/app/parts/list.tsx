@@ -1,6 +1,6 @@
 import { router, useNavigation } from "expo-router";
 import { useEffect } from "react";
-import { View, Pressable, FlatList } from "react-native";
+import { View, Pressable, FlatList, Image } from "react-native";
 import useUtilityQuery from "../../hooks/useUtilityQuery";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import { useInfiniteQuery } from "@tanstack/react-query";
@@ -50,7 +50,7 @@ const PartListPage = () => {
     queryKey: queryKey,
     queryFn: ({ pageParam }) => getPartByFilter(pageParam, searchText),
     initialPageParam: 0,
-    staleTime: 60000,
+    staleTime: Infinity,
     getNextPageParam: (lastPage, pages, lastPageParam) =>
       lastPage.data.hasNext ? lastPageParam + 1 : null,
   });
@@ -74,11 +74,11 @@ const PartListPage = () => {
           subtitleNumberOfLines={3}
           left={(props) =>
             item.image ? (
-              <Avatar.Image
-                className="rounded-none"
-                {...props}
-                size={45}
-                source={{ uri: `data:image/jpg;base64,${item.image}` }}
+              <Image
+                className="h-11 w-11"
+                source={{
+                  uri: `data:image/jpg;base64,${item.image}`,
+                }}
               />
             ) : (
               <Avatar.Icon

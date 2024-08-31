@@ -4,7 +4,7 @@ import { setAuthorizationHeader } from "../utils/header";
 
 const api = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
-  timeout: 5000,
+  timeout: 10000,
 });
 
 export const authenticateUser = (userAuth: UserAuthentication): Promise<AxiosResponse<AuthenticationUserDetails, any>> => {

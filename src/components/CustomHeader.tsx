@@ -8,7 +8,7 @@ const CustomHeader = ({
 }: {
   title: string;
   onPressBack: () => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }) => {
   return (
     <View className="flex flex-row items-center p-4 bg-header-theme">
@@ -16,9 +16,9 @@ const CustomHeader = ({
         <AntDesign name="arrowleft" size={24} color="white" />
       </Pressable>
       <Text className="text-xl text-white font-bold ml-5">{title}</Text>
-      <View className="flex-1 flex flex-row justify-end">
-        {children}
-      </View>
+      {children && (
+        <View className="flex-1 flex flex-row justify-end">{children}</View>
+      )}
     </View>
   );
 };
