@@ -1,11 +1,13 @@
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView } from "react-native";
 
 const ProductPage = () => {
   return (
-    <View>
-      <Text>ProductPage</Text>
-    </View>
-  )
-}
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <View>
+        <Text>ProductPage</Text>
+      </View>
+    </ScrollView>
+  );
+};
 
 export default ProductPage;

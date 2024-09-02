@@ -35,7 +35,11 @@ const CreateProductPage = () => {
         return (
           <View className="flex flex-row items-center space-x-3">
             <Pressable onPress={() => setProductPartModalVisible(true)}>
-              <FontAwesome5 name="clipboard-list" size={28} color="black" />
+              <FontAwesome5
+                name="clipboard-list"
+                size={28}
+                color="darkslategray"
+              />
             </Pressable>
             <Pressable onPress={() => setPartModalVisible(true)}>
               <SimpleLineIcons name="plus" size={28} color="black" />
@@ -80,7 +84,7 @@ const CreateProductPage = () => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View className="flex-1 flex-col justify-between mx-5 mt-1 mb-5">
         <View className="flex flex-col space-y-2">
           <InputWithError

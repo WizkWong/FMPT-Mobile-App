@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { View, Text, Alert } from "react-native";
+import { View, Text, Alert, ScrollView } from "react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Loading from "../../components/Loading";
 import CustomError from "../../components/CustomError";
@@ -49,7 +49,7 @@ const PartPage = () => {
   }
 
   return (
-    <>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View className="m-5">
         <View className="flex flex-col justify-center space-y-3">
           <View className="border-b-1">
@@ -126,7 +126,7 @@ const PartPage = () => {
       >
         Are you sure you want to delete {data?.data.name} part?
       </SubmitDialog>
-    </>
+    </ScrollView>
   );
 };
 

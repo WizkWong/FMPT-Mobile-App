@@ -127,7 +127,7 @@ const CreatePartPage = () => {
   };
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View className="flex-1 flex-col justify-between mx-5 mt-1 mb-5">
         <View className="flex flex-col space-y-2">
           <InputWithError

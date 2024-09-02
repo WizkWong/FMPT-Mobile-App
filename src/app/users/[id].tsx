@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
-import { View, Text, Pressable, Alert } from "react-native";
+import { View, Text, Pressable, Alert, ScrollView } from "react-native";
 import { deleteUser, getUserById, resetUserPassword } from "../../services/UserService";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Loading from "../../components/Loading";
@@ -57,7 +57,7 @@ const UserPage = () => {
   }
 
   return (
-    <>
+    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View className="m-5">
         <View className="flex flex-col justify-center space-y-3">
           <View className="border-b-1">
@@ -173,7 +173,7 @@ const UserPage = () => {
       >
         Are you sure you want to deactivate {data?.data.username} account?
       </SubmitDialog>
-    </>
+    </ScrollView>
   );
 };
 
