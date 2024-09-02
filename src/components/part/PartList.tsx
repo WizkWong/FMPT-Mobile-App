@@ -1,42 +1,24 @@
-import { router, useNavigation } from "expo-router";
-import { useEffect } from "react";
-import { View, Pressable, FlatList, Image } from "react-native";
+import { View, FlatList, Image } from "react-native";
 import useUtilityQuery from "../../hooks/useUtilityQuery";
-import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { getProductByFilter } from "../../services/ProductService";
-import { Product } from "../../types/productPart";
+import { getPartByFilter } from "../../services/PartService";
+import { Part } from "../../types/productPart";
 import { ActivityIndicator, Avatar, Card, Icon } from "react-native-paper";
 import CustomError from "../../components/CustomError";
-import useSearchBar from "../../hooks/useSearchBar";
+import config from "../../constants/config";
 
-const ProductListPage = () => {
-  const navigation = useNavigation();
-  const queryKey = ["fetchProductList"];
+const PartList = ({
+  searchText,
+  componentOnPress,
+  refresh,
+}: {
+  searchText: string;
+  componentOnPress?: (part: Part) => void;
+  refresh?: () => void;
+}) => {
+  const queryKey = ["fetchPartList"];
   const utilityQuery = useUtilityQuery();
-
-  const refresh = () => {
-    utilityQuery.resetInfiniteQueryPagination(queryKey);
-  };
-
-  const [searchText, setSearchText] = useSearchBar(refresh);
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerSearchBarOptions: {
-        placeHolder: "Search",
-        headerTransparent: false,
-        onChangeText: (e) => setSearchText(e.nativeEvent.text),
-      },
-      headerRight: () => {
-        return (
-          <Pressable onPress={() => router.push(`products/create`)}>
-            <SimpleLineIcons name="plus" size={28} color="black" />
-          </Pressable>
-        );
-      },
-    });
-  }, []);
+  refresh = refresh ?? (() => utilityQuery.resetInfiniteQueryPagination(queryKey));
 
   const {
     data,
@@ -47,7 +29,7 @@ const ProductListPage = () => {
     isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: queryKey,
-    queryFn: ({ pageParam }) => getProductByFilter(pageParam, searchText),
+    queryFn: ({ pageParam }) => getPartByFilter(pageParam, searchText),
     initialPageParam: 0,
     staleTime: Infinity,
     getNextPageParam: (lastPage, pages, lastPageParam) =>
@@ -60,16 +42,16 @@ const ProductListPage = () => {
     }
   };
 
-  const renderItem = ({ item }: { item: Product }) => {
+  const renderItem = ({ item }: { item: Part }) => {
     return (
       <Card
         className="mx-4 my-2 pr-3"
-        onPress={() => router.push(`/parts/${item.id}`)}
+        onPress={() => componentOnPress(item)}
       >
         <Card.Title
           className="py-2"
           title={item.name}
-          subtitle={`Description: ${item.description}`}
+          subtitle={`Grade: ${item.grade}\nNett Size:\n${item.nettWidth}${config.unitOfMeasurement} x ${item.nettHeight}${config.unitOfMeasurement} x ${item.nettLength}${config.unitOfMeasurement}`}
           subtitleNumberOfLines={3}
           left={(props) =>
             item.image ? (
@@ -98,10 +80,10 @@ const ProductListPage = () => {
   return (
     <View className="flex flex-col justify-center my-1">
       <FlatList
-        data={data?.pages.flatMap((d) => d.data.productList)}
+        data={data?.pages.flatMap((d) => d.data.partList)}
         renderItem={renderItem}
         ListEmptyComponent={() => (
-          <CustomError errorMsg={error?.message ?? "No results of Products"} />
+          <CustomError errorMsg={error?.message ?? "No results of Parts"} />
         )}
         keyExtractor={(item) => item.id.toString()}
         onRefresh={refresh}
@@ -116,4 +98,4 @@ const ProductListPage = () => {
   );
 };
 
-export default ProductListPage;
+export default PartList;

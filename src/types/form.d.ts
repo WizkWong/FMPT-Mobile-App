@@ -9,3 +9,8 @@ export interface PartErrorField {
   nettSize?: string;
   moulderSize?: string;
 }
+
+export interface ProductErrorField {
+  name?: string;
+  productPartList?: string;
+}

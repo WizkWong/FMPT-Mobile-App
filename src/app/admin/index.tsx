@@ -48,6 +48,11 @@ const AdminPage = () => {
       image: require("../../assets/default-profile-img.svg"),
     },
     {
+      title: "Manage Product",
+      link: "/products/list",
+      image: require("../../assets/default-profile-img.svg"),
+    },
+    {
       title: "Manage Part",
       link: "/parts/list",
       image: require("../../assets/default-profile-img.svg"),
