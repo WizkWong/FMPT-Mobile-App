@@ -12,9 +12,9 @@ import { Card } from "react-native-paper";
 import CustomError from "../CustomError";
 
 const DepartmentList = ({
-  componentOnClick = () => {},
+  componentOnPress = () => {},
 }: {
-  componentOnClick?: (department: Department) => void;
+  componentOnPress?: (department: Department) => void;
 }) => {
   const [isModifyDialogVisible, setModifyDialogVisible] = useState(false);
   const [isDeleteDialogVisible, setDeleteDialogVisible] = useState(false);
@@ -37,7 +37,7 @@ const DepartmentList = ({
         <FlatList
           data={data?.data ?? []}
           renderItem={({ item }: { item: Department }) => (
-            <Card className="mx-4 my-2" onPress={() => componentOnClick(item)}>
+            <Card className="mx-4 my-2" onPress={() => componentOnPress(item)}>
               <Card.Content>
                 <View className="flex flex-row items-center justify-end">
                   <Text className="mr-auto text-lg">{item.name}</Text>

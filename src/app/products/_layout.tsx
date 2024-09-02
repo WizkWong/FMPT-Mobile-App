@@ -15,7 +15,7 @@ const ProductLayout = () => {
         },
       }}
     >
-      <Stack.Screen name="list" options={{ headerTitle: "Product Management" }} />
+      <Stack.Screen name="list" options={{ headerTitle: "Product" }} />
       <Stack.Screen name="[id]" options={{ headerTitle: "Product Details" }} />
       <Stack.Screen name="create" options={{ headerTitle: "Create Product" }} />
     </Stack>

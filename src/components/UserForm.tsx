@@ -88,7 +88,7 @@ const UserForm = ({
                   </Pressable>
                 </CustomHeader>
                 <DepartmentList
-                  componentOnClick={(department) => {
+                  componentOnPress={(department) => {
                     setUser({ ...user, department: department.name });
                     setModalVisible(false);
                   }}

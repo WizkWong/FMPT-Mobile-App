@@ -15,7 +15,7 @@ const PartLayout = () => {
         },
       }}
     >
-      <Stack.Screen name="list" options={{ headerTitle: "Part Management" }} />
+      <Stack.Screen name="list" options={{ headerTitle: "Part" }} />
       <Stack.Screen name="[id]" options={{ headerTitle: "Part Details" }} />
       <Stack.Screen name="create" options={{ headerTitle: "Create Part" }} />
     </Stack>
