@@ -33,18 +33,13 @@ const CreateProductPage = () => {
     navigation.setOptions({
       headerRight: () => {
         return (
-          <View className="flex flex-row items-center space-x-3">
-            <Pressable onPress={() => setProductPartModalVisible(true)}>
-              <FontAwesome5
-                name="clipboard-list"
-                size={28}
-                color="darkslategray"
-              />
-            </Pressable>
-            <Pressable onPress={() => setPartModalVisible(true)}>
-              <SimpleLineIcons name="plus" size={28} color="black" />
-            </Pressable>
-          </View>
+          <Pressable onPress={() => setProductPartModalVisible(true)}>
+            <FontAwesome5
+              name="clipboard-list"
+              size={28}
+              color="darkslategray"
+            />
+          </Pressable>
         );
       },
     });
@@ -153,9 +148,35 @@ const CreateProductPage = () => {
               <CustomHeader
                 title="Part List Requirement"
                 onPressBack={() => setProductPartModalVisible(false)}
-              />
+              >
+                <Pressable onPress={() => setPartModalVisible(true)}>
+                  <SimpleLineIcons name="plus" size={28} color="black" />
+                </Pressable>
+              </CustomHeader>
               <View className="mb-10">
-                <ProductPartList data={productPartList} />
+                <ProductPartList
+                  data={productPartList}
+                  edit={true}
+                  onChangePieces={(text, productPart) => {
+                    const number = +text.replace(/[^\d]/g, "");
+                    setProductPartList((prev) => {
+                      const foundIndex = prev.findIndex(
+                        (item) => item.part?.id === productPart.part.id
+                      );
+                      if (foundIndex >= 0) {
+                        prev[foundIndex].piece = number > 0 ? number : 1;
+                      }
+                      return [...prev];
+                    });
+                  }}
+                  onDelete={(productPart) =>
+                    setProductPartList((prev) =>
+                      prev.filter(
+                        (item) => item.part?.id !== productPart.part.id
+                      )
+                    )
+                  }
+                />
               </View>
             </View>
           </Modal>

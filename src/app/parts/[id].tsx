@@ -13,7 +13,6 @@ import config from "../../constants/config";
 
 const PartPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
-
   const queryClient = useQueryClient();
   const [isDeleteDialogVisible, setDeleteDialogVisible] = useState(false);
 

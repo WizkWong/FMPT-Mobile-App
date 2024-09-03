@@ -64,7 +64,7 @@ const ProductListPage = () => {
     return (
       <Card
         className="mx-4 my-2 pr-3"
-        onPress={() => router.push(`/parts/${item.id}`)}
+        onPress={() => router.push(`/products/${item.id}`)}
       >
         <Card.Title
           className="py-2"

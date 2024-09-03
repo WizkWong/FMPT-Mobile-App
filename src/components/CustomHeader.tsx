@@ -36,11 +36,15 @@ const CustomHeader = ({
       {!isSearchOpen ? (
         <>
           <Text className="text-xl text-white font-bold ml-5">{title}</Text>
-          {searchBarEnabled && (
+          {searchBarEnabled ? (
             <View className="flex-1 flex flex-row justify-end items-center">
               <Pressable onPress={toggleSearch} className="ml-4">
                 <MaterialIcons name="search" size={22} color="darkslategray" />
               </Pressable>
+              {children}
+            </View>
+          ) : (
+            <View className="flex-1 flex flex-row justify-end items-center">
               {children}
             </View>
           )}

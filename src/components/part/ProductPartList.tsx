@@ -1,10 +1,28 @@
-import { View, Text, Image, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  TextInput,
+  Pressable,
+} from "react-native";
 import React from "react";
 import { ProductPart } from "../../types/productPart";
 import { Avatar, Card } from "react-native-paper";
 import config from "../../constants/config";
+import EvilIcons from "@expo/vector-icons/EvilIcons";
 
-const ProductPartList = ({ data }: { data: ProductPart[] }) => {
+const ProductPartList = ({
+  data,
+  edit = false,
+  onChangePieces,
+  onDelete,
+}: {
+  data: ProductPart[];
+  edit?: boolean;
+  onChangePieces?: (text: string, productPart: ProductPart) => void;
+  onDelete?: (productPart: ProductPart) => void;
+}) => {
   const renderProductPartItem = ({ item }: { item: ProductPart }) => {
     return (
       <Card className="mx-4 my-2 pr-3">
@@ -29,6 +47,26 @@ const ProductPartList = ({ data }: { data: ProductPart[] }) => {
                 size={45}
                 icon="image-off-outline"
               />
+            )
+          }
+          right={() =>
+            edit ? (
+              <View className="flex flex-col space-y-2 items-center">
+                <TextInput
+                  className="w-10 h-10 bg-gray-200 text-sm text-center"
+                  value={item.piece.toString()}
+                  onChangeText={(text) => onChangePieces(text, item)}
+                  keyboardType="number-pad"
+                />
+                <Pressable onPress={() => onDelete(item)}>
+                  <EvilIcons name="trash" size={32} color="red" />
+                </Pressable>
+              </View>
+            ) : (
+              <View className="mr-2">
+                <Text>Pcs:</Text>
+                <Text className="text-center">{item.piece}</Text>
+              </View>
             )
           }
         />
