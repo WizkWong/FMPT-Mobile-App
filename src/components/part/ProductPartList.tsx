@@ -16,11 +16,13 @@ const ProductPartList = ({
   data,
   edit = false,
   onChangePieces,
+  onEndEditingPieces,
   onDelete,
 }: {
   data: ProductPart[];
   edit?: boolean;
   onChangePieces?: (text: string, productPart: ProductPart) => void;
+  onEndEditingPieces?: (text: string, productPart: ProductPart) => void;
   onDelete?: (productPart: ProductPart) => void;
 }) => {
   const renderProductPartItem = ({ item }: { item: ProductPart }) => {
@@ -56,6 +58,7 @@ const ProductPartList = ({
                   className="w-10 h-10 bg-gray-200 text-sm text-center"
                   value={item.piece.toString()}
                   onChangeText={(text) => onChangePieces(text, item)}
+                  onEndEditing={(e) => onEndEditingPieces(e.nativeEvent.text, item)}
                   keyboardType="number-pad"
                 />
                 <Pressable onPress={() => onDelete(item)}>

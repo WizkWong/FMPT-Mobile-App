@@ -158,16 +158,29 @@ const CreateProductPage = () => {
                   data={productPartList}
                   edit={true}
                   onChangePieces={(text, productPart) => {
-                    const number = +text.replace(/[^\d]/g, "");
+                    const number = text.replace(/[^\d]/g, "");
                     setProductPartList((prev) => {
                       const foundIndex = prev.findIndex(
                         (item) => item.part?.id === productPart.part.id
                       );
                       if (foundIndex >= 0) {
-                        prev[foundIndex].piece = number > 0 ? number : 1;
+                        prev[foundIndex].piece = number as undefined as number;
                       }
                       return [...prev];
                     });
+                  }}
+                  onEndEditingPieces={(text, productPart) => {
+                    if (+text === 0) {
+                      setProductPartList((prev) => {
+                        const foundIndex = prev.findIndex(
+                          (item) => item.part?.id === productPart.part.id
+                        );
+                        if (foundIndex >= 0) {
+                          prev[foundIndex].piece = 1;
+                        }
+                        return [...prev];
+                      });
+                    }
                   }}
                   onDelete={(productPart) =>
                     setProductPartList((prev) =>
