@@ -72,19 +72,21 @@ const PartPage = () => {
           <View className="border-b-1">
             <Text className="text-base font-medium">Nett Size:</Text>
             <Text className="text-base font-medium">
-              {data?.data.nettWidth}
-              {config.unitOfMeasurement} x {data?.data.nettHeight}
-              {config.unitOfMeasurement} x {data?.data.nettLength}
-              {config.unitOfMeasurement}
+              {data?.data.nettWidth == null &&
+              data?.data.nettHeight == null &&
+              data?.data.nettLength == null
+                ? "-"
+                : `${data?.data.nettWidth}${config.unitOfMeasurement} x ${data?.data.nettHeight}${config.unitOfMeasurement} x ${data?.data.nettLength}${config.unitOfMeasurement}`}
             </Text>
           </View>
           <View className="border-b-1">
             <Text className="text-base font-medium">Moulder Size:</Text>
             <Text className="text-base font-medium">
-              {data?.data.nettWidth}
-              {config.unitOfMeasurement} x {data?.data.nettHeight}
-              {config.unitOfMeasurement} x {data?.data.nettLength}
-              {config.unitOfMeasurement}
+            {data?.data.moulderWidth == null &&
+              data?.data.moulderHeight == null &&
+              data?.data.moulderLength == null
+                ? "-"
+                : `${data?.data.moulderWidth}${config.unitOfMeasurement} x ${data?.data.moulderHeight}${config.unitOfMeasurement} x ${data?.data.moulderLength}${config.unitOfMeasurement}`}
             </Text>
           </View>
           <View className="border-b-1">

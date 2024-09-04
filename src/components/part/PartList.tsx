@@ -43,6 +43,13 @@ const PartList = ({
   };
 
   const renderItem = ({ item }: { item: Part }) => {
+    const nettSize =
+      item.nettWidth == null &&
+      item.nettHeight == null &&
+      item.nettLength == null
+        ? "-"
+        : `${item.nettWidth}${config.unitOfMeasurement} x ${item.nettHeight}${config.unitOfMeasurement} x ${item.nettLength}${config.unitOfMeasurement}`;
+
     return (
       <Card
         className="mx-4 my-2 pr-3"
@@ -51,7 +58,7 @@ const PartList = ({
         <Card.Title
           className="py-2"
           title={item.name}
-          subtitle={`Grade: ${item.grade}\nNett Size:\n${item.nettWidth}${config.unitOfMeasurement} x ${item.nettHeight}${config.unitOfMeasurement} x ${item.nettLength}${config.unitOfMeasurement}`}
+          subtitle={`Grade: ${item.grade}\nNett Size:\n${nettSize}`}
           subtitleNumberOfLines={3}
           left={(props) =>
             item.image ? (

@@ -76,11 +76,17 @@ const CreatePartPage = () => {
     if (!part.grade) {
       error.grade = "Grade cannot be empty!";
     }
-    if (!part.nettWidth || !part.nettHeight || !part.nettLength) {
-      error.nettSize = "Nett size cannot be empty or exact zero number!";
+    if (
+      (part.nettWidth || part.nettHeight || part.nettLength) &&
+      (!part.nettWidth || !part.nettHeight || !part.nettLength)
+    ) {
+      error.nettSize = "Nett size cannot be partially empty or exactly zero!";
     }
-    if (!part.moulderWidth || !part.moulderHeight || !part.moulderLength) {
-      error.moulderSize = "Moulder size cannot be empty or exact zero number!";
+    if (
+      (part.moulderWidth || part.moulderHeight || part.moulderLength) &&
+      (!part.moulderWidth || !part.moulderHeight || !part.moulderLength)
+    ) {
+      error.moulderSize = "Moulder size cannot be partially empty or exactly zero!";
     }
     if (Object.keys(error).length !== 0) {
       setErrorField(error);
@@ -94,19 +100,20 @@ const CreatePartPage = () => {
     field: keyof typeof nettSizeInput,
     value: string
   ) => {
-    const cleanValue = value.replace(/[^\d.]/g, '').replace(/(\..*)\./g, '$1');
+    const cleanValue = value.replace(/[^\d.]/g, "").replace(/(\..*)\./g, "$1");
     setNettSizeInput((prev) => ({
       ...prev,
       [field]: cleanValue,
     }));
-    const moulderValue = adjustMoulderSize(+cleanValue);
+    const size = +cleanValue === 0 ? null : +cleanValue;
+    const moulderValue = adjustMoulderSize(size);
     setMoulderSizeInput((prev) => ({
       ...prev,
-      [`moulder${field.slice(4)}`]: moulderValue.toString(),
+      [`moulder${field.slice(4)}`]: moulderValue?.toString(),
     }));
     setPart((prev) => ({
       ...prev,
-      [field]: +cleanValue,
+      [field]: size,
       [`moulder${field.slice(4)}`]: moulderValue,
     }));
   };
@@ -120,9 +127,10 @@ const CreatePartPage = () => {
       ...prev,
       [field]: cleanValue,
     }));
+    const size = +cleanValue === 0 ? null : +cleanValue;
     setPart((prev) => ({
       ...prev,
-      [field]: +cleanValue,
+      [field]: size,
     }));
   };
 
@@ -179,13 +187,11 @@ const CreatePartPage = () => {
                 }
               />
             </View>
-            <HelperText
-              className="px-0 text-red-500 text-sm"
-              type="error"
-              visible={errorField.nettSize && errorField.nettSize.length !== 0}
-            >
-              {errorField.nettSize}
-            </HelperText>
+            {errorField.nettSize && errorField.nettSize.length !== 0 && (
+              <Text className="px-0 text-red-500 text-sm">
+                {errorField.nettSize}
+              </Text>
+            )}
           </View>
           <View>
             <Text className="text-base font-medium my-2">
@@ -228,15 +234,11 @@ const CreatePartPage = () => {
                 }
               />
             </View>
-            <HelperText
-              className="px-0 text-red-500 text-sm"
-              type="error"
-              visible={
-                errorField.moulderSize && errorField.moulderSize.length !== 0
-              }
-            >
-              {errorField.moulderSize}
-            </HelperText>
+            {errorField.moulderSize && errorField.moulderSize.length !== 0 && (
+              <Text className="px-0 text-red-500 text-sm">
+                {errorField.moulderSize}
+              </Text>
+            )}
           </View>
           <View>
             <Text className="text-base font-medium mb-3">Image</Text>

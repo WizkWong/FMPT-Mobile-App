@@ -2,6 +2,9 @@ export const capitalizedCase = (text: string) =>
   text.charAt(0).toUpperCase() + text.substring(1).toLowerCase();
 
 export const adjustMoulderSize = (nettInput: number): number => {
+  if (nettInput === undefined || nettInput === null) {
+    return nettInput;
+  }
   const decimalPart = nettInput.toString().split(".")[0];
   if (!decimalPart) {
     return nettInput;
