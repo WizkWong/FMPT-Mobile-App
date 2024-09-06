@@ -1,20 +1,34 @@
-import { router, useLocalSearchParams } from "expo-router";
-import { View, Text, Alert, ScrollView } from "react-native";
+import { router, useLocalSearchParams, useNavigation } from "expo-router";
+import { View, Text, Alert, ScrollView, Pressable } from "react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import Loading from "../../components/Loading";
-import CustomError from "../../components/CustomError";
+import Loading from "../../../components/Loading";
+import CustomError from "../../../components/CustomError";
 import { Image } from "expo-image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "react-native-paper";
 import { AxiosError } from "axios";
-import SubmitDialog from "../../components/dialog/SubmitDialog";
-import { deletePart, getPartById } from "../../services/PartService";
-import config from "../../constants/config";
+import SubmitDialog from "../../../components/dialog/SubmitDialog";
+import { deletePart, getPartById } from "../../../services/PartService";
+import config from "../../../constants/config";
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
 const PartPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const queryClient = useQueryClient();
+  const navigation = useNavigation();
   const [isDeleteDialogVisible, setDeleteDialogVisible] = useState(false);
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return (
+          <Pressable onPress={() => router.push(`parts/${id}/procedures`)}>
+            <FontAwesome5 name="tasks" size={28} color="black" />
+          </Pressable>
+        );
+      },
+    });
+  }, []);
 
   const { isPending, mutate } = useMutation({
     mutationFn: () => deletePart(+id),
