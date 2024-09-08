@@ -1,6 +1,10 @@
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
 import { View, Text, Pressable, Alert, ScrollView } from "react-native";
-import { deleteUser, getUserById, resetUserPassword } from "../../services/UserService";
+import {
+  deleteUser,
+  getUserById,
+  resetUserPassword,
+} from "../../services/UserService";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Loading from "../../components/Loading";
 import CustomError from "../../components/CustomError";
@@ -10,10 +14,14 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { Button } from "react-native-paper";
 import { AxiosError } from "axios";
 import SubmitDialog from "../../components/dialog/SubmitDialog";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const UserPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const navigation = useNavigation();
+  const queryClient = useQueryClient();
+  const [isResetVisible, setResetDialogVisible] = useState(false);
+  const [isDeactivateDialogVisible, setDeactivateDialogVisible] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({
@@ -27,21 +35,20 @@ const UserPage = () => {
         );
       },
     });
+    return () => { AsyncStorage.removeItem("user") }
   }, []);
-
-  const queryClient = useQueryClient();
-  const [isResetVisible, setResetDialogVisible] = useState(false);
-  const [isDeactivateDialogVisible, setDeactivateDialogVisible] = useState(false);
 
   const { isPending, mutate } = useMutation({
     mutationFn: (fn: () => Promise<any>) => fn(),
     onError: (error: AxiosError<any, any>) => {
       console.log(error);
-      Alert.alert("Error!", error.response?.data?.message ?? error.message, [{ text: "Close" }]);
+      Alert.alert("Error!", error.response?.data?.message ?? error.message, [
+        { text: "Close" },
+      ]);
     },
   });
 
-  const { data, isLoading, isError, error } = useQuery({
+  const { data, isLoading, isError, error, isSuccess } = useQuery({
     queryKey: ["fetchUser", id],
     queryFn: () => getUserById(+id),
     refetchOnWindowFocus: "always",
@@ -54,6 +61,20 @@ const UserPage = () => {
   if (isError) {
     console.log(error);
     return <CustomError errorMsg={error.message} />;
+  }
+
+  if (isSuccess) {
+    AsyncStorage.setItem(
+      "user",
+      JSON.stringify({
+        id: data?.data.id,
+        username: data?.data.username,
+        phoneNo: data?.data.phoneNo,
+        image: data?.data.image,
+        role: data?.data.role,
+        department: data?.data.department,
+      })
+    );
   }
 
   return (

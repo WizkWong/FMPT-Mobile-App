@@ -1,42 +1,39 @@
 import { useState } from "react";
 import { User } from "../../types/user";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { getUserById, updateUser } from "../../services/UserService";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { updateUser } from "../../services/UserService";
 import { router, useLocalSearchParams } from "expo-router";
 import { AxiosError } from "axios";
-import Loading from "../../components/Loading";
-import CustomError from "../../components/CustomError";
 import UserForm from "../../components/UserForm";
 import { UserErrorField } from "../../types/form";
+import useAsyncStorageGet from "../../hooks/useAsyncStorageGet";
+import { Alert } from "react-native";
 
 const UpdateUserPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const queryClient = useQueryClient();
 
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["fetchUser", id],
-    queryFn: () => getUserById(+id),
-    refetchOnWindowFocus: "always",
-  });
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (isError) {
-    console.log(error);
-    return <CustomError errorMsg={error.message} />;
-  }
-
-  const [user, setUser] = useState<User>({
-    id: data?.data.id,
-    username: data?.data.username,
-    phoneNo: data?.data.phoneNo,
-    image: data?.data.image,
-    role: data?.data.role,
-    department: data?.data.department,
-  });
+  const [user, setUser] = useState<User>({});
   const [errorField, setErrorField] = useState<UserErrorField>({});
+
+  useAsyncStorageGet<User>({
+    key: "user",
+    onSuccess: (data) => {
+      setUser({
+        id: data.id,
+        username: data.username,
+        phoneNo: data.phoneNo,
+        image: data.image,
+        role: data.role,
+        department: data.department,
+      })
+    },
+    onError: (error) => {
+      Alert.alert("Error!", error, [
+        { text: "Close & Go Back", onPress: () => router.back() },
+      ]);
+    }
+  });
 
   const { isPending, mutate } = useMutation({
     mutationFn: () => updateUser(user),
