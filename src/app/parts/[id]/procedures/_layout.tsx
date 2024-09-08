@@ -16,7 +16,6 @@ const PartProcedureLayout = () => {
       }}
     >
       <Stack.Screen name="index" options={{ headerTitle: "Part Procedure" }} />
-      <Stack.Screen name="[id]" options={{ headerTitle: "Part Procedure Details" }} />
       <Stack.Screen name="create" options={{ headerTitle: "Part Procedure" }} />
       <Stack.Screen name="update" options={{ headerTitle: "Change Part Procedure" }} />
     </Stack>

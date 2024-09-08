@@ -14,3 +14,8 @@ export interface ProductErrorField {
   name?: string;
   productPartList?: string;
 }
+
+export interface PartProcedureErrorField {
+  description?: string;
+  department?: string;
+}

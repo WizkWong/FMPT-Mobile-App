@@ -38,3 +38,11 @@ export interface ProductDetails {
   product?: Product;
   productPartList: ProductPart[];
 }
+
+export interface PartProcedure {
+  id?: number;
+  description?: string;
+  stepNo?: number;
+  attachment?: string;
+  department?: string;
+}
