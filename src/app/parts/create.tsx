@@ -148,6 +148,7 @@ const CreatePartPage = () => {
             label="Description"
             onChangeText={(text) => setPart({ ...part, description: text })}
             value={part.description}
+            multiline={true}
           />
           <InputWithError
             label="Grade"

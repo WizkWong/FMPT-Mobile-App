@@ -97,6 +97,7 @@ const CreateProductPage = () => {
               setProduct({ ...product, description: text })
             }
             value={product.description}
+            multiline={true}
           />
           <View>
             <Text className="text-base font-medium mb-3">Image</Text>

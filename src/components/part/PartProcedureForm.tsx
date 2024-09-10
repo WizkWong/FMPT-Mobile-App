@@ -38,6 +38,7 @@ const PartProcedureForm = ({
               label="Description"
               onChangeText={(text) => setPartProcedure({ ...partProcedure, description: text })}
               value={partProcedure.description}
+              multiline={true}
               errorMsg={errorField.description}
             />
             <Text className="text-base font-medium">Department</Text>
