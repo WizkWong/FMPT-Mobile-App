@@ -24,7 +24,10 @@ const ProductPage = () => {
     navigation.setOptions({
       headerRight: () => {
         return (
-          <Pressable onPress={() => setProductPartModalVisible(true)}>
+          <Pressable
+            className="p-1"
+            onPress={() => setProductPartModalVisible(true)}
+          >
             <FontAwesome5
               name="clipboard-list"
               size={28}
@@ -132,7 +135,7 @@ const ProductPage = () => {
             title="Part List Requirement"
             onPressBack={() => setProductPartModalVisible(false)}
           />
-          <View className="mb-10">
+          <View className="flex-1">
             <ProductPartList data={data?.data.productPartList} />
           </View>
         </View>

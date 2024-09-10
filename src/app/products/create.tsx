@@ -33,7 +33,10 @@ const CreateProductPage = () => {
     navigation.setOptions({
       headerRight: () => {
         return (
-          <Pressable onPress={() => setProductPartModalVisible(true)}>
+          <Pressable
+            className="p-1"
+            onPress={() => setProductPartModalVisible(true)}
+          >
             <FontAwesome5
               name="clipboard-list"
               size={28}
@@ -153,7 +156,7 @@ const CreateProductPage = () => {
                   <SimpleLineIcons name="plus" size={28} color="black" />
                 </Pressable>
               </CustomHeader>
-              <View className="mb-10">
+              <View className="flex-1">
                 <ProductPartList
                   data={productPartList}
                   edit={true}

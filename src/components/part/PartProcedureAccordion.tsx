@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, List } from "react-native-paper";
 import { PartProcedure } from "../../types/productPart";
-import { View, Text, Alert } from "react-native";
+import { View, Text, Alert, Image } from "react-native";
 import { router } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
@@ -23,22 +23,13 @@ const PartProcedureAccordion = ({
   const queryClient = useQueryClient();
   const [isDeleteDialogVisible, setDeleteDialogVisible] = useState(false);
 
-  const storePartProcedure = async () => {
-    try {
-      await AsyncStorage.setItem(
-        "partProcedure",
-        JSON.stringify(partProcedure)
-      );
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
   const { isPending, mutate } = useMutation({
     mutationFn: () => deletePartProcedure(+partId, partProcedure.id),
     onSuccess: () => {
       setDeleteDialogVisible(false);
-      queryClient.invalidateQueries({ queryKey: ["fetchPartProcedure", partId] });
+      queryClient.invalidateQueries({
+        queryKey: ["fetchPartProcedure", partId],
+      });
     },
     onError: (error: AxiosError<any, any>) => {
       console.log(error);
@@ -66,7 +57,32 @@ const PartProcedureAccordion = ({
       )}
       onPress={handlePress}
     >
-      <List.Item className="bg-slate-200" title="Description" description={partProcedure.description} />
+      <List.Item
+        className="bg-slate-200 p-0"
+        title="Description"
+        titleStyle={{ fontSize: 18}}
+        description={partProcedure.description}
+        descriptionNumberOfLines={10}
+      />
+      <List.Item
+        className="bg-slate-200 p-0"
+        title="Image"
+        titleStyle={{ fontSize: 18}}
+        description={
+          partProcedure.attachment ? (
+            <View>
+              <Image
+                className="h-48 w-48"
+                source={{
+                  uri: `data:image/jpg;base64,${partProcedure.attachment}`,
+                }}
+              />
+            </View>
+          ) : (
+            <Text className="text-base font-medium">No Image</Text>
+          )
+        }
+      />
       <View className="flex flex-col items-end p-2 space-x-2 bg-slate-200">
         <View>
           <Button
@@ -91,7 +107,7 @@ const PartProcedureAccordion = ({
             mode="contained-tonal"
             className="bg-amber-550 rounded font-bold"
             onPress={() => {
-              storePartProcedure();
+              AsyncStorage.setItem("partProcedure", JSON.stringify(partProcedure));
               router.push(
                 `parts/${partId}/procedures/update?partProcedureId=${partProcedure.id}`
               );
