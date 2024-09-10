@@ -14,12 +14,14 @@ import EvilIcons from "@expo/vector-icons/EvilIcons";
 
 const ProductPartList = ({
   data,
+  piecesMultiply = 1,
   edit = false,
   onChangePieces,
   onEndEditingPieces,
   onDelete,
 }: {
   data: ProductPart[];
+  piecesMultiply?: number;
   edit?: boolean;
   onChangePieces?: (text: string, productPart: ProductPart) => void;
   onEndEditingPieces?: (text: string, productPart: ProductPart) => void;
@@ -68,7 +70,7 @@ const ProductPartList = ({
             ) : (
               <View className="mr-2">
                 <Text>Pcs:</Text>
-                <Text className="text-center">{item.piece}</Text>
+                <Text className="text-center">{item.piece * piecesMultiply}</Text>
               </View>
             )
           }

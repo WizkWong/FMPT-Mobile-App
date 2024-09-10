@@ -17,3 +17,16 @@ export const adjustMoulderSize = (nettInput: number): number => {
 
 export const isZeroOrEmptyNumber = (value: number | undefined | null): boolean =>
   value === undefined || value === null || value === 0;
+
+export const convertToDateString = (dateString: string) => {
+  if (dateString === null || dateString === undefined) {
+    return dateString;
+  }
+  const dateObject = new Date(dateString);
+  
+  const year = dateObject.getFullYear();
+  const month = String(dateObject.getMonth() + 1).padStart(2, '0');
+  const day = String(dateObject.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+}

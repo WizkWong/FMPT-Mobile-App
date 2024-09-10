@@ -57,6 +57,11 @@ const AdminPage = () => {
       link: "/parts/list",
       image: require("../../assets/default-profile-img.svg"),
     },
+    {
+      title: "Manage Orders",
+      link: "/orders/list",
+      image: require("../../assets/default-profile-img.svg"),
+    },
   ];
 
   return (

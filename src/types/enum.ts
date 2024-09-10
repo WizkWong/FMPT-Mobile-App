@@ -3,3 +3,10 @@ export enum UserRole {
   MANAGER = "MANAGER",
   ADMIN = "ADMIN",
 }
+
+export enum Status {
+  NOT_STARTED = "Not Started",
+  IN_PROGRESS = "In Progress",
+  COMPLETED = "Completed",
+  CANCELLED = "Cancelled"
+}

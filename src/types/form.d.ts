@@ -19,3 +19,9 @@ export interface PartProcedureErrorField {
   description?: string;
   department?: string;
 }
+
+export interface OrderErrorField {
+  product?: string;
+  quantity?: string;
+  deadlineDateTime?: string;
+}
