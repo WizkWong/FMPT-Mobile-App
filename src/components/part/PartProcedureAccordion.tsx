@@ -92,7 +92,7 @@ const PartProcedureAccordion = ({
             labelStyle={{ paddingHorizontal: 0 }}
             onPress={() =>
               router.push(
-                `parts/${partId}/procedures/create?stepNo=${
+                `/admin/parts/${partId}/procedures/create?stepNo=${
                   partProcedure.stepNo + 1
                 }`
               )
@@ -109,7 +109,7 @@ const PartProcedureAccordion = ({
             onPress={() => {
               AsyncStorage.setItem("partProcedure", JSON.stringify(partProcedure));
               router.push(
-                `parts/${partId}/procedures/update?partProcedureId=${partProcedure.id}`
+                `/admin/parts/${partId}/procedures/update?partProcedureId=${partProcedure.id}`
               );
             }}
           >

@@ -1,16 +1,16 @@
 import { router, useNavigation } from "expo-router";
 import { useEffect } from "react";
 import { View, Pressable, FlatList, Image, Text } from "react-native";
-import useUtilityQuery from "../../hooks/useUtilityQuery";
+import useUtilityQuery from "../../../hooks/useUtilityQuery";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { ActivityIndicator, Avatar, Card, Icon } from "react-native-paper";
-import CustomError from "../../components/CustomError";
-import useSearchBar from "../../hooks/useSearchBar";
-import { getOrderByFilter } from "../../services/OrderService";
-import { Order } from "../../types/order";
-import { Status } from "../../types/enum";
-import { convertToDateString } from "../../utils/utility";
+import CustomError from "../../../components/CustomError";
+import useSearchBar from "../../../hooks/useSearchBar";
+import { getOrderByFilter } from "../../../services/OrderService";
+import { Order } from "../../../types/order";
+import { Status } from "../../../types/enum";
+import { convertToDateString } from "../../../utils/utility";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const OrderList = () => {
@@ -33,7 +33,7 @@ const OrderList = () => {
       },
       headerRight: () => {
         return (
-          <Pressable onPress={() => router.push(`orders/create`)}>
+          <Pressable onPress={() => router.push(`/admin/orders/create`)}>
             <SimpleLineIcons name="plus" size={28} color="black" />
           </Pressable>
         );
@@ -69,7 +69,7 @@ const OrderList = () => {
         className="mx-4 my-2 pr-3"
         onPress={() => {
           AsyncStorage.setItem("order", JSON.stringify(item));
-          router.push(`/orders/${item.id}`);
+          router.push(`/admin/orders/${item.id}`);
       }}
       >
         <Card.Title

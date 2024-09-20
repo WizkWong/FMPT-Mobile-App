@@ -3,9 +3,11 @@ import { View, Text, BackHandler, Pressable } from "react-native";
 import { router, useFocusEffect } from "expo-router";
 import * as SecureStore from "expo-secure-store";
 import { useQueryClient } from "@tanstack/react-query";
-import { Image } from "expo-image";
 import globalStyles from "../../constants/globalStyles";
 import ExitAppDialog from "../../components/dialog/ExitAppDialog";
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const AdminPage = () => {
   const queryClient = useQueryClient();
@@ -33,34 +35,34 @@ const AdminPage = () => {
   type module = {
     title: string;
     link: string;
-    image: string;
+    image: React.ReactNode;
   };
 
   const moduleList: module[] = [
     {
-      title: "Manage User",
-      link: "/users/list",
-      image: require("../../assets/default-profile-img.svg"),
+      title: "User",
+      link: "/admin/users/list",
+      image: <FontAwesome5 name="user-alt" size={24} color="black" />,
     },
     {
-      title: "Manage Department",
-      link: "/department",
-      image: require("../../assets/default-profile-img.svg"),
+      title: "Department",
+      link: "/admin/department",
+      image: <MaterialIcons name="groups" size={36} color="black" />,
     },
     {
-      title: "Manage Product",
-      link: "/products/list",
-      image: require("../../assets/default-profile-img.svg"),
+      title: "Product",
+      link: "/admin/products/list",
+      image: <MaterialCommunityIcons name="table-chair" size={36} color="black" />,
     },
     {
-      title: "Manage Part",
-      link: "/parts/list",
-      image: require("../../assets/default-profile-img.svg"),
+      title: "Product Part",
+      link: "/admin/parts/list",
+      image: <MaterialCommunityIcons name="ruler-square" size={36} color="black" />,
     },
     {
-      title: "Manage Orders",
-      link: "/orders/list",
-      image: require("../../assets/default-profile-img.svg"),
+      title: "Order",
+      link: "/admin/orders/list",
+      image: <FontAwesome5 name="clipboard-list" size={36} color="black" />,
     },
   ];
 
@@ -73,15 +75,15 @@ const AdminPage = () => {
             <Pressable
               key={id}
               style={globalStyles.shadow}
-              className="w-[26%] mx-3 my-1 p-1 flex flex-col items-center bg-white rounded"
+              className="w-[26%] m-3 p-2 flex flex-col items-center justify-center bg-white rounded"
               onPress={() => router.push(m.link)}
             >
-              <Image className="p-6" source={m.image} />
-              <Text className="text-xs text-center font-medium">{m.title}</Text>
+              {m.image}
+              <Text className="mt-2 text-xs text-center font-medium">{m.title}</Text>
             </Pressable>
           ))}
           <Pressable
-            className="flex justify-center w-[26%] mx-3 my-1 p-1 border-2 bg-amber-550 rounded"
+            className="flex justify-center w-[26%] m-3 p-2 border-2 bg-amber-550 rounded"
             style={globalStyles.shadow}
             onPress={() => logOut()}
           >

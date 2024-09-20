@@ -1,38 +1,29 @@
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
-import { View, Text, Alert, ScrollView, Pressable, Modal } from "react-native";
+import { View, Text, Alert, ScrollView, Pressable } from "react-native";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import Loading from "../../components/Loading";
-import CustomError from "../../components/CustomError";
+import Loading from "../../../../components/Loading";
+import CustomError from "../../../../components/CustomError";
 import { Image } from "expo-image";
 import { useEffect, useState } from "react";
 import { Button } from "react-native-paper";
 import { AxiosError } from "axios";
-import SubmitDialog from "../../components/dialog/SubmitDialog";
-import { deleteProduct, getProductById } from "../../services/ProductService";
-import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import CustomHeader from "../../components/CustomHeader";
-import ProductPartList from "../../components/part/ProductPartList";
+import SubmitDialog from "../../../../components/dialog/SubmitDialog";
+import { deletePart, getPartById } from "../../../../services/PartService";
+import config from "../../../../constants/config";
+import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
-const ProductPage = () => {
+const PartPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
   const queryClient = useQueryClient();
   const navigation = useNavigation();
   const [isDeleteDialogVisible, setDeleteDialogVisible] = useState(false);
-  const [isProductPartModalVisible, setProductPartModalVisible] = useState(false);
 
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => {
         return (
-          <Pressable
-            className="p-1"
-            onPress={() => setProductPartModalVisible(true)}
-          >
-            <FontAwesome5
-              name="clipboard-list"
-              size={28}
-              color="darkslategray"
-            />
+          <Pressable onPress={() => router.push(`/admin/parts/${id}/procedures`)}>
+            <FontAwesome5 name="tasks" size={28} color="black" />
           </Pressable>
         );
       },
@@ -40,10 +31,10 @@ const ProductPage = () => {
   }, []);
 
   const { isPending, mutate } = useMutation({
-    mutationFn: () => deleteProduct(+id),
+    mutationFn: () => deletePart(+id),
     onSuccess: () => {
       setDeleteDialogVisible(false);
-      queryClient.invalidateQueries({ queryKey: ["fetchProductList"] });
+      queryClient.invalidateQueries({ queryKey: ["fetchPartList"] });
       router.back();
     },
     onError: (error: AxiosError<any, any>) => {
@@ -56,8 +47,8 @@ const ProductPage = () => {
   });
 
   const { data, isLoading, isError, error } = useQuery({
-    queryKey: ["fetchProduct", id],
-    queryFn: () => getProductById(+id),
+    queryKey: ["fetchPart", id],
+    queryFn: () => getPartById(+id),
     refetchOnWindowFocus: "always",
   });
 
@@ -77,22 +68,48 @@ const ProductPage = () => {
           <View className="border-b-1">
             <Text className="text-base font-medium">Name:</Text>
             <Text className="text-base font-medium">
-              {data?.data.product.name ?? "-"}
+              {data?.data.name ?? "-"}
+            </Text>
+          </View>
+          <View className="border-b-1">
+            <Text className="text-base font-medium">Grade:</Text>
+            <Text className="text-base font-medium">
+              {data?.data.grade ?? "-"}
             </Text>
           </View>
           <View className="border-b-1">
             <Text className="text-base font-medium">Description:</Text>
             <Text className="text-base font-medium">
-              {data?.data.product.description ?? "-"}
+              {data?.data.description ?? "-"}
+            </Text>
+          </View>
+          <View className="border-b-1">
+            <Text className="text-base font-medium">Nett Size:</Text>
+            <Text className="text-base font-medium">
+              {data?.data.nettWidth == null &&
+              data?.data.nettHeight == null &&
+              data?.data.nettLength == null
+                ? "-"
+                : `${data?.data.nettWidth}${config.unitOfMeasurement} x ${data?.data.nettHeight}${config.unitOfMeasurement} x ${data?.data.nettLength}${config.unitOfMeasurement}`}
+            </Text>
+          </View>
+          <View className="border-b-1">
+            <Text className="text-base font-medium">Moulder Size:</Text>
+            <Text className="text-base font-medium">
+            {data?.data.moulderWidth == null &&
+              data?.data.moulderHeight == null &&
+              data?.data.moulderLength == null
+                ? "-"
+                : `${data?.data.moulderWidth}${config.unitOfMeasurement} x ${data?.data.moulderHeight}${config.unitOfMeasurement} x ${data?.data.moulderLength}${config.unitOfMeasurement}`}
             </Text>
           </View>
           <View className="border-b-1">
             <Text className="text-base font-medium">Image:</Text>
-            {data?.data.product.image ? (
+            {data?.data.image ? (
               <Image
                 className="h-48 w-48 mb-2"
                 source={{
-                  uri: `data:image/jpg;base64,${data?.data.product.image}`,
+                  uri: `data:image/jpg;base64,${data?.data.image}`,
                 }}
               />
             ) : (
@@ -114,7 +131,7 @@ const ProductPage = () => {
         </View>
       </View>
       <SubmitDialog
-        title={`Deleting ${data?.data.product.name}`}
+        title={`Deleting ${data?.data.name}`}
         visible={isDeleteDialogVisible}
         loading={isPending}
         disabled={isPending}
@@ -122,26 +139,10 @@ const ProductPage = () => {
         onDismiss={() => setDeleteDialogVisible(false)}
         onPress={() => mutate()}
       >
-        Are you sure you want to delete {data?.data.product.name} part?
+        Are you sure you want to delete {data?.data.name} part?
       </SubmitDialog>
-      <Modal
-        visible={isProductPartModalVisible}
-        onRequestClose={() => setProductPartModalVisible(false)}
-        animationType="slide"
-        presentationStyle="pageSheet"
-      >
-        <View className="flex-1 bg-white">
-          <CustomHeader
-            title="Part List Requirement"
-            onPressBack={() => setProductPartModalVisible(false)}
-          />
-          <View className="flex-1">
-            <ProductPartList data={data?.data.productPartList} />
-          </View>
-        </View>
-      </Modal>
     </ScrollView>
   );
 };
 
-export default ProductPage;
+export default PartPage;

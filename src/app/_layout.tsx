@@ -26,10 +26,7 @@ const RootLayout = () => {
             headerShown: false,
           }}
         >
-          <Stack.Screen name="login" />
           <Stack.Screen name="admin" />
-          <Stack.Screen name="users" />
-          <Stack.Screen name="department" />
         </Stack>
       </PaperProvider>
     </QueryClientProvider>

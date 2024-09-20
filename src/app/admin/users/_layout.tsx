@@ -1,6 +1,6 @@
 import React from "react";
 import { Stack } from "expo-router";
-import config from "../../constants/config";
+import config from "../../../constants/config";
 
 const UserLayout = () => {
   return (

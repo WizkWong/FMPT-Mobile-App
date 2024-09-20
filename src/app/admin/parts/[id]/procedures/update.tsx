@@ -1,23 +1,40 @@
 import { useState } from "react";
-import PartProcedureForm from "../../../../components/part/PartProcedureForm";
-import { PartProcedure } from "../../../../types/productPart";
-import { PartProcedureErrorField } from "../../../../types/form";
+import PartProcedureForm from "../../../../../components/part/PartProcedureForm";
+import { PartProcedure } from "../../../../../types/productPart";
+import { PartProcedureErrorField } from "../../../../../types/form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createPartProcedure } from "../../../../services/PartService";
+import { updatePartProcedure } from "../../../../../services/PartService";
 import { router, useLocalSearchParams } from "expo-router";
 import { AxiosError } from "axios";
 import { Alert } from "react-native";
+import useAsyncStorageGet from "../../../../../hooks/useAsyncStorageGet";
 
-const CreatePartProcedurePage = () => {
-  const { id, stepNo } = useLocalSearchParams<{ id: string; stepNo: string }>();
+const UpdatePartProcedurePage = () => {
+  const { id } = useLocalSearchParams<{ id: string }>();
   const queryClient = useQueryClient();
-  const [partProcedure, setPartProcedure] = useState<PartProcedure>({
-    stepNo: +stepNo,
-  });
+  const [partProcedure, setPartProcedure] = useState<PartProcedure>({});
   const [errorField, setErrorField] = useState<PartProcedureErrorField>({});
 
+  useAsyncStorageGet<PartProcedure>({
+    key: "partProcedure",
+    onSuccess: (data) => {
+      setPartProcedure({
+        id: data.id,
+        description: data.description,
+        stepNo: data.stepNo,
+        attachment: data.attachment,
+        department: data.department,
+      })
+    },
+    onError: (error) => {
+      Alert.alert("Error!", error, [
+        { text: "Close & Go Back", onPress: () => router.back() },
+      ]);
+    }
+  });
+
   const { isPending, mutate } = useMutation({
-    mutationFn: () => createPartProcedure(+id, partProcedure),
+    mutationFn: () => updatePartProcedure(+id, partProcedure),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["fetchPartProcedure", id] });
       router.back();
@@ -58,11 +75,11 @@ const CreatePartProcedurePage = () => {
       partProcedure={partProcedure}
       setPartProcedure={setPartProcedure}
       errorField={errorField}
-      buttonText="Create Next Step"
+      buttonText="Update"
       handleClick={handleClick}
       loading={isPending}
     />
   );
 };
 
-export default CreatePartProcedurePage;
+export default UpdatePartProcedurePage;

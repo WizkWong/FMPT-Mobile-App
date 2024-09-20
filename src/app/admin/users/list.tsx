@@ -1,15 +1,15 @@
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { View, FlatList, Pressable } from "react-native";
-import { getUserByFilter } from "../../services/UserService";
+import { getUserByFilter } from "../../../services/UserService";
 import { router, useNavigation } from "expo-router";
-import { User } from "../../types/user";
+import { User } from "../../../types/user";
 import { useEffect } from "react";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import { ActivityIndicator, Avatar, Card, Icon } from "react-native-paper";
-import useUtilityQuery from "../../hooks/useUtilityQuery";
-import CustomError from "../../components/CustomError";
-import useSearchBar from "../../hooks/useSearchBar";
-import { capitalizedCase } from "../../utils/utility";
+import useUtilityQuery from "../../../hooks/useUtilityQuery";
+import CustomError from "../../../components/CustomError";
+import useSearchBar from "../../../hooks/useSearchBar";
+import { capitalizedCase } from "../../../utils/utility";
 
 const UserListPage = () => {
   const navigation = useNavigation();
@@ -33,7 +33,7 @@ const UserListPage = () => {
       },
       headerRight: () => {
         return (
-          <Pressable onPress={() => router.push(`users/create`)}>
+          <Pressable onPress={() => router.push(`/admin/users/create`)}>
             <SimpleLineIcons name="plus" size={28} color="black" />
           </Pressable>
         );
@@ -67,7 +67,7 @@ const UserListPage = () => {
     return (
       <Card
         className="mx-4 my-2 pr-3"
-        onPress={() => router.push(`/users/${item.id}`)}
+        onPress={() => router.push(`/admin/users/${item.id}`)}
       >
         <Card.Title
           className="py-2"

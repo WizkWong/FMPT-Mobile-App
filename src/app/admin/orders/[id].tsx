@@ -3,13 +3,13 @@ import { View, Text, Alert, ScrollView, Pressable, Modal } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { Image } from "expo-image";
 import { useEffect, useState } from "react";
-import { getProductById } from "../../services/ProductService";
+import { getProductById } from "../../../services/ProductService";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
-import CustomHeader from "../../components/CustomHeader";
-import ProductPartList from "../../components/part/ProductPartList";
-import useAsyncStorageGet from "../../hooks/useAsyncStorageGet";
-import { Order } from "../../types/order";
-import { Status } from "../../types/enum";
+import CustomHeader from "../../../components/CustomHeader";
+import ProductPartList from "../../../components/part/ProductPartList";
+import useAsyncStorageGet from "../../../hooks/useAsyncStorageGet";
+import { Order } from "../../../types/order";
+import { Status } from "../../../types/enum";
 
 const OrderDetailsPage = () => {
   const navigation = useNavigation();

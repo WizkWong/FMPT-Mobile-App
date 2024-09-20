@@ -2,8 +2,8 @@ import { useNavigation } from "expo-router";
 import { useEffect, useState } from "react";
 import { View, Pressable } from "react-native";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
-import CreateDepartmentDialog from "../../components/department/CreateDepartmentDialog";
-import DepartmentList from "../../components/department/DepartmentList";
+import CreateDepartmentDialog from "../../../components/department/CreateDepartmentDialog";
+import DepartmentList from "../../../components/department/DepartmentList";
 
 const DepartmentPage = () => {
   const navigation = useNavigation();

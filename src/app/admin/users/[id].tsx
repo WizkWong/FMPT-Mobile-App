@@ -4,16 +4,16 @@ import {
   deleteUser,
   getUserById,
   resetUserPassword,
-} from "../../services/UserService";
+} from "../../../services/UserService";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import Loading from "../../components/Loading";
-import CustomError from "../../components/CustomError";
+import Loading from "../../../components/Loading";
+import CustomError from "../../../components/CustomError";
 import { Image } from "expo-image";
 import { useEffect, useState } from "react";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { Button } from "react-native-paper";
 import { AxiosError } from "axios";
-import SubmitDialog from "../../components/dialog/SubmitDialog";
+import SubmitDialog from "../../../components/dialog/SubmitDialog";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const UserPage = () => {
@@ -28,7 +28,7 @@ const UserPage = () => {
       headerRight: () => {
         return (
           <>
-            <Pressable onPress={() => router.push(`users/update?id=${id}`)}>
+            <Pressable onPress={() => router.push(`/admin/users/update?id=${id}`)}>
               <FontAwesome6 name="edit" size={28} color="black" />
             </Pressable>
           </>

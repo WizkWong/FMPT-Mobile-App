@@ -2,15 +2,15 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { router } from "expo-router";
 import { AxiosError } from "axios";
-import { PartErrorField } from "../../types/form";
-import { createPart } from "../../services/PartService";
-import { Part } from "../../types/productPart";
-import InputWithError from "../../components/InputWithError";
+import { PartErrorField } from "../../../types/form";
+import { createPart } from "../../../services/PartService";
+import { Part } from "../../../types/productPart";
+import InputWithError from "../../../components/InputWithError";
 import { View, Text, ScrollView } from "react-native";
 import { Button, HelperText, TextInput } from "react-native-paper";
-import ImageInput from "../../components/ImageInput";
-import config from "../../constants/config";
-import { adjustMoulderSize, isZeroOrEmptyNumber } from "../../utils/utility";
+import ImageInput from "../../../components/ImageInput";
+import config from "../../../constants/config";
+import { adjustMoulderSize, isZeroOrEmptyNumber } from "../../../utils/utility";
 
 const NumInput = ({
   label,

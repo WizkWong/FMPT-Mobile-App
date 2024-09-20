@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { ScrollView, View } from "react-native";
-import { getPartProcedureByPartId } from "../../../../services/PartService";
+import { getPartProcedureByPartId } from "../../../../../services/PartService";
 import { router, useLocalSearchParams } from "expo-router";
-import Loading from "../../../../components/Loading";
-import CustomError from "../../../../components/CustomError";
-import PartProcedureAccordion from "../../../../components/part/PartProcedureAccordion";
+import Loading from "../../../../../components/Loading";
+import CustomError from "../../../../../components/CustomError";
+import PartProcedureAccordion from "../../../../../components/part/PartProcedureAccordion";
 import { Button } from "react-native-paper";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 
@@ -33,7 +33,7 @@ const PartProcedurePage = () => {
           icon={() => <SimpleLineIcons name="plus" size={20} color="black" />}
           mode="contained-tonal"
           className="bg-amber-550 rounded font-bold"
-          onPress={() => router.push(`parts/${id}/procedures/create?stepNo=1`)}
+          onPress={() => router.push(`/admin/parts/${id}/procedures/create?stepNo=1`)}
         >
           Add New Step
         </Button>

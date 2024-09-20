@@ -13,9 +13,15 @@ const AdminLayout = () => {
         headerTitleStyle: {
           fontWeight: "bold",
         },
+        headerShown: false,
       }}
     >
-      <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="index" />
+      <Stack.Screen name="department" />
+      <Stack.Screen name="orders" />
+      <Stack.Screen name="parts" />
+      <Stack.Screen name="products" />
+      <Stack.Screen name="users" />
     </Stack>
   );
 };

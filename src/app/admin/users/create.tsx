@@ -1,44 +1,23 @@
 import { useState } from "react";
-import { User } from "../../types/user";
+import { User } from "../../../types/user";
+import { UserRole } from "../../../types/enum";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { updateUser } from "../../services/UserService";
-import { router, useLocalSearchParams } from "expo-router";
+import { createUser } from "../../../services/UserService";
+import { router } from "expo-router";
 import { AxiosError } from "axios";
-import UserForm from "../../components/UserForm";
-import { UserErrorField } from "../../types/form";
-import useAsyncStorageGet from "../../hooks/useAsyncStorageGet";
-import { Alert } from "react-native";
+import UserForm from "../../../components/UserForm";
+import { UserErrorField } from "../../../types/form";
 
-const UpdateUserPage = () => {
-  const { id } = useLocalSearchParams<{ id: string }>();
+const CreateUserPage = () => {
   const queryClient = useQueryClient();
-
-  const [user, setUser] = useState<User>({});
+  const [user, setUser] = useState<User>({
+    role: UserRole.EMPLOYEE,
+  });
   const [errorField, setErrorField] = useState<UserErrorField>({});
 
-  useAsyncStorageGet<User>({
-    key: "user",
-    onSuccess: (data) => {
-      setUser({
-        id: data.id,
-        username: data.username,
-        phoneNo: data.phoneNo,
-        image: data.image,
-        role: data.role,
-        department: data.department,
-      })
-    },
-    onError: (error) => {
-      Alert.alert("Error!", error, [
-        { text: "Close & Go Back", onPress: () => router.back() },
-      ]);
-    }
-  });
-
   const { isPending, mutate } = useMutation({
-    mutationFn: () => updateUser(user),
+    mutationFn: () => createUser(user),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["fetchUser", id] });
       queryClient.invalidateQueries({ queryKey: ["fetchUserList"] });
       router.back();
     },
@@ -69,6 +48,7 @@ const UpdateUserPage = () => {
       setErrorField(error);
       return;
     }
+    setErrorField({});
     mutate();
   };
 
@@ -77,11 +57,11 @@ const UpdateUserPage = () => {
       user={user}
       setUser={setUser}
       errorField={errorField}
-      buttonText="Update"
+      buttonText="Create"
       handleClick={handleClick}
       loading={isPending}
     />
   );
 };
 
-export default UpdateUserPage;
+export default CreateUserPage;

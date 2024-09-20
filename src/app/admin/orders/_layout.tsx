@@ -1,8 +1,8 @@
 import React from "react";
 import { Stack } from "expo-router";
-import config from "../../constants/config";
+import config from "../../../constants/config";
 
-const PartLayout = () => {
+const OrderLayout = () => {
   return (
     <Stack
       screenOptions={{
@@ -15,11 +15,11 @@ const PartLayout = () => {
         },
       }}
     >
-      <Stack.Screen name="list" options={{ headerTitle: "Part" }} />
-      <Stack.Screen name="create" options={{ headerTitle: "Create Part" }} />
-      <Stack.Screen name="[id]" options={{ headerShown: false }} />
+      <Stack.Screen name="list" options={{ headerTitle: "Order" }} />
+      <Stack.Screen name="[id]" options={{ headerTitle: "Order Details" }} />
+      <Stack.Screen name="create" options={{ headerTitle: "Create Order" }} />
     </Stack>
   );
 };
 
-export default PartLayout;
+export default OrderLayout;
