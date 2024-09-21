@@ -1,11 +1,11 @@
 import { View, Text } from "react-native";
 
-const ReportPage = () => {
+const AnalyticPage = () => {
   return (
     <View>
-      <Text>Report</Text>
+      <Text>Analytic</Text>
     </View>
   );
 };
 
-export default ReportPage;
+export default AnalyticPage;

@@ -12,10 +12,10 @@ const TaskLayout = () => {
         headerTitleStyle: {
           fontWeight: "bold",
         },
-        headerTitleAlign: "center",
       }}
     >
-      <Stack.Screen name="[id]" />
+      <Stack.Screen name="index" options={{ headerTitle: "Task List" }} />
+      <Stack.Screen name="[id]" options={{ headerTitle: "Task Details" }} />
     </Stack>
   );
 };

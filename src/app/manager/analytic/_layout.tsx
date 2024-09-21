@@ -12,10 +12,9 @@ const ReportLayout = () => {
         headerTitleStyle: {
           fontWeight: "bold",
         },
-        headerTitleAlign: "center",
       }}
     >
-      <Stack.Screen name="index" />
+      <Stack.Screen name="index" options={{ headerTitle: "Employee List" }} />
     </Stack>
   );
 };

@@ -14,8 +14,8 @@ const ManagerLayout = () => {
         headerTintColor: "#fff",
         headerTitleStyle: {
           fontWeight: "bold",
+          marginLeft: 10,
         },
-        headerTitleAlign: 'center',
         tabBarActiveTintColor: "blue",
         tabBarInactiveTintColor: "gray",
         tabBarStyle: {
@@ -27,50 +27,29 @@ const ManagerLayout = () => {
       }}
     >
       <Tabs.Screen
-        name="taskList"
+        name="task"
         options={{
-          title: "Task",
           tabBarIcon: ({ color }) => (
             <FontAwesome5 name="tasks" size={28} color={color} />
           ),
-        }}
-      />
-      <Tabs.Screen
-        name="orderScheduleList"
-        options={{
-          title: "Order Schedule",
-          tabBarIcon: ({ color }) => (
-            <MaterialIcons name="schedule" size={28} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="analytic"
-        options={{
-          title: "Analytic",
-          tabBarIcon: ({ color }) => (
-            <Ionicons name="analytics" size={28} color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="task"
-        options={{
-          href: null,
           headerShown: false,
         }}
       />
       <Tabs.Screen
         name="order-schedule"
         options={{
-          href: null,
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="schedule" size={28} color={color} />
+          ),
           headerShown: false,
         }}
       />
       <Tabs.Screen
-        name="report"
+        name="analytic"
         options={{
-          href: null,
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="analytics" size={28} color={color} />
+          ),
           headerShown: false,
         }}
       />

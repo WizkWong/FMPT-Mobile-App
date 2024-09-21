@@ -12,10 +12,9 @@ const OrderScheduleLayout = () => {
         headerTitleStyle: {
           fontWeight: "bold",
         },
-        headerTitleAlign: "center",
       }}
     >
-      <Stack.Screen name="index" />
+      <Stack.Screen name="index" options={{ headerTitle: "Order List" }} />
     </Stack>
   );
 };
