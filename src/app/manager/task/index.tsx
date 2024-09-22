@@ -43,7 +43,7 @@ const TaskListPage = () => {
     isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: queryKey,
-    queryFn: ({ pageParam }) => getTaskByFilter(pageParam, searchText, userDetails?.department ?? ""),
+    queryFn: ({ pageParam }) => getTaskByFilter(pageParam, searchText, userDetails?.user.department ?? ""),
     initialPageParam: 0,
     staleTime: Infinity,
     getNextPageParam: (lastPage, pages, lastPageParam) =>

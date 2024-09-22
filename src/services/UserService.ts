@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { UserAuthentication, AuthenticationUserDetails, User, Department, UserPage } from "../types/user";
 import { setAuthorizationHeader } from "../utils/header";
+import { UserRole } from "../types/enum";
 
 const api = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
@@ -14,7 +15,7 @@ export const authenticateUser = (userAuth: UserAuthentication): Promise<AxiosRes
 export const validateToken = async (userDetails: AuthenticationUserDetails): Promise<boolean> => {
   try {
     const { status } = await api.post(`/auth/validate-token`, {
-      username: userDetails.username,
+      username: userDetails.user.username,
       token: userDetails.token,
     });
     return status === 200;
@@ -24,8 +25,8 @@ export const validateToken = async (userDetails: AuthenticationUserDetails): Pro
   return false;
 };
 
-export const getUserByFilter = async (page: number, search: string): Promise<AxiosResponse<UserPage, any>> => {
-  return api.get(`/users?page=${page}&search=${search}`, await setAuthorizationHeader());
+export const getUserByFilter = async (page: number, search: string, department: string = "", role: UserRole = undefined): Promise<AxiosResponse<UserPage, any>> => {
+  return api.get(`/users?page=${page}&search=${search}&department=${department}&role=${role}`, await setAuthorizationHeader());
 }
 
 export const getUserById = async (id: number): Promise<AxiosResponse<User, any>> => {
