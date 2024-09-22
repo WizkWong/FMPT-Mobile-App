@@ -16,6 +16,7 @@ const TaskLayout = () => {
     >
       <Stack.Screen name="index" options={{ headerTitle: "Task List" }} />
       <Stack.Screen name="[id]" options={{ headerTitle: "Task Details" }} />
+      <Stack.Screen name="assign" options={{ headerTitle: "Assign Employee" }} />
     </Stack>
   );
 };
