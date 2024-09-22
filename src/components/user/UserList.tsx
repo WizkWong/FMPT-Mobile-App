@@ -6,17 +6,20 @@ import { ActivityIndicator, Avatar, Card, Icon } from "react-native-paper";
 import useUtilityQuery from "../../hooks/useUtilityQuery";
 import CustomError from "../../components/CustomError";
 import { capitalizedCase } from "../../utils/utility";
+import { UserRole } from "../../types/enum";
 
 const UserList = ({
   searchText,
   componentOnPress,
   refresh,
   filterByDepartment = "",
+  filterByRole,
 }: {
   searchText: string;
   componentOnPress?: (user: User) => void;
   refresh?: () => void;
   filterByDepartment?: string;
+  filterByRole?: UserRole;
 }) => {
   const queryKey = ["fetchUserList"];
   const utilityQuery = useUtilityQuery();
@@ -31,7 +34,7 @@ const UserList = ({
     isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: queryKey,
-    queryFn: ({ pageParam }) => getUserByFilter(pageParam, searchText, filterByDepartment),
+    queryFn: ({ pageParam }) => getUserByFilter(pageParam, searchText, filterByDepartment, filterByRole),
     initialPageParam: 0,
     staleTime: Infinity,
     getNextPageParam: (lastPage, pages, lastPageParam) =>

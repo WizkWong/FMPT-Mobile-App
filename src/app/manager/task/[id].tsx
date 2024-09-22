@@ -1,10 +1,9 @@
-import { router, useLocalSearchParams, useNavigation } from "expo-router";
+import { router, Stack, useLocalSearchParams } from "expo-router";
 import { View, Text, ScrollView, Pressable } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import Loading from "../../../components/Loading";
 import CustomError from "../../../components/CustomError";
 import { Image } from "expo-image";
-import { useEffect } from "react";
 import { Card } from "react-native-paper";
 import { getTaskById } from "../../../services/TaskService";
 import config from "../../../constants/config";
@@ -15,21 +14,6 @@ import EmployeeList from "../../../components/user/EmployeeList";
 
 const TaskDetailPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const navigation = useNavigation();
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerRight: () => {
-        return (
-          <Pressable
-            onPress={() => router.push(`/manager/task/assign?taskId=${id}`)}
-          >
-            <FontAwesome5 name="user-plus" size={24} color="white" />
-          </Pressable>
-        );
-      },
-    });
-  }, []);
 
   const { data, isLoading, isError, error, isSuccess } = {
     ...useQuery({
@@ -51,12 +35,25 @@ const TaskDetailPage = () => {
   if (isSuccess) {
     AsyncStorage.setItem(
       "employeeList",
-      JSON.stringify(data?.data.employeeTask?.employeeList ?? [])
+      JSON.stringify(data?.data.employeeTask ?? [])
     );
   }
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <Stack.Screen
+        options={{
+          headerRight: () => {
+            return (
+              <Pressable
+                onPress={() => router.push(`/manager/task/assign?taskId=${id}&department=${data.data.task.department}`)}
+              >
+                <FontAwesome5 name="user-plus" size={24} color="white" />
+              </Pressable>
+            );
+          },
+        }}
+      />
       <View className="mx-4 my-2 space-y-3">
         <Card>
           <Card.Title
@@ -204,10 +201,7 @@ const TaskDetailPage = () => {
             titleStyle={{ textAlignVertical: "center", marginVertical: 0 }}
           />
           <Card.Content className="pt-2 pb-3 border-t-1 border-gray-200">
-            <EmployeeList
-              employeeList={data?.data.employeeTask?.employeeList}
-              assignByManager={data?.data.employeeTask?.assignByManager}
-            />
+            <EmployeeList employeeTaskList={data?.data.employeeTask} />
           </Card.Content>
         </Card>
       </View>

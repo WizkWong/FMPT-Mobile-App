@@ -22,11 +22,11 @@ export interface TaskPage {
 }
 
 export interface EmployeeTask {
-  assignByManager: User;
-  employeeList: User[];
+  assignByManager?: User;
+  employee: User;
 }
 
 export interface TaskDetails {
   task: Task;
-  employeeTask: EmployeeTask;
+  employeeTask: EmployeeTask[];
 }

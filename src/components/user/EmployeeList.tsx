@@ -1,35 +1,47 @@
-import { View, Text } from "react-native";
-import { User } from "../../types/user";
+import { View, Text, Pressable } from "react-native";
 import { Avatar, Card, Icon } from "react-native-paper";
+import { EmployeeTask } from "../../types/task";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 const EmployeeList = ({
-  employeeList = [],
-  assignByManager,
+  employeeTaskList = [],
+  allowRemove = false,
+  removeFn = () => {},
 }: {
-  employeeList: User[];
-  assignByManager: User;
+  employeeTaskList: EmployeeTask[];
+  allowRemove?: boolean;
+  removeFn?: (employeeTask : EmployeeTask) => void;
 }) => {
   return (
-    <View>
-      {employeeList.length !== 0 ? (
-        employeeList.map((employee, index) => (
-          <Card key={index} className="mx-4 my-2 pr-3">
+    <View className="space-y-3">
+      {employeeTaskList.length !== 0 ? (
+        employeeTaskList.map((employeeTask, index) => (
+          <Card key={index}>
             <Card.Title
               className="py-2"
-              title={employee.username}
+              title={employeeTask.employee.username}
               subtitle={
                 <>
-                  <Text>Department: ${employee.department ?? "-"}{"\n"}</Text>
-                  {assignByManager && <Text>Assign By Manager: ${assignByManager.username ?? "-"}</Text>}
+                  <Text className="text-xs">
+                    Department: {employeeTask.employee.department ?? "-"}
+                    {"\n"}
+                  </Text>
+                  {employeeTask.assignByManager && (
+                    <Text className="text-xs leading-5">
+                      Assign By Manager: {employeeTask.assignByManager.username ?? "-"}
+                    </Text>
+                  )}
                 </>
               }
-              subtitleNumberOfLines={2}
+              subtitleNumberOfLines={3}
               left={(props) =>
-                employee.image ? (
+                employeeTask.employee.image ? (
                   <Avatar.Image
                     {...props}
                     size={45}
-                    source={{ uri: `data:image/jpg;base64,${employee.image}` }}
+                    source={{
+                      uri: `data:image/jpg;base64,${employeeTask.employee.image}`,
+                    }}
                   />
                 ) : (
                   <Avatar.Icon
@@ -41,13 +53,19 @@ const EmployeeList = ({
                   />
                 )
               }
-              right={(props) => <Icon {...props} source="chevron-right" />}
+              right={() =>
+                allowRemove && (
+                  <Pressable onPress={() => removeFn(employeeTask)} className="pr-3">
+                    <MaterialIcons name="delete" size={24} color="red" />
+                  </Pressable>
+                )
+              }
             />
           </Card>
         ))
       ) : (
         <View>
-          <Text className="text-base">No Employees has assigned</Text>
+          <Text className="mx-1 text-base">No Employees has assigned</Text>
         </View>
       )}
     </View>
