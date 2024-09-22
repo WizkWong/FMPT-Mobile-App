@@ -6,10 +6,7 @@ export interface UserAuthentication {
 }
 
 export interface AuthenticationUserDetails {
-  userId: number;
-  username: string;
-  department: string;
-  role: UserRole;
+  user: User;
   token: string;
 }
 

@@ -37,10 +37,10 @@ const LoginPage = () => {
         ...data,
       });
       await setSecureItem("remember-me", rememberMe.toString());
-      if (data.role === UserRole.ADMIN) {
+      if (data.user.role === UserRole.ADMIN) {
         router.push("/admin");
       }
-      if (data.role === UserRole.MANAGER) {
+      if (data.user.role === UserRole.MANAGER) {
         router.push("/manager");
       }
     },

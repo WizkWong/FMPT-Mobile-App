@@ -53,6 +53,15 @@ const ManagerLayout = () => {
           headerShown: false,
         }}
       />
+      <Tabs.Screen
+        name="setting"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="settings" size={28} color={color} />
+          ),
+          headerShown: false,
+        }}
+      />
     </Tabs>
   );
 };
