@@ -6,15 +6,13 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { ActivityIndicator } from "react-native-paper";
 import CustomError from "../../../components/CustomError";
 import useSearchBar from "../../../hooks/useSearchBar";
-import { getTaskByFilter } from "../../../services/TaskService";
-import useUserDetails from "../../../hooks/useUserDetails";
+import { getEmployeeTaskByFilter } from "../../../services/TaskService";
 import TaskRenderItem from "../../../components/task/TaskRenderItem";
 
 const TaskListPage = () => {
   const navigation = useNavigation();
   const queryKey = ["fetchTaskList"];
   const utilityQuery = useUtilityQuery();
-  const [userDetails] = useUserDetails();
 
   const refresh = () => {
     utilityQuery.resetInfiniteQueryPagination(queryKey);
@@ -41,7 +39,7 @@ const TaskListPage = () => {
     isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: queryKey,
-    queryFn: ({ pageParam }) => getTaskByFilter(pageParam, searchText, userDetails?.user.department ?? ""),
+    queryFn: ({ pageParam }) => getEmployeeTaskByFilter(pageParam, searchText),
     initialPageParam: 0,
     staleTime: Infinity,
     getNextPageParam: (lastPage, pages, lastPageParam) =>
@@ -53,12 +51,19 @@ const TaskListPage = () => {
       fetchNextPage();
     }
   };
-  
+
   return (
     <View className="flex flex-col justify-center my-1">
       <FlatList
         data={data?.pages.flatMap((d) => d.data.taskList)}
-        renderItem={({item}) => <TaskRenderItem task={item} componentOnPress={(task) => router.push(`/manager/task/${task.id}`)} />}
+        renderItem={({ item }) => (
+          <TaskRenderItem
+            task={item}
+            componentOnPress={(task) =>
+              router.push(`/employee/task/${task.id}`)
+            }
+          />
+        )}
         ListEmptyComponent={() => (
           <CustomError errorMsg={error?.message ?? "No results of Orders"} />
         )}

@@ -28,6 +28,7 @@ const RootLayout = () => {
         >
           <Stack.Screen name="admin" />
           <Stack.Screen name="manager" />
+          <Stack.Screen name="employee" />
         </Stack>
       </PaperProvider>
     </QueryClientProvider>

@@ -43,6 +43,9 @@ const LoginPage = () => {
       if (data.user.role === UserRole.MANAGER) {
         router.push("/manager");
       }
+      if (data.user.role === UserRole.EMPLOYEE) {
+        router.push("/employee");
+      }
     },
   });
 

@@ -29,6 +29,10 @@ const App = () => {
               router.replace('/manager');
               return;
             }
+            if (userDetails.user.role === UserRole.EMPLOYEE) {
+              router.replace('/employee');
+              return;
+            }
             router.replace('/login');
           },
           () => router.replace('/login')
