@@ -1,12 +1,11 @@
 import { router, useLocalSearchParams, useNavigation } from "expo-router";
-import { View, Text, Alert, ScrollView, Pressable, Modal } from "react-native";
+import { View, Text, Alert, ScrollView, Pressable } from "react-native";
 import { useEffect, useState } from "react";
 import useAsyncStorageGet from "../../../hooks/useAsyncStorageGet";
 import { EmployeeTask } from "../../../types/task";
 import EmployeeList from "../../../components/user/EmployeeList";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
 import UserListModal from "../../../components/user/UserListModal";
-import useUserDetails from "../../../hooks/useUserDetails";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { createEmployeeTask } from "../../../services/TaskService";
@@ -25,7 +24,6 @@ const AssignEmployeePage = () => {
     EmployeeTask[]
   >([]);
   const [isEmployeeModalVisible, setEmployeeModalVisible] = useState(false);
-  const [userDetails] = useUserDetails();
 
   useEffect(() => {
     navigation.setOptions({

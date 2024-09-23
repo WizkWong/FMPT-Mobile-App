@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { View, FlatList, Image, Text } from "react-native";
 import useUtilityQuery from "../../../hooks/useUtilityQuery";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { ActivityIndicator, Avatar, Card, Icon, Searchbar } from "react-native-paper";
+import { ActivityIndicator, Avatar, Card, Icon } from "react-native-paper";
 import CustomError from "../../../components/CustomError";
 import useSearchBar from "../../../hooks/useSearchBar";
 import { getTaskByFilter } from "../../../services/TaskService";

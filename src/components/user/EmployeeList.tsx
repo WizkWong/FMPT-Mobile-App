@@ -1,5 +1,5 @@
 import { View, Text, Pressable } from "react-native";
-import { Avatar, Card, Icon } from "react-native-paper";
+import { Avatar, Card } from "react-native-paper";
 import { EmployeeTask } from "../../types/task";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
