@@ -1,23 +1,45 @@
 import { router, Stack, useLocalSearchParams } from "expo-router";
 import { ScrollView, Pressable } from "react-native";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import Loading from "../../../components/Loading";
 import CustomError from "../../../components/CustomError";
-import { getTaskById } from "../../../services/TaskService";
+import { getTaskById, patchTask } from "../../../services/TaskService";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import TaskDetailsView from "../../../components/task/TaskDetailsView";
+import { Button } from "react-native-paper";
+import { useState } from "react";
+import SuccessDialog from "../../../components/dialog/SuccessDialog";
+import ErrorDialog from "../../../components/dialog/ErrorDialog";
+import { AxiosError } from "axios";
+import { Status } from "../../../types/enum";
+import { Task } from "../../../types/task";
 
 const TaskDetailPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const [isSuccessDialogVisible, setSuccessDialogVisible] = useState(false);
+  const [isErrorDialogVisible, setErrorDialogVisible] = useState(false);
 
-  const { data, isLoading, isError, error, isSuccess } = {
-    ...useQuery({
-      queryKey: ["fetchTask", id],
-      queryFn: () => getTaskById(+id),
-      refetchOnWindowFocus: "always",
-    }),
-  };
+  const { data, isLoading, isError, error, isSuccess, refetch } = useQuery({
+    queryKey: ["fetchTask", id],
+    queryFn: () => getTaskById(+id),
+    refetchOnWindowFocus: "always",
+  });
+
+  const {
+    isPending,
+    mutate,
+    error: mutateError,
+  } = useMutation<any, AxiosError<{ message: string }>, Task>({
+    mutationFn: (task) => patchTask(+id, task),
+    onSuccess: () => {
+      setSuccessDialogVisible(true);
+      refetch();
+    },
+    onError: () => {
+      setErrorDialogVisible(true);
+    },
+  });
 
   if (isLoading) {
     return <Loading />;
@@ -35,6 +57,14 @@ const TaskDetailPage = () => {
     );
   }
 
+  const handleClick = () => {
+    if (data?.data.task.status === Status.NOT_STARTED) {
+      mutate({ status: Status.IN_PROGRESS });
+      return;
+    }
+    mutate({ status: Status.COMPLETED });
+  };
+
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <Stack.Screen
@@ -51,6 +81,36 @@ const TaskDetailPage = () => {
         }}
       />
       <TaskDetailsView taskDetails={data?.data} />
+      {data?.data.employeeTask.length !== 0 &&
+        (data?.data.task.status === Status.NOT_STARTED ||
+          data?.data.task.status === Status.IN_PROGRESS) && (
+          <Button
+            mode="contained-tonal"
+            className="mx-4 my-3 bg-amber-550 rounded font-bold"
+            textColor="white"
+            labelStyle={{ fontWeight: "bold" }}
+            onPress={handleClick}
+            loading={isPending}
+            disabled={isPending}
+          >
+            {data?.data.task.status === Status.NOT_STARTED
+              ? "Start Task"
+              : "Complete Task"}
+          </Button>
+        )}
+      <SuccessDialog
+        title="Success"
+        visible={isSuccessDialogVisible}
+        onDismiss={() => setSuccessDialogVisible(false)}
+      >
+        Successfully update the task.
+      </SuccessDialog>
+      <ErrorDialog
+        visible={isErrorDialogVisible}
+        onDismiss={() => setErrorDialogVisible(false)}
+      >
+        {mutateError?.response?.data.message ?? mutateError?.message ?? ""}
+      </ErrorDialog>
     </ScrollView>
   );
 };
