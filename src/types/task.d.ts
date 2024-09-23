@@ -3,17 +3,17 @@ import { Status } from "./enum";
 import { User } from "./user";
 
 export interface Task {
-  id: number;
-  orderId: number;
-  product: Product;
-  part: Part;
-  partProcedure: PartProcedure;
-  targetQuantity: number;
-  status: Status;
-  department: string;
-  startDateTime: string;
-  completeDateTime: string;
-  createdDateTime: string;
+  id?: number;
+  orderId?: number;
+  product?: Product;
+  part?: Part;
+  partProcedure?: PartProcedure;
+  targetQuantity?: number;
+  status?: Status;
+  department?: string;
+  startDateTime?: string;
+  completeDateTime?: string;
+  createdDateTime?: string;
 }
 
 export interface TaskPage {

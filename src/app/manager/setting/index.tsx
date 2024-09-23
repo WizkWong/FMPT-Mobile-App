@@ -24,7 +24,9 @@ const ProfilePage = () => {
   });
 
   useEffect(() => {
-    mutate();
+    if (userDetails) {
+      mutate();
+    }
   }, [userDetails])
 
   const logOut = async () => {

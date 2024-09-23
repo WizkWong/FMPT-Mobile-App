@@ -107,7 +107,7 @@ const OrderDetailsPage = () => {
           <View className="border-b-1">
             <Text className="text-base font-medium">Status:</Text>
             <Text className="text-base font-medium">
-              {Status[order.status] ?? "-"}
+              {Status.toString(order.status) ?? "-"}
             </Text>
           </View>
           <View className="border-b-1">

@@ -65,7 +65,7 @@ const TaskListPage = () => {
           />
         )}
         ListEmptyComponent={() => (
-          <CustomError errorMsg={error?.message ?? "No results of Orders"} />
+          <CustomError errorMsg={error?.message ?? "No results of Tasks"} />
         )}
         keyExtractor={(item) => item.id.toString()}
         onRefresh={refresh}

@@ -79,7 +79,7 @@ const OrderList = () => {
             <>
               <Text>Product: {item.product.name}{"\n"}</Text>
               <Text>Quantity: {item.quantity}{"\n"}</Text>
-              <Text>Status: {Status[item.status]}{"\n"}</Text>
+              <Text>Status: {Status.toString(item.status)}{"\n"}</Text>
               <Text>Deadline: {convertToDateString(item.deadlineDateTime)}{"\n"}</Text>
             </>
           }

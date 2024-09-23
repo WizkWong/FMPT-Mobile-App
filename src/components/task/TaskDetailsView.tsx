@@ -23,7 +23,7 @@ const TaskDetailsView = ({ taskDetails }: { taskDetails: TaskDetails }) => {
               Assign Department: {taskDetails.task?.department ?? "-"}
             </Text>
             <Text className="text-sm">
-              Status: {Status[taskDetails.task?.status] ?? "-"}
+              Status: {Status.toString(taskDetails.task?.status) ?? "-"}
             </Text>
             <Text className="text-sm">
               Start Date Time: {taskDetails.task?.startDateTime ?? "-"}

@@ -61,7 +61,7 @@ const TaskListPage = () => {
         data={data?.pages.flatMap((d) => d.data.taskList)}
         renderItem={({item}) => <TaskRenderItem task={item} componentOnPress={(task) => router.push(`/manager/task/${task.id}`)} />}
         ListEmptyComponent={() => (
-          <CustomError errorMsg={error?.message ?? "No results of Orders"} />
+          <CustomError errorMsg={error?.message ?? "No results of Tasks"} />
         )}
         keyExtractor={(item) => item.id.toString()}
         onRefresh={refresh}

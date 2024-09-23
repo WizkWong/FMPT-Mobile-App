@@ -5,8 +5,22 @@ export enum UserRole {
 }
 
 export enum Status {
-  NOT_STARTED = "Not Started",
-  IN_PROGRESS = "In Progress",
-  COMPLETED = "Completed",
-  CANCELLED = "Cancelled"
+  NOT_STARTED = "NOT_STARTED",
+  IN_PROGRESS = "IN_PROGRESS",
+  COMPLETED = "COMPLETED",
+  CANCELLED = "CANCELLED",
+}
+
+export namespace Status {
+  export function toString(status: Status): String {
+    return status === Status.NOT_STARTED
+      ? "Not Started"
+      : status === Status.IN_PROGRESS
+      ? "In Progress"
+      : status === Status.COMPLETED
+      ? "Completed"
+      : status === Status.CANCELLED
+      ? "Cancelled"
+      : "";
+  }
 }

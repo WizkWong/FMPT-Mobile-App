@@ -25,7 +25,7 @@ const TaskRenderItem = ({ task, componentOnPress }: { task: Task, componentOnPre
             <Text>Order ID: {task.orderId}{"\n"}</Text>
             <Text>Product: {task.product.name}{"\n"}</Text>
             <Text>Department: {task.department}{"\n"}</Text>
-            <Text>Status: {Status[task.status]}</Text>
+            <Text>Status: {Status.toString(task.status)}</Text>
           </>
         }
         subtitleNumberOfLines={6}
