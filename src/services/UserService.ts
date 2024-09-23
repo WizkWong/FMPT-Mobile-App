@@ -15,7 +15,7 @@ export const authenticateUser = (userAuth: UserAuthentication): Promise<AxiosRes
 export const validateToken = async (userDetails: AuthenticationUserDetails): Promise<boolean> => {
   try {
     const { status } = await api.post(`/auth/validate-token`, {
-      username: userDetails.user.username,
+      username: userDetails.username,
       token: userDetails.token,
     });
     return status === 200;
@@ -23,6 +23,20 @@ export const validateToken = async (userDetails: AuthenticationUserDetails): Pro
     console.log(error);
   }
   return false;
+};
+
+export const getLatestProfile = async (userDetails: AuthenticationUserDetails): Promise<AxiosResponse<AuthenticationUserDetails, any>> => {
+  return await api.post(`/auth/profile`, {
+    username: userDetails.username,
+    token: userDetails.token,
+  });
+};
+
+export const getProfileImage = async (userDetails: AuthenticationUserDetails): Promise<AxiosResponse<string, any>> => {
+  return await api.post(`/auth/profile-image`, {
+    username: userDetails.username,
+    token: userDetails.token,
+  });
 };
 
 export const getUserByFilter = async (page: number, search: string, department: string = "", role: UserRole = undefined): Promise<AxiosResponse<UserPage, any>> => {

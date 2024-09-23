@@ -14,7 +14,7 @@ const TaskListPage = () => {
   const navigation = useNavigation();
   const queryKey = ["fetchTaskList"];
   const utilityQuery = useUtilityQuery();
-  const [userDetails] = useUserDetails();
+  const [userDetails, refreshUserDetails] = useUserDetails();
 
   const refresh = () => {
     utilityQuery.resetInfiniteQueryPagination(queryKey);
@@ -30,6 +30,7 @@ const TaskListPage = () => {
         onChangeText: (e) => setSearchText(e.nativeEvent.text),
       },
     });
+    refreshUserDetails();
   }, []);
 
   const {
@@ -41,7 +42,7 @@ const TaskListPage = () => {
     isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: queryKey,
-    queryFn: ({ pageParam }) => getTaskByFilter(pageParam, searchText, userDetails?.user.department ?? ""),
+    queryFn: ({ pageParam }) => getTaskByFilter(pageParam, searchText, userDetails?.department ?? ""),
     initialPageParam: 0,
     staleTime: Infinity,
     getNextPageParam: (lastPage, pages, lastPageParam) =>

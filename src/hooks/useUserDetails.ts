@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { AuthenticationUserDetails } from "../types/user";
-import { getSecureAuth } from "../utils/SecureStore";
+import { getSecureAuth, saveSecureAuth } from "../utils/SecureStore";
+import { getLatestProfile } from "../services/UserService";
+import { useMutation } from "@tanstack/react-query";
 
 const useUserDetails = () => {
   const [userDetails, setUserDetails] = useState<AuthenticationUserDetails>();
@@ -17,7 +19,19 @@ const useUserDetails = () => {
     getUserDetails();
   }, [])
 
-  return [userDetails] as const;
+  const { mutate } = useMutation({
+    mutationFn: () => getLatestProfile(userDetails),
+    onSuccess: async ({ data }) => {
+      await saveSecureAuth({
+        ...data,
+      });
+      setUserDetails({...data});
+    },
+  });
+
+  const refreshUserDetails = () => mutate();
+
+  return [userDetails, refreshUserDetails] as const;
 }
 
 export default useUserDetails

@@ -21,15 +21,15 @@ const App = () => {
               router.replace('/login');
               return;
             }
-            if (userDetails.user.role === UserRole.ADMIN) {
+            if (userDetails.role === UserRole.ADMIN) {
               router.replace('/admin');
               return;
             }
-            if (userDetails.user.role === UserRole.MANAGER) {
+            if (userDetails.role === UserRole.MANAGER) {
               router.replace('/manager');
               return;
             }
-            if (userDetails.user.role === UserRole.EMPLOYEE) {
+            if (userDetails.role === UserRole.EMPLOYEE) {
               router.replace('/employee');
               return;
             }
