@@ -5,11 +5,11 @@ import useAsyncStorageGet from "../../../hooks/useAsyncStorageGet";
 import { EmployeeTask } from "../../../types/task";
 import EmployeeList from "../../../components/user/EmployeeList";
 import SimpleLineIcons from "@expo/vector-icons/SimpleLineIcons";
-import UserListModal from "../../../components/user/UserListModal";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { createEmployeeTask } from "../../../services/TaskService";
 import { Button } from "react-native-paper";
+import EmployeeScoreListModal from "../../../components/user/EmployeeScoreListModal";
 import { UserRole } from "../../../types/enum";
 
 const AssignEmployeePage = () => {
@@ -94,23 +94,22 @@ const AssignEmployeePage = () => {
           </Button>
         )}
       </View>
-      <UserListModal
+      <EmployeeScoreListModal
         visible={isEmployeeModalVisible}
         onModalClose={() => setEmployeeModalVisible(false)}
-        componentOnPress={(user) => {
+        componentOnPress={(employee) => {
           setUpdateEmployeeTaskList((prev) => {
             const foundIndex = prev.findIndex(
-              (employeeTask) => employeeTask.employee.id === user.id
+              (employeeTask) => employeeTask.employee.id === employee.id
             );
             if (foundIndex >= 0) {
               return prev;
             }
-            return [...prev, { employee: user}];
+            return [...prev, { employee: {...employee, role: UserRole.EMPLOYEE }}];
           });
           setEmployeeModalVisible(false);
         }}
         filterByDepartment={department}
-        filterByRole={UserRole.EMPLOYEE}
       />
     </ScrollView>
   );

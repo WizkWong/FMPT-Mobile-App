@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { UserAuthentication, AuthenticationUserDetails, User, Department, UserPage } from "../types/user";
+import { UserAuthentication, AuthenticationUserDetails, User, Department, UserPage, EmployeePage } from "../types/user";
 import { setAuthorizationHeader } from "../utils/header";
 import { UserRole } from "../types/enum";
 
@@ -41,6 +41,10 @@ export const getProfileImage = async (userDetails: AuthenticationUserDetails): P
 
 export const getUserByFilter = async (page: number, search: string, department: string = "", role: UserRole = undefined): Promise<AxiosResponse<UserPage, any>> => {
   return api.get(`/users?page=${page}&search=${search}&department=${department}&role=${role}`, await setAuthorizationHeader());
+}
+
+export const getEmployeeByFilter = async (page: number, search: string, department: string = ""): Promise<AxiosResponse<EmployeePage, any>> => {
+  return api.get(`/users/employees?page=${page}&search=${search}&department=${department}`, await setAuthorizationHeader());
 }
 
 export const getUserById = async (id: number): Promise<AxiosResponse<User, any>> => {

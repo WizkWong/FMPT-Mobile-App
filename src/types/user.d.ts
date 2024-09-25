@@ -33,3 +33,17 @@ export interface Department {
   name: string;
   totalEmployee?: number;
 }
+
+export interface Employee {
+  id: number;
+  username: string;
+  image: string;
+  role: UserRole;
+  department: string;
+  score: number;
+}
+
+export interface EmployeePage {
+  employeeList: Employee[];
+  hasNext: boolean;
+}

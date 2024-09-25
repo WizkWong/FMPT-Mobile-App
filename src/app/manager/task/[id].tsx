@@ -1,6 +1,6 @@
 import { router, Stack, useLocalSearchParams } from "expo-router";
 import { ScrollView, Pressable } from "react-native";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Loading from "../../../components/Loading";
 import CustomError from "../../../components/CustomError";
 import { getTaskById, patchTask } from "../../../services/TaskService";
@@ -17,6 +17,7 @@ import { Task } from "../../../types/task";
 
 const TaskDetailPage = () => {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const queryClient = useQueryClient();
   const [isSuccessDialogVisible, setSuccessDialogVisible] = useState(false);
   const [isErrorDialogVisible, setErrorDialogVisible] = useState(false);
 
@@ -35,6 +36,8 @@ const TaskDetailPage = () => {
     onSuccess: () => {
       setSuccessDialogVisible(true);
       refetch();
+      queryClient.invalidateQueries({ queryKey: ["fetchOrderList"] });
+      queryClient.invalidateQueries({ queryKey: ["fetchTaskList"] });
     },
     onError: () => {
       setErrorDialogVisible(true);
