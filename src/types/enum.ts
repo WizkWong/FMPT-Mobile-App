@@ -5,6 +5,7 @@ export enum UserRole {
 }
 
 export enum Status {
+  PENDING = "PENDING",
   NOT_STARTED = "NOT_STARTED",
   IN_PROGRESS = "IN_PROGRESS",
   COMPLETED = "COMPLETED",
@@ -13,7 +14,9 @@ export enum Status {
 
 export namespace Status {
   export function toString(status: Status): string {
-    return status === Status.NOT_STARTED
+    return status === Status.PENDING
+      ? "Pending"
+      : status === Status.NOT_STARTED
       ? "Not Started"
       : status === Status.IN_PROGRESS
       ? "In Progress"

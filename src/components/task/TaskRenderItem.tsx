@@ -13,29 +13,54 @@ const TaskRenderItem = ({ task, componentOnPress }: { task: Task, componentOnPre
       : `${task.part.nettWidth}${config.unitOfMeasurement} x ${task.part.nettHeight}${config.unitOfMeasurement} x ${task.part.nettLength}${config.unitOfMeasurement}`;
 
   return (
-    <Card
-      className="mx-4 my-2"
-      onPress={() => componentOnPress(task)}
-    >
+    <Card className="mx-4 my-2" onPress={() => componentOnPress(task)}>
       <Card.Title
         className="py-2"
-        title={`Task ID: ${task.id}`}
+        title={<Text className="font-semibold">{task.part.name}</Text>}
+        titleStyle={{ fontSize: 15 }}
         subtitle={
           <>
-            <Text>Order ID: {task.orderId}{"\n"}</Text>
-            <Text>Product: {task.product.name}{"\n"}</Text>
-            <Text>Department: {task.department}{"\n"}</Text>
-            <Text>Status: {Status.toString(task.status)}</Text>
+            <Text className="text-gray-500 font-bold">Grade: </Text>
+            <Text>
+              {task.part.grade}
+              {"\n"}
+            </Text>
+            <Text className="text-gray-500 font-bold">Nett Size:{"\n"}</Text>
+            <Text>
+              {nettSize}
+              {"\n"}
+            </Text>
+            <Text className="text-gray-500 font-bold">Quantity: </Text>
+            <Text>
+              {task.targetQuantity}
+              {"\n"}
+            </Text>
+            <Text className="text-gray-500 font-bold">Status: </Text>
+            <Text
+              className={`font-semibold ${
+                task.status === Status.COMPLETED
+                  ? "text-green-600"
+                  : task.status === Status.IN_PROGRESS
+                  ? "text-blue-500"
+                  : task.status === Status.PENDING
+                  ? "text-yellow-600"
+                  : task.status === Status.CANCELLED
+                  ? "text-red-500"
+                  : "text-gray-700"
+              }`}
+            >
+              {Status.toString(task.status)}
+            </Text>
           </>
         }
         subtitleNumberOfLines={6}
-        subtitleStyle={{ fontSize: 14 }}
+        subtitleStyle={{ fontSize: 12, color: "#4b5563" }}
         left={(props) =>
-          task.product.image ? (
+          task.part.image ? (
             <Image
               className="h-11 w-11"
               source={{
-                uri: `data:image/jpg;base64,${task.product.image}`,
+                uri: `data:image/jpg;base64,${task.part.image}`,
               }}
             />
           ) : (
@@ -55,13 +80,13 @@ const TaskRenderItem = ({ task, componentOnPress }: { task: Task, componentOnPre
         )}
       />
       <Card.Content className="py-2 border-t-1 border-gray-200">
-        <Text className="text-base">{task.part.name}</Text>
+        <Text className="text-sm font-semibold pb-2">{task.product.name}</Text>
         <View className="flex flex-row space-x-2 items-center py-1">
-          {task.part.image ? (
+          {task.product.image ? (
             <Image
               className="h-11 w-11"
               source={{
-                uri: `data:image/jpg;base64,${task.part.image}`,
+                uri: `data:image/jpg;base64,${task.product.image}`,
               }}
             />
           ) : (
@@ -73,10 +98,28 @@ const TaskRenderItem = ({ task, componentOnPress }: { task: Task, componentOnPre
             />
           )}
           <View className="flex flex-col space-y-1">
-            <Text>Grade: {task.part.grade}</Text>
-            <Text>Nett Size:</Text>
-            <Text>{nettSize}</Text>
-            <Text>Quantity: {task.targetQuantity}</Text>
+            <Text>
+              <Text className="text-xs text-gray-500 font-bold">Task ID: </Text>
+              <Text className="text-xs font-normal text-gray-700">
+                {task.id}
+              </Text>
+            </Text>
+            <Text>
+              <Text className="text-xs text-gray-500 font-bold">
+                Order ID:{" "}
+              </Text>
+              <Text className="text-xs font-normal text-gray-700">
+                {task.orderId}
+              </Text>
+            </Text>
+            <Text>
+              <Text className="text-xs text-gray-500 font-bold">
+                Department:{" "}
+              </Text>
+              <Text className="text-xs font-normal text-gray-700">
+                {task.department}
+              </Text>
+            </Text>
           </View>
         </View>
       </Card.Content>
