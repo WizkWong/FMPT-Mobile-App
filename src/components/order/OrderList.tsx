@@ -45,23 +45,48 @@ const OrderList = ({
 
   const renderItem = ({ item }: { item: Order }) => {
     return (
-      <Card
-        className="mx-4 my-2 pr-3"
-        onPress={() => componentOnPress(item)}
-      >
+      <Card className="mx-4 my-2 pr-3" onPress={() => componentOnPress(item)}>
         <Card.Title
           className="py-2"
-          title={`Order ${item.id}`}
+          title={<Text className="font-semibold">Order {item.product.name}</Text>}
+          titleStyle={{ fontSize: 15 }}
           subtitle={
             <>
-              <Text>Product: {item.product.name}{"\n"}</Text>
-              <Text>Quantity: {item.quantity}{"\n"}</Text>
-              <Text>Status: {Status.toString(item.status)}{"\n"}</Text>
-              <Text>Deadline: {convertToDateString(item.deadlineDateTime)}{"\n"}</Text>
+              <Text className="text-gray-500 font-bold">Order ID: </Text>
+              <Text>
+                {item.id}
+                {"\n"}
+              </Text>
+              <Text className="text-gray-500 font-bold">Quantity: </Text>
+              <Text>
+                {item.quantity}
+                {"\n"}
+              </Text>
+              <Text className="text-gray-500 font-bold">Status: </Text>
+              <Text
+                className={`font-semibold ${
+                  item.status === Status.COMPLETED
+                    ? "text-green-600"
+                    : item.status === Status.IN_PROGRESS
+                    ? "text-blue-500"
+                    : item.status === Status.PENDING
+                    ? "text-yellow-600"
+                    : item.status === Status.CANCELLED
+                    ? "text-red-500"
+                    : "text-gray-700"
+                }`}
+              >
+                {Status.toString(item.status)}{"\n"}
+              </Text>
+              <Text className="text-gray-500 font-bold">Deadline: </Text>
+              <Text>
+                {convertToDateString(item.deadlineDateTime)}
+                {"\n"}
+              </Text>
             </>
           }
           subtitleNumberOfLines={4}
-          subtitleStyle={{ fontSize: 14 }}
+          subtitleStyle={{ fontSize: 12, color: "#4b5563" }}
           left={(props) =>
             item.product.image ? (
               <Image

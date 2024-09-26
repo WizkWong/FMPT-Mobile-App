@@ -3,6 +3,7 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Tabs } from "expo-router";
+import globalStyles from "../../constants/globalStyles";
 
 const ManagerLayout = () => {
   return (
@@ -18,11 +19,7 @@ const ManagerLayout = () => {
         },
         tabBarActiveTintColor: "blue",
         tabBarInactiveTintColor: "gray",
-        tabBarStyle: {
-          paddingVertical: 5,
-          backgroundColor: "white",
-          height: 60,
-        },
+        tabBarStyle: globalStyles.tabBar,
         tabBarLabelStyle: { paddingBottom: 5 },
       }}
     >

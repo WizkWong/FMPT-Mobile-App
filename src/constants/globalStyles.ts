@@ -24,6 +24,11 @@ const globalStyles = StyleSheet.create({
   redText: {
     color: "red",
   },
+  tabBar: {
+    paddingVertical: 5,
+    backgroundColor: "white",
+    height: 60,
+  },
 });
 
 export default globalStyles;
