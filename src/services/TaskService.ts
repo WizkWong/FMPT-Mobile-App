@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { setAuthorizationHeader } from "../utils/header";
-import { EmployeeTask, Task, TaskDetail, TaskPage } from "../types/task";
+import { EmployeeTask, Task, TaskDetail, TaskPage, TaskSchedule } from "../types/task";
 
 const api = axios.create({
   baseURL: process.env.EXPO_PUBLIC_API_URL,
@@ -13,6 +13,10 @@ export const getTaskByFilter = async (page: number, search: string, department: 
 
 export const getTaskById = async (id: number): Promise<AxiosResponse<TaskDetail, any>> => {
   return api.get(`/tasks/${id}`, await setAuthorizationHeader());
+}
+
+export const getTaskScheduleByOrderId = async (orderId: number): Promise<AxiosResponse<TaskSchedule[], any>> => {
+  return api.get(`/tasks/schedule?order-id=${orderId}`, await setAuthorizationHeader());
 }
 
 export const getEmployeeTaskByFilter = async (page: number, search: string): Promise<AxiosResponse<TaskPage, any>> => {

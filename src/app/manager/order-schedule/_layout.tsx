@@ -15,6 +15,7 @@ const OrderScheduleLayout = () => {
       }}
     >
       <Stack.Screen name="index" options={{ headerTitle: "Order List" }} />
+      <Stack.Screen name="[id]" options={{ headerTitle: "Order Schedule" }} />
     </Stack>
   );
 };

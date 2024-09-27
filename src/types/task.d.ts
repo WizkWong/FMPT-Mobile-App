@@ -21,6 +21,17 @@ export interface TaskPage {
   hasNext: boolean;
 }
 
+export interface TaskSchedule {
+  id: number;
+  partId: number;
+  partName: string;
+  stepNo: number;
+  status: Status;
+  department: string;
+  startDateTime: string;
+  completeDateTime: string;
+}
+
 export interface EmployeeTask {
   assignByManager?: User;
   employee: User;

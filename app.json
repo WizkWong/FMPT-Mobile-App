@@ -40,6 +40,12 @@
         {
           "photosPermission": "The app need to access your photos to upload the image."
         }
+      ],
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "DEFAULT"
+        }
       ]
     ]
   }
