@@ -4,9 +4,9 @@ import { Card } from "react-native-paper";
 import config from "../../constants/config";
 import { Status } from "../../types/enum";
 import EmployeeList from "../user/EmployeeList";
-import { TaskDetails } from "../../types/task";
+import { TaskDetail } from "../../types/task";
 
-const TaskDetailsView = ({ taskDetails }: { taskDetails: TaskDetails }) => {
+const TaskDetailsView = ({ taskDetails }: { taskDetails: TaskDetail }) => {
   return (
     <View className="mx-4 my-2 space-y-3">
       <Card>

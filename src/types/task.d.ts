@@ -26,7 +26,7 @@ export interface EmployeeTask {
   employee: User;
 }
 
-export interface TaskDetails {
+export interface TaskDetail {
   task: Task;
   employeeTask: EmployeeTask[];
 }
