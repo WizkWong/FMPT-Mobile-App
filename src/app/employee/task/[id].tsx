@@ -4,7 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import Loading from "../../../components/Loading";
 import CustomError from "../../../components/CustomError";
 import { getTaskById, patchTask } from "../../../services/TaskService";
-import TaskDetailsView from "../../../components/task/TaskDetailsView";
+import TaskDetailView from "../../../components/task/TaskDetailView";
 import { Button } from "react-native-paper";
 import { useState } from "react";
 import SuccessDialog from "../../../components/dialog/SuccessDialog";
@@ -58,7 +58,7 @@ const TaskDetailPage = () => {
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <TaskDetailsView taskDetails={data?.data} />
+      <TaskDetailView taskDetail={data?.data} />
       {(data?.data.task.status === Status.NOT_STARTED ||
         data?.data.task.status === Status.IN_PROGRESS ) && (
         <Button

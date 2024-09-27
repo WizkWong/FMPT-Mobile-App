@@ -6,7 +6,7 @@ import CustomError from "../../../components/CustomError";
 import { getTaskById, patchTask } from "../../../services/TaskService";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import TaskDetailsView from "../../../components/task/TaskDetailsView";
+import TaskDetailView from "../../../components/task/TaskDetailView";
 import { Button } from "react-native-paper";
 import { useState } from "react";
 import SuccessDialog from "../../../components/dialog/SuccessDialog";
@@ -83,7 +83,7 @@ const TaskDetailPage = () => {
           },
         }}
       />
-      <TaskDetailsView taskDetails={data?.data} />
+      <TaskDetailView taskDetail={data?.data} />
       {data?.data.employeeTask.length !== 0 &&
         (data?.data.task.status === Status.NOT_STARTED ||
           data?.data.task.status === Status.IN_PROGRESS) && (
