@@ -1,14 +1,13 @@
 import { router, useFocusEffect, useNavigation } from "expo-router";
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { View, FlatList } from "react-native";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { ActivityIndicator } from "react-native-paper";
 import CustomError from "../../../../components/CustomError";
 import TaskRenderItem from "../../../../components/task/TaskRenderItem";
 import useSearchBar from "../../../../hooks/useSearchBar";
-import useUserDetails from "../../../../hooks/useUserDetails";
 import useUtilityQuery from "../../../../hooks/useUtilityQuery";
-import { getTaskByFilter } from "../../../../services/TaskService";
+import { getEmployeeTaskByFilter } from "../../../../services/TaskService";
 
 const HistoryTaskListTabPage = () => {
   const navigation = useNavigation();
@@ -16,17 +15,12 @@ const HistoryTaskListTabPage = () => {
   const typeTask = "history";
   const queryKey = ["fetchTaskList", typeTask];
   const utilityQuery = useUtilityQuery();
-  const [userDetails, refreshUserDetails] = useUserDetails();
 
   const refresh = () => {
     utilityQuery.resetInfiniteQueryPagination(queryKey);
   };
 
   const [searchText, setSearchText] = useSearchBar(refresh);
-
-  useEffect(() => {
-    refreshUserDetails();
-  }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -49,7 +43,7 @@ const HistoryTaskListTabPage = () => {
     isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: queryKey,
-    queryFn: ({ pageParam }) => getTaskByFilter(pageParam, searchText, typeTask, userDetails?.department ?? ""),
+    queryFn: ({ pageParam }) => getEmployeeTaskByFilter(pageParam, searchText, typeTask),
     initialPageParam: 0,
     staleTime: Infinity,
     getNextPageParam: (lastPage, pages, lastPageParam) =>
@@ -61,12 +55,19 @@ const HistoryTaskListTabPage = () => {
       fetchNextPage();
     }
   };
-  
+
   return (
     <View className="flex flex-col justify-center my-1">
       <FlatList
         data={data?.pages.flatMap((d) => d.data.taskList)}
-        renderItem={({item}) => <TaskRenderItem task={item} componentOnPress={(task) => router.push(`/manager/task/${task.id}`)} />}
+        renderItem={({ item }) => (
+          <TaskRenderItem
+            task={item}
+            componentOnPress={(task) =>
+              router.push(`/employee/task/${task.id}`)
+            }
+          />
+        )}
         ListEmptyComponent={() => (
           <CustomError errorMsg={error?.message ?? "No results of Tasks"} />
         )}

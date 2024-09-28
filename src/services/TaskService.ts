@@ -19,8 +19,8 @@ export const getTaskScheduleByOrderId = async (orderId: number): Promise<AxiosRe
   return api.get(`/tasks/schedule?order-id=${orderId}`, await setAuthorizationHeader());
 }
 
-export const getEmployeeTaskByFilter = async (page: number, search: string): Promise<AxiosResponse<TaskPage, any>> => {
-  return api.get(`/tasks/employees?page=${page}&search=${search}`, await setAuthorizationHeader());
+export const getEmployeeTaskByFilter = async (page: number, search: string, type: string): Promise<AxiosResponse<TaskPage, any>> => {
+  return api.get(`/tasks/employees?page=${page}&search=${search}&type=${type}`, await setAuthorizationHeader());
 }
 
 export const createEmployeeTask = async (id: number, employeeIdList: EmployeeTask[]): Promise<AxiosResponse<any, any>> => {

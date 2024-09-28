@@ -1,17 +1,19 @@
-import { router, useNavigation } from "expo-router";
-import { useEffect } from "react";
+import { router, useFocusEffect, useNavigation } from "expo-router";
+import { useCallback } from "react";
 import { View, FlatList } from "react-native";
-import useUtilityQuery from "../../../hooks/useUtilityQuery";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { ActivityIndicator } from "react-native-paper";
-import CustomError from "../../../components/CustomError";
-import useSearchBar from "../../../hooks/useSearchBar";
-import { getEmployeeTaskByFilter } from "../../../services/TaskService";
-import TaskRenderItem from "../../../components/task/TaskRenderItem";
+import CustomError from "../../../../components/CustomError";
+import TaskRenderItem from "../../../../components/task/TaskRenderItem";
+import useSearchBar from "../../../../hooks/useSearchBar";
+import useUtilityQuery from "../../../../hooks/useUtilityQuery";
+import { getEmployeeTaskByFilter } from "../../../../services/TaskService";
 
-const TaskListPage = () => {
+const ActiveTaskListTabPage = () => {
   const navigation = useNavigation();
-  const queryKey = ["fetchTaskList"];
+  const parent = navigation.getParent();
+  const typeTask = "active";
+  const queryKey = ["fetchTaskList", typeTask];
   const utilityQuery = useUtilityQuery();
 
   const refresh = () => {
@@ -20,15 +22,17 @@ const TaskListPage = () => {
 
   const [searchText, setSearchText] = useSearchBar(refresh);
 
-  useEffect(() => {
-    navigation.setOptions({
-      headerSearchBarOptions: {
-        placeHolder: "Search",
-        headerTransparent: false,
-        onChangeText: (e) => setSearchText(e.nativeEvent.text),
-      },
-    });
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      parent.setOptions({
+        headerSearchBarOptions: {
+          placeHolder: "Search",
+          headerTransparent: false,
+          onChangeText: (e) => setSearchText(e.nativeEvent.text),
+        },
+      });
+    }, [])
+  );
 
   const {
     data,
@@ -39,7 +43,7 @@ const TaskListPage = () => {
     isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: queryKey,
-    queryFn: ({ pageParam }) => getEmployeeTaskByFilter(pageParam, searchText),
+    queryFn: ({ pageParam }) => getEmployeeTaskByFilter(pageParam, searchText, typeTask),
     initialPageParam: 0,
     staleTime: Infinity,
     getNextPageParam: (lastPage, pages, lastPageParam) =>
@@ -80,4 +84,4 @@ const TaskListPage = () => {
   );
 };
 
-export default TaskListPage;
+export default ActiveTaskListTabPage;

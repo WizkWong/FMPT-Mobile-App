@@ -1,5 +1,5 @@
-import { router, useNavigation } from "expo-router";
-import { useEffect } from "react";
+import { router, useFocusEffect, useNavigation } from "expo-router";
+import { useCallback, useEffect } from "react";
 import { View, FlatList } from "react-native";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { ActivityIndicator } from "react-native-paper";
@@ -13,7 +13,8 @@ import { getTaskByFilter } from "../../../../services/TaskService";
 const ActiveTaskListTabPage = () => {
   const navigation = useNavigation();
   const parent = navigation.getParent();
-  const queryKey = ["fetchActiveTaskList"];
+  const typeTask = "active";
+  const queryKey = ["fetchTaskList", typeTask];
   const utilityQuery = useUtilityQuery();
   const [userDetails, refreshUserDetails] = useUserDetails();
 
@@ -24,15 +25,20 @@ const ActiveTaskListTabPage = () => {
   const [searchText, setSearchText] = useSearchBar(refresh);
 
   useEffect(() => {
-    parent.setOptions({
-      headerSearchBarOptions: {
-        placeHolder: "Search",
-        headerTransparent: false,
-        onChangeText: (e) => setSearchText(e.nativeEvent.text),
-      },
-    });
     refreshUserDetails();
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      parent.setOptions({
+        headerSearchBarOptions: {
+          placeHolder: "Search",
+          headerTransparent: false,
+          onChangeText: (e) => setSearchText(e.nativeEvent.text),
+        },
+      });
+    }, [])
+  );
 
   const {
     data,
@@ -43,7 +49,7 @@ const ActiveTaskListTabPage = () => {
     isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: queryKey,
-    queryFn: ({ pageParam }) => getTaskByFilter(pageParam, searchText, "active", userDetails?.department ?? ""),
+    queryFn: ({ pageParam }) => getTaskByFilter(pageParam, searchText, typeTask, userDetails?.department ?? ""),
     initialPageParam: 0,
     staleTime: Infinity,
     getNextPageParam: (lastPage, pages, lastPageParam) =>
