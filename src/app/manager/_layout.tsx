@@ -1,4 +1,3 @@
-import config from "../../constants/config";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -9,14 +8,7 @@ const ManagerLayout = () => {
   return (
     <Tabs
       screenOptions={{
-        headerStyle: {
-          backgroundColor: config.colorTheme.header,
-        },
-        headerTintColor: "#fff",
-        headerTitleStyle: {
-          fontWeight: "bold",
-          marginLeft: 10,
-        },
+        headerShown: false,
         tabBarActiveTintColor: "blue",
         tabBarInactiveTintColor: "gray",
         tabBarStyle: globalStyles.tabBar,
@@ -26,37 +18,37 @@ const ManagerLayout = () => {
       <Tabs.Screen
         name="task"
         options={{
+          tabBarLabel: "Task",
           tabBarIcon: ({ color }) => (
-            <FontAwesome5 name="tasks" size={28} color={color} />
+            <FontAwesome5 name="tasks" size={24} color={color} />
           ),
-          headerShown: false,
         }}
       />
       <Tabs.Screen
         name="order-schedule"
         options={{
+          tabBarLabel: "Order Schedule",
           tabBarIcon: ({ color }) => (
-            <MaterialIcons name="schedule" size={28} color={color} />
+            <MaterialIcons name="schedule" size={24} color={color} />
           ),
-          headerShown: false,
         }}
       />
       <Tabs.Screen
         name="analytic"
         options={{
+          tabBarLabel: "Analytic",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="analytics" size={28} color={color} />
+            <Ionicons name="analytics" size={24} color={color} />
           ),
-          headerShown: false,
         }}
       />
       <Tabs.Screen
         name="setting"
         options={{
+          tabBarLabel: "Setting",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="settings" size={28} color={color} />
+            <Ionicons name="settings" size={24} color={color} />
           ),
-          headerShown: false,
         }}
       />
     </Tabs>

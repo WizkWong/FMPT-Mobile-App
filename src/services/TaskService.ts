@@ -7,8 +7,8 @@ const api = axios.create({
   timeout: 10000,
 });
 
-export const getTaskByFilter = async (page: number, search: string, department: string): Promise<AxiosResponse<TaskPage, any>> => {
-  return api.get(`/tasks?page=${page}&search=${search}&department=${department}`, await setAuthorizationHeader());
+export const getTaskByFilter = async (page: number, search: string, type: string, department: string): Promise<AxiosResponse<TaskPage, any>> => {
+  return api.get(`/tasks?page=${page}&search=${search}&type=${type}&department=${department}`, await setAuthorizationHeader());
 }
 
 export const getTaskById = async (id: number): Promise<AxiosResponse<TaskDetail, any>> => {

@@ -1,18 +1,19 @@
 import { router, useNavigation } from "expo-router";
 import { useEffect } from "react";
 import { View, FlatList } from "react-native";
-import useUtilityQuery from "../../../hooks/useUtilityQuery";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { ActivityIndicator } from "react-native-paper";
-import CustomError from "../../../components/CustomError";
-import useSearchBar from "../../../hooks/useSearchBar";
-import { getTaskByFilter } from "../../../services/TaskService";
-import useUserDetails from "../../../hooks/useUserDetails";
-import TaskRenderItem from "../../../components/task/TaskRenderItem";
+import CustomError from "../../../../components/CustomError";
+import TaskRenderItem from "../../../../components/task/TaskRenderItem";
+import useSearchBar from "../../../../hooks/useSearchBar";
+import useUserDetails from "../../../../hooks/useUserDetails";
+import useUtilityQuery from "../../../../hooks/useUtilityQuery";
+import { getTaskByFilter } from "../../../../services/TaskService";
 
-const TaskListPage = () => {
+const HistoryTaskListTabPage = () => {
   const navigation = useNavigation();
-  const queryKey = ["fetchTaskList"];
+  const parent = navigation.getParent();
+  const queryKey = ["fetchHistoryTaskList"];
   const utilityQuery = useUtilityQuery();
   const [userDetails, refreshUserDetails] = useUserDetails();
 
@@ -23,7 +24,7 @@ const TaskListPage = () => {
   const [searchText, setSearchText] = useSearchBar(refresh);
 
   useEffect(() => {
-    navigation.setOptions({
+    parent.setOptions({
       headerSearchBarOptions: {
         placeHolder: "Search",
         headerTransparent: false,
@@ -42,7 +43,7 @@ const TaskListPage = () => {
     isFetchingNextPage,
   } = useInfiniteQuery({
     queryKey: queryKey,
-    queryFn: ({ pageParam }) => getTaskByFilter(pageParam, searchText, userDetails?.department ?? ""),
+    queryFn: ({ pageParam }) => getTaskByFilter(pageParam, searchText, "history", userDetails?.department ?? ""),
     initialPageParam: 0,
     staleTime: Infinity,
     getNextPageParam: (lastPage, pages, lastPageParam) =>
@@ -76,4 +77,4 @@ const TaskListPage = () => {
   );
 };
 
-export default TaskListPage;
+export default HistoryTaskListTabPage;
