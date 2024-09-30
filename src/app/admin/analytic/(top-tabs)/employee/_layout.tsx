@@ -1,8 +1,7 @@
-import React from "react";
 import { Stack } from "expo-router";
-import config from "../../constants/config";
+import config from "../../../../../constants/config";
 
-const AdminLayout = () => {
+const ReportLayout = () => {
   return (
     <Stack
       screenOptions={{
@@ -17,14 +16,9 @@ const AdminLayout = () => {
       }}
     >
       <Stack.Screen name="index" />
-      <Stack.Screen name="department" />
-      <Stack.Screen name="orders" />
-      <Stack.Screen name="parts" />
-      <Stack.Screen name="products" />
-      <Stack.Screen name="users" />
-      <Stack.Screen name="analytic" />
+      <Stack.Screen name="[id]" />
     </Stack>
   );
 };
 
-export default AdminLayout;
+export default ReportLayout;

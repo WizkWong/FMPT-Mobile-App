@@ -18,6 +18,7 @@ const OrderLayout = () => {
       <Stack.Screen name="list" options={{ headerTitle: "Order" }} />
       <Stack.Screen name="[id]" options={{ headerTitle: "Order Details" }} />
       <Stack.Screen name="create" options={{ headerTitle: "Create Order" }} />
+      <Stack.Screen name="schedule" options={{ headerTitle: "Order Schedule" }} />
     </Stack>
   );
 };

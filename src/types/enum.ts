@@ -24,6 +24,6 @@ export namespace Status {
       ? "Completed"
       : status === Status.CANCELLED
       ? "Cancelled"
-      : "";
+      : "-";
   }
 }

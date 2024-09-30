@@ -23,7 +23,22 @@ const TaskDetailView = ({ taskDetail }: { taskDetail: TaskDetail }) => {
               Assign Department: {taskDetail.task?.department ?? "-"}
             </Text>
             <Text className="text-sm">
-              Status: {Status.toString(taskDetail.task?.status) ?? "-"}
+              <Text>Status:{" "}</Text>
+              <Text
+                className={`font-semibold ${
+                  taskDetail.task?.status === Status.COMPLETED
+                    ? "text-green-600"
+                    : taskDetail.task?.status === Status.IN_PROGRESS
+                    ? "text-blue-500"
+                    : taskDetail.task?.status === Status.PENDING
+                    ? "text-yellow-600"
+                    : taskDetail.task?.status === Status.CANCELLED
+                    ? "text-red-500"
+                    : "text-gray-700"
+                }`}
+              >
+                {Status.toString(taskDetail.task?.status)}
+              </Text>
             </Text>
             <Text className="text-sm">
               Start Date Time: {taskDetail.task?.startDateTime ?? "-"}
