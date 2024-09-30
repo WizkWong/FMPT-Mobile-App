@@ -109,25 +109,24 @@ const EmployeeScoreListModal = ({
           onChangeSearchText={(text) => setSearchText(text)}
         />
         <View className="mb-10">
-          <View className="flex flex-col justify-center my-1">
-            <FlatList
-              data={data?.pages.flatMap((d) => d.data.employeeList)}
-              renderItem={renderItem}
-              ListEmptyComponent={() => (
-                <CustomError
-                  errorMsg={error?.message ?? "No results of Employees"}
-                />
-              )}
-              keyExtractor={(item) => item.id.toString()}
-              onRefresh={refresh}
-              refreshing={isFetching}
-              onEndReached={fetchMore}
-              onEndReachedThreshold={0}
-              ListFooterComponent={
-                <ActivityIndicator animating={isFetchingNextPage} />
-              }
-            />
-          </View>
+          <FlatList
+            className="py-1"
+            data={data?.pages.flatMap((d) => d.data.employeeList)}
+            renderItem={renderItem}
+            ListEmptyComponent={() => (
+              <CustomError
+                errorMsg={error?.message ?? "No results of Employees"}
+              />
+            )}
+            keyExtractor={(item) => item.id.toString()}
+            onRefresh={refresh}
+            refreshing={isFetching}
+            onEndReached={fetchMore}
+            onEndReachedThreshold={0}
+            ListFooterComponent={
+              <ActivityIndicator animating={isFetchingNextPage} />
+            }
+          />
         </View>
       </View>
     </Modal>

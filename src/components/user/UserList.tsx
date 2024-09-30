@@ -84,23 +84,21 @@ const UserList = ({
   };
 
   return (
-    <View className="flex flex-col justify-center my-1">
-      <FlatList
-        data={data?.pages.flatMap((d) => d.data.userList)}
-        renderItem={renderItem}
-        ListEmptyComponent={() => (
-          <CustomError errorMsg={error?.message ?? "No results of Users"} />
-        )}
-        keyExtractor={(item) => item.id.toString()}
-        onRefresh={refresh}
-        refreshing={isFetching}
-        onEndReached={fetchMore}
-        onEndReachedThreshold={0}
-        ListFooterComponent={
-          <ActivityIndicator animating={isFetchingNextPage} />
-        }
-      />
-    </View>
+    <FlatList
+      data={data?.pages.flatMap((d) => d.data.userList)}
+      renderItem={renderItem}
+      ListEmptyComponent={() => (
+        <CustomError errorMsg={error?.message ?? "No results of Users"} />
+      )}
+      keyExtractor={(item) => item.id.toString()}
+      onRefresh={refresh}
+      refreshing={isFetching}
+      onEndReached={fetchMore}
+      onEndReachedThreshold={0}
+      ListFooterComponent={
+        <ActivityIndicator animating={isFetchingNextPage} />
+      }
+    />
   );
 };
 

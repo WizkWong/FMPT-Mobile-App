@@ -57,30 +57,29 @@ const ActiveTaskListTabPage = () => {
   };
 
   return (
-    <View className="flex flex-col justify-center my-1">
-      <FlatList
-        data={data?.pages.flatMap((d) => d.data.taskList)}
-        renderItem={({ item }) => (
-          <TaskRenderItem
-            task={item}
-            componentOnPress={(task) =>
-              router.push(`/employee/task/${task.id}`)
-            }
-          />
-        )}
-        ListEmptyComponent={() => (
-          <CustomError errorMsg={error?.message ?? "No results of Tasks"} />
-        )}
-        keyExtractor={(item) => item.id.toString()}
-        onRefresh={refresh}
-        refreshing={isFetching}
-        onEndReached={fetchMore}
-        onEndReachedThreshold={0}
-        ListFooterComponent={
-          <ActivityIndicator animating={isFetchingNextPage} />
-        }
-      />
-    </View>
+    <FlatList
+      className="py-1"
+      data={data?.pages.flatMap((d) => d.data.taskList)}
+      renderItem={({ item }) => (
+        <TaskRenderItem
+          task={item}
+          componentOnPress={(task) =>
+            router.push(`/employee/task/${task.id}`)
+          }
+        />
+      )}
+      ListEmptyComponent={() => (
+        <CustomError errorMsg={error?.message ?? "No results of Tasks"} />
+      )}
+      keyExtractor={(item) => item.id.toString()}
+      onRefresh={refresh}
+      refreshing={isFetching}
+      onEndReached={fetchMore}
+      onEndReachedThreshold={0}
+      ListFooterComponent={
+        <ActivityIndicator animating={isFetchingNextPage} />
+      }
+    />
   );
 };
 

@@ -77,23 +77,22 @@ const ProductList = ({
   };
 
   return (
-    <View className="flex flex-col justify-center my-1">
-      <FlatList
-        data={data?.pages.flatMap((d) => d.data.productList)}
-        renderItem={renderItem}
-        ListEmptyComponent={() => (
-          <CustomError errorMsg={error?.message ?? "No results of Products"} />
-        )}
-        keyExtractor={(item) => item.id.toString()}
-        onRefresh={refresh}
-        refreshing={isFetching}
-        onEndReached={fetchMore}
-        onEndReachedThreshold={0}
-        ListFooterComponent={
-          <ActivityIndicator animating={isFetchingNextPage} />
-        }
-      />
-    </View>
+    <FlatList
+      className="py-1"
+      data={data?.pages.flatMap((d) => d.data.productList)}
+      renderItem={renderItem}
+      ListEmptyComponent={() => (
+        <CustomError errorMsg={error?.message ?? "No results of Products"} />
+      )}
+      keyExtractor={(item) => item.id.toString()}
+      onRefresh={refresh}
+      refreshing={isFetching}
+      onEndReached={fetchMore}
+      onEndReachedThreshold={0}
+      ListFooterComponent={
+        <ActivityIndicator animating={isFetchingNextPage} />
+      }
+    />
   );
 };
 

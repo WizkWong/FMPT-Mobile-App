@@ -70,19 +70,21 @@ const TaskDetailPage = () => {
 
   return (
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <Stack.Screen
-        options={{
-          headerRight: () => {
-            return (
-              <Pressable
-                onPress={() => router.push(`/manager/task/assign?taskId=${id}&department=${data.data.task.department}`)}
-              >
-                <FontAwesome5 name="user-plus" size={24} color="white" />
-              </Pressable>
-            );
-          },
-        }}
-      />
+      {data?.data.task.status !== Status.COMPLETED && (
+        <Stack.Screen
+          options={{
+            headerRight: () => {
+              return (
+                <Pressable
+                  onPress={() => router.push(`/manager/task/assign?taskId=${id}&department=${data.data.task.department}`)}
+                >
+                  <FontAwesome5 name="user-plus" size={24} color="white" />
+                </Pressable>
+              );
+            },
+          }}
+        />
+      )}
       <TaskDetailView taskDetail={data?.data} />
       {data?.data.employeeTask.length !== 0 &&
         (data?.data.task.status === Status.NOT_STARTED ||

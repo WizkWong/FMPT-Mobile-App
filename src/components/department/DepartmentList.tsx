@@ -33,56 +33,55 @@ const DepartmentList = ({
 
   return (
     <>
-      <View className="flex flex-col justify-center my-1">
-        <FlatList
-          data={data?.data ?? []}
-          renderItem={({ item }: { item: Department }) => (
-            <Card className="mx-4 my-2" onPress={() => componentOnPress(item)}>
-              <Card.Content>
-                <View className="flex flex-row items-center justify-end">
-                  <Text className="mr-auto text-lg">{item.name}</Text>
-                  <Text className="text-sm">Total: </Text>
-                  <Text className="mr-4 w-6 text-sm text-right">
-                    {item.totalEmployee}
-                  </Text>
-                  <ItemMenu
-                    key={item.id}
-                    item={[
-                      {
-                        title: "Modify",
-                        onPress: () => {
+      <FlatList
+        className="py-1"
+        data={data?.data ?? []}
+        renderItem={({ item }: { item: Department }) => (
+          <Card className="mx-4 my-2" onPress={() => componentOnPress(item)}>
+            <Card.Content>
+              <View className="flex flex-row items-center justify-end">
+                <Text className="mr-auto text-lg">{item.name}</Text>
+                <Text className="text-sm">Total: </Text>
+                <Text className="mr-4 w-6 text-sm text-right">
+                  {item.totalEmployee}
+                </Text>
+                <ItemMenu
+                  key={item.id}
+                  item={[
+                    {
+                      title: "Modify",
+                      onPress: () => {
+                        setSelectedDepartment(item);
+                        setModifyDialogVisible(true);
+                      },
+                    },
+                    {
+                      title: "Delete",
+                      onPress: () => {
+                        if (item.totalEmployee === 0) {
                           setSelectedDepartment(item);
-                          setModifyDialogVisible(true);
-                        },
+                          setDeleteDialogVisible(true);
+                        } else {
+                          setWarningDialogVisible(true);
+                        }
                       },
-                      {
-                        title: "Delete",
-                        onPress: () => {
-                          if (item.totalEmployee === 0) {
-                            setSelectedDepartment(item);
-                            setDeleteDialogVisible(true);
-                          } else {
-                            setWarningDialogVisible(true);
-                          }
-                        },
-                        titleStyle: globalStyles.redText,
-                      },
-                    ]}
-                  ></ItemMenu>
-                </View>
-              </Card.Content>
-            </Card>
-          )}
-          ListEmptyComponent={() => (
-            <CustomError
-              errorMsg={error?.message ?? "No results of Departments"}
-            />
-          )}
-          keyExtractor={(item) => item.id.toString()}
-          onRefresh={() => refetch()}
-          refreshing={isLoading}
-        />
-      </View>
+                      titleStyle: globalStyles.redText,
+                    },
+                  ]}
+                ></ItemMenu>
+              </View>
+            </Card.Content>
+          </Card>
+        )}
+        ListEmptyComponent={() => (
+          <CustomError
+            errorMsg={error?.message ?? "No results of Departments"}
+          />
+        )}
+        keyExtractor={(item) => item.id.toString()}
+        onRefresh={() => refetch()}
+        refreshing={isLoading}
+      />
       <UpdateDepartmentDialog
         department={selectedDepartment}
         visible={isModifyDialogVisible}

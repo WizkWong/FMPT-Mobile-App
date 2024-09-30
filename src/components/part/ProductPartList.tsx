@@ -80,16 +80,15 @@ const ProductPartList = ({
   };
 
   return (
-    <View className="flex flex-col justify-center my-1">
-      <FlatList
-        data={data}
-        renderItem={renderProductPartItem}
-        ListEmptyComponent={() => (
-          <Text className="mx-4 my-1 text-xl">No Parts Added</Text>
-        )}
-        keyExtractor={(item) => item.part.id.toString()}
-      />
-    </View>
+    <FlatList
+      className="py-1"
+      data={data}
+      renderItem={renderProductPartItem}
+      ListEmptyComponent={() => (
+        <Text className="mx-4 my-1 text-xl">No Parts Added</Text>
+      )}
+      keyExtractor={(item) => item.part.id.toString()}
+    />
   );
 };
 
