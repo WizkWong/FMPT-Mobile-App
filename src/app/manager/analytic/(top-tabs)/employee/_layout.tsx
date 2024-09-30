@@ -1,5 +1,5 @@
 import { Stack } from "expo-router";
-import config from "../../../constants/config";
+import config from "../../../../../constants/config";
 
 const ReportLayout = () => {
   return (
@@ -12,9 +12,11 @@ const ReportLayout = () => {
         headerTitleStyle: {
           fontWeight: "bold",
         },
+        headerShown: false,
       }}
     >
-      <Stack.Screen name="(top-tabs)" options={{ headerTitle: "Analytic" }} />
+      <Stack.Screen name="index" />
+      <Stack.Screen name="[id]" />
     </Stack>
   );
 };
