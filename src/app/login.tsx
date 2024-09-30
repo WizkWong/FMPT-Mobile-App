@@ -7,6 +7,7 @@ import { getSecureItem, saveSecureAuth, setSecureItem } from "../utils/SecureSto
 import { router, useFocusEffect } from "expo-router";
 import Checkbox from "expo-checkbox";
 import { UserRole } from "../types/enum";
+import { HelperText } from "react-native-paper";
 
 const LoginPage = () => {
   const [userAuth, setUserAuth] = useState<UserAuthentication>({
@@ -38,13 +39,13 @@ const LoginPage = () => {
       });
       await setSecureItem("remember-me", rememberMe.toString());
       if (data.role === UserRole.ADMIN) {
-        router.push("/admin");
+        router.replace("/admin");
       }
       if (data.role === UserRole.MANAGER) {
-        router.push("/manager");
+        router.replace("/manager");
       }
       if (data.role === UserRole.EMPLOYEE) {
-        router.push("/employee");
+        router.replace("/employee");
       }
     },
   });
@@ -86,7 +87,10 @@ const LoginPage = () => {
             secureTextEntry
           />
         </View>
-        <View className="flex flex-row items-center mt-2.5 text-black">
+        <HelperText type="error" visible={isError} padding="none">
+          Your username or password are invalid!
+        </HelperText>
+        <View className="flex flex-row items-center mt-1 text-black">
           <Checkbox
             className="shrink-0 ml-1 mr-2"
             value={rememberMe}
