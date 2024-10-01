@@ -170,7 +170,10 @@ const TaskDetailView = ({ taskDetail }: { taskDetail: TaskDetail }) => {
           titleStyle={{ textAlignVertical: "center", marginVertical: 0 }}
         />
         <Card.Content className="pt-2 pb-3 border-t-1 border-gray-200">
-          <EmployeeList employeeTaskList={taskDetail.employeeTask} />
+          <EmployeeList
+            employeeTaskList={taskDetail.employeeTask}
+            emptyMessage="No employees have been assigned"
+          />
         </Card.Content>
       </Card>
     </View>

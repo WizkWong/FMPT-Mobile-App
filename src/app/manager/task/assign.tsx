@@ -65,14 +65,18 @@ const AssignEmployeePage = () => {
     <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
       <View className="mx-3 my-1">
         <Text className="m-3 ml-1 text-sm font-medium text-gray-500">
-          Selected Employees
+          Assigned Employees
         </Text>
-        <EmployeeList employeeTaskList={employeeTaskList} />
+        <EmployeeList 
+          employeeTaskList={employeeTaskList}
+          emptyMessage="No employees have been assigned"
+        />
         <Text className="m-3 ml-1 text-sm font-medium text-gray-500">
-          Assign Employees
+          Selected Employees
         </Text>
         <EmployeeList
           employeeTaskList={updateEmployeeTaskList}
+          emptyMessage="No employees have been selected"
           allowRemove={true}
           removeFn={(e) =>
             setUpdateEmployeeTaskList((prev) =>
@@ -90,7 +94,7 @@ const AssignEmployeePage = () => {
             loading={isPending}
             disabled={isPending}
           >
-            Assign Employee
+            Assign Selected Employee
           </Button>
         )}
       </View>

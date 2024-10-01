@@ -8,6 +8,8 @@ import CustomError from "../../components/CustomError";
 import { capitalizedCase } from "../../utils/utility";
 import useSearchBar from "../../hooks/useSearchBar";
 import CustomHeader from "../CustomHeader";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 const EmployeeScoreListModal = ({
   visible,
@@ -53,23 +55,50 @@ const EmployeeScoreListModal = ({
       <Card className="mx-4 my-2 pr-3" onPress={() => componentOnPress(item)}>
         <Card.Title
           className="py-2"
-          title={item.username}
+          title={
+            <View className="flex flex-row items-center space-x-2">
+              <Text className="font-semibold text-[15px]">{item.username}</Text>
+              {item.score >= 70 ? (
+                <AntDesign name="like1" size={15} color="green" />
+              ) : item.score >= 40 ? (
+                <FontAwesome6 name="equals" size={15} color="#ca8a04" />
+              ) : item.score > 0 ? (
+                <AntDesign name="dislike1" size={15} color="red" />
+              ) : (
+                <></>
+              )}
+            </View>
+          }
           subtitle={
             <>
+              <Text className="text-gray-500 font-bold">Role: </Text>
               <Text>
-                Role: {capitalizedCase(item.role)}
+                {capitalizedCase(item.role)}
                 {"\n"}
               </Text>
+              <Text className="text-gray-500 font-bold">Department: </Text>
               <Text>
-                Department: {item.department}
+                {item.department}
                 {"\n"}
               </Text>
-              <Text>
-                Average Score: {item.score === 0 ? "-" : item.score}
+              <Text className="text-gray-500 font-bold">Average Score: </Text>
+              <Text
+                className={`font-semibold ${
+                  item.score >= 70
+                    ? "text-green-600"
+                    : item.score >= 40
+                    ? "text-yellow-600"
+                    : item.score > 0
+                    ? "text-red-500"
+                    : "text-gray-700"
+                }`}
+              >
+                {item.score === 0 ? "-" : item.score}
               </Text>
             </>
           }
           subtitleNumberOfLines={4}
+          subtitleStyle={{ fontSize: 12, color: "#4b5563" }}
           left={(props) =>
             item.image ? (
               <Avatar.Image

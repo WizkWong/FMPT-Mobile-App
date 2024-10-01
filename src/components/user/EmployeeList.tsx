@@ -5,10 +5,12 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 const EmployeeList = ({
   employeeTaskList = [],
+  emptyMessage,
   allowRemove = false,
   removeFn = () => {},
 }: {
   employeeTaskList: EmployeeTask[];
+  emptyMessage: string;
   allowRemove?: boolean;
   removeFn?: (employeeTask : EmployeeTask) => void;
 }) => {
@@ -65,7 +67,7 @@ const EmployeeList = ({
         ))
       ) : (
         <View>
-          <Text className="mx-1 text-base">No Employees has assigned</Text>
+          <Text className="mx-1 text-base">{emptyMessage ?? "No employees"}</Text>
         </View>
       )}
     </View>
