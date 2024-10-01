@@ -74,7 +74,7 @@ const TaskDetailPage = () => {
                       "employeeList",
                       JSON.stringify(data?.data.employeeTask ?? [])
                     );
-                    router.push(`/manager/task/assign?taskId=${id}&department=${data.data.task.department}`)
+                    router.push(`/manager/task/assign?taskId=${id}&partProcedureId=${data.data.task.partProcedure.id}&department=${data.data.task.department}`)
                   }}
                 >
                   <FontAwesome5 name="user-plus" size={24} color="white" />

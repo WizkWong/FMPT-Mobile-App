@@ -13,8 +13,9 @@ import EmployeeScoreListModal from "../../../components/user/EmployeeScoreListMo
 import { UserRole } from "../../../types/enum";
 
 const AssignEmployeePage = () => {
-  const { taskId, department } = useLocalSearchParams<{
+  const { taskId, partProcedureId, department } = useLocalSearchParams<{
     taskId: string;
+    partProcedureId: string;
     department: string;
   }>();
   const navigation = useNavigation();
@@ -113,6 +114,7 @@ const AssignEmployeePage = () => {
           });
           setEmployeeModalVisible(false);
         }}
+        partProcedureId={+partProcedureId}
         filterByDepartment={department}
       />
     </ScrollView>

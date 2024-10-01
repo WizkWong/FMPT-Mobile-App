@@ -15,11 +15,13 @@ const EmployeeScoreListModal = ({
   visible,
   onModalClose,
   componentOnPress,
+  partProcedureId = null,
   filterByDepartment = "",
 }: {
   visible: boolean;
   onModalClose: () => void;
   componentOnPress?: (employee: Employee) => void;
+  partProcedureId?: number;
   filterByDepartment?: string;
 }) => {
   const queryKey = ["fetchEmployeeList"];
@@ -37,7 +39,7 @@ const EmployeeScoreListModal = ({
   } = useInfiniteQuery({
     queryKey: queryKey,
     queryFn: ({ pageParam }) =>
-      getEmployeeByFilter(pageParam, searchText, filterByDepartment),
+      getEmployeeByFilter(pageParam, searchText, partProcedureId, filterByDepartment),
     initialPageParam: 0,
     staleTime: Infinity,
     getNextPageParam: (lastPage, pages, lastPageParam) =>

@@ -43,8 +43,12 @@ export const getUserByFilter = async (page: number, search: string, department: 
   return api.get(`/users?page=${page}&search=${search}&department=${department}&role=${role}`, await setAuthorizationHeader());
 }
 
-export const getEmployeeByFilter = async (page: number, search: string, department: string = ""): Promise<AxiosResponse<EmployeePage, any>> => {
-  return api.get(`/users/employees?page=${page}&search=${search}&department=${department}`, await setAuthorizationHeader());
+export const getEmployeeByFilter = async (page: number, search: string, partProcedureId: number, department: string = ""): Promise<AxiosResponse<EmployeePage, any>> => {
+  const url =
+    `/users/employees?page=${page}&search=${search}` +
+    (partProcedureId ? `&partProcedureId=${partProcedureId}` : "") +
+    `&department=${department}`;
+  return api.get(url, await setAuthorizationHeader());
 }
 
 export const getUserById = async (id: number): Promise<AxiosResponse<User, any>> => {
