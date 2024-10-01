@@ -16,18 +16,25 @@ import CustomError from "../CustomError";
 import CustomHeader from "../CustomHeader";
 import Loading from "../Loading";
 import TaskDetailScheduleView from "../task/TaskDetailScheduleView";
+import {
+  runOnJS,
+  useAnimatedReaction,
+  useSharedValue,
+} from "react-native-reanimated";
+import { useNavigation } from "expo-router";
 
 const MIN_DATE = new Date(
   new Date().getFullYear(),
   new Date().getMonth() - 1,
   new Date().getDate()
-);
+).toISOString();
 
 const MAX_DATE = new Date(
   new Date().getFullYear() + 1,
   new Date().getMonth(),
   new Date().getDate()
-);
+).toISOString();
+
 const initialLocales: Record<string, Partial<LocaleConfigsProps>> = {
   en: {
     weekDayShort: "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),
@@ -52,11 +59,12 @@ const randomColor = () => {
   return color;
 };
 
-const OrderSchedule = ({ orderId } : { orderId: number }) => {
+const OrderSchedule = ({ orderId }: { orderId: number }) => {
   const calendarRef = useRef<CalendarKitHandle>(null);
   const taskIdColorRef = useRef<{ [key: number]: string }>({});
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedTaskId, setSelectedTaskId] = useState<number>();
+  const navigation = useNavigation();
 
   const highlightDates = useMemo(
     () => ({
@@ -148,28 +156,46 @@ const OrderSchedule = ({ orderId } : { orderId: number }) => {
 
         return {
           minStartDateTime:
-            currentStartDateTime.getTime() < acc.minStartDateTime.getTime()
-              ? currentStartDateTime
+            currentStartDateTime.getTime() < new Date(acc.minStartDateTime).getTime()
+              ? currentStartDateTime.toISOString()
               : acc.minStartDateTime,
           maxCompleteDateTime:
-            currentCompleteDateTime.getTime() >
-            acc.maxCompleteDateTime.getTime()
-              ? currentCompleteDateTime
+            currentCompleteDateTime.getTime() > new Date(acc.maxCompleteDateTime).getTime()
+              ? currentCompleteDateTime.toISOString()
               : acc.maxCompleteDateTime,
         };
       },
       {
         minStartDateTime:
           taskSchedules.length !== 0
-            ? new Date(taskSchedules[0]?.startDateTime)
+            ? new Date(taskSchedules[0]?.startDateTime).toISOString()
             : MIN_DATE,
         maxCompleteDateTime:
           taskSchedules.length !== 0
-            ? new Date(taskSchedules[0]?.completeDateTime)
+            ? new Date(taskSchedules[0]?.completeDateTime).toISOString()
             : MAX_DATE,
       }
     );
   }, [taskSchedules]);
+
+  const currentDate = useSharedValue(minMaxDates.minStartDateTime);
+
+  const updateTitle = (date: string) => {
+    console.log(date);
+    const formatted = new Date(date).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+    });
+    navigation.setOptions({ headerTitle: formatted });
+  };
+
+  useAnimatedReaction(
+    () => currentDate.value,
+    (value) => {
+      runOnJS(updateTitle)(value);
+    },
+    []
+  );
 
   if (isLoading) {
     return <Loading />;
@@ -181,7 +207,7 @@ const OrderSchedule = ({ orderId } : { orderId: number }) => {
   }
 
   return (
-    <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+    <ScrollView contentContainerStyle={{ flex: 1 }}>
       <CalendarContainer
         ref={calendarRef}
         theme={{
@@ -191,8 +217,8 @@ const OrderSchedule = ({ orderId } : { orderId: number }) => {
             lineHeight: 17,
           },
         }}
-        scrollByDay={true}
-        allowPinchToZoom={true}
+        scrollByDay
+        allowPinchToZoom
         numberOfDays={4}
         initialLocales={initialLocales}
         locale="en"
@@ -205,7 +231,6 @@ const OrderSchedule = ({ orderId } : { orderId: number }) => {
         initialTimeIntervalHeight={80}
         minTimeIntervalHeight={30}
         maxTimeIntervalHeight={200}
-        // useHaptic
         timeZone="Asia/Kuala_Lumpur"
         allowDragToEdit={false}
         allowDragToCreate={false}
@@ -213,6 +238,9 @@ const OrderSchedule = ({ orderId } : { orderId: number }) => {
         onPressEvent={(event) => {
           setSelectedTaskId(+event.id);
           setModalVisible(true);
+        }}
+        onChange={(date: string) => {
+          currentDate.value = date;
         }}
       >
         <CalendarHeader />
