@@ -181,7 +181,6 @@ const OrderSchedule = ({ orderId }: { orderId: number }) => {
   const currentDate = useSharedValue(minMaxDates.minStartDateTime);
 
   const updateTitle = (date: string) => {
-    console.log(date);
     const formatted = new Date(date).toLocaleDateString("en-US", {
       year: "numeric",
       month: "long",
@@ -228,7 +227,7 @@ const OrderSchedule = ({ orderId }: { orderId: number }) => {
         highlightDates={highlightDates}
         events={eventItems}
         scrollToNow={false}
-        initialTimeIntervalHeight={80}
+        initialTimeIntervalHeight={60}
         minTimeIntervalHeight={30}
         maxTimeIntervalHeight={200}
         timeZone="Asia/Kuala_Lumpur"
