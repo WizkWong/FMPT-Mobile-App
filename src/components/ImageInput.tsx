@@ -12,14 +12,12 @@ const ImageInput = ({
   setImage: (imagePicker: ImagePicker.ImagePickerAsset) => any;
 }) => {
   const pickImage = async () => {
-    // const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-    // console.log(permissionResult)
-
-    // if (permissionResult.granted === false) {
-    //   alert("You've refused to allow this app to access your image library!");
-    //   return;
-    // }
+    if (permissionResult.granted === false) {
+      alert("You've refused to allow this app to access your image library!");
+      return;
+    }
 
     const result = await ImagePicker.launchImageLibraryAsync({
       base64: true,
