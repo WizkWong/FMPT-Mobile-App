@@ -45,7 +45,7 @@ const ManagerLayout = () => {
       <Tabs.Screen
         name="setting"
         options={{
-          tabBarLabel: "Setting",
+          tabBarLabel: "Settings",
           tabBarIcon: ({ color }) => (
             <Ionicons name="settings" size={24} color={color} />
           ),

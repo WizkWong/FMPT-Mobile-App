@@ -138,11 +138,7 @@ const OrderSchedule = ({ orderId }: { orderId: number }) => {
         end: {
           dateTime: new Date(taskSchedule.completeDateTime).toISOString(),
         },
-        title: `Step: ${taskSchedule.stepNo}\n${
-          taskSchedule.partName
-        }\nDepartment: ${taskSchedule.department}\nStatus: ${Status.toString(
-          taskSchedule.status
-        )}`,
+        title: `Step: ${taskSchedule.stepNo}`,
         color: taskIdColorRef.current[taskSchedule.partId],
       };
     });

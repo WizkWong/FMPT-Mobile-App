@@ -166,7 +166,7 @@ const TaskDetailView = ({ taskDetail }: { taskDetail: TaskDetail }) => {
       </Card>
       <Card>
         <Card.Title
-          title="Assign Employees"
+          title="Assigned Employees"
           titleStyle={{ textAlignVertical: "center", marginVertical: 0 }}
         />
         <Card.Content className="pt-2 pb-3 border-t-1 border-gray-200">

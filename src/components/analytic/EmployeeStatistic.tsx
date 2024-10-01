@@ -235,6 +235,12 @@ const EmployeeStatistic = ({ employeeId } : { employeeId: number }) => {
               dataPointsColor="#4b5563"
               color1="#6b7280"
             />
+            <Text className="ml-1 text-base font-semibold text-gray-800 mb-1">
+              Parts Production Table
+            </Text>
+            <Text className="ml-1 text-xs font-medium text-gray-800 mb-2">
+              Data Unit: pieces/hour
+            </Text>
             <DataTable
               style={[
                 globalStyles.lightShadow,
