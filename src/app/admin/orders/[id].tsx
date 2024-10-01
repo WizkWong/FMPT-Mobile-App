@@ -29,7 +29,7 @@ const OrderDetailsPage = () => {
         createdDateTime: data.createdDateTime,
       }),
     onError: (error) => {
-      Alert.alert("Error!", error, [
+      Alert.alert("Error!", error.message, [
         { text: "Close & Go Back", onPress: () => router.back() },
       ]);
     },

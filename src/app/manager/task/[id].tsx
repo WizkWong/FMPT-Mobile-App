@@ -21,7 +21,7 @@ const TaskDetailPage = () => {
   const [isSuccessDialogVisible, setSuccessDialogVisible] = useState(false);
   const [isErrorDialogVisible, setErrorDialogVisible] = useState(false);
 
-  const { data, isLoading, isError, error, isSuccess, refetch } = useQuery({
+  const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ["fetchTask", id],
     queryFn: () => getTaskById(+id),
     refetchOnWindowFocus: "always",
@@ -53,13 +53,6 @@ const TaskDetailPage = () => {
     return <CustomError errorMsg={error.message} />;
   }
 
-  if (isSuccess) {
-    AsyncStorage.setItem(
-      "employeeList",
-      JSON.stringify(data?.data.employeeTask ?? [])
-    );
-  }
-
   const handleClick = () => {
     if (data?.data.task.status === Status.NOT_STARTED) {
       mutate({ status: Status.IN_PROGRESS });
@@ -76,7 +69,13 @@ const TaskDetailPage = () => {
             headerRight: () => {
               return (
                 <Pressable
-                  onPress={() => router.push(`/manager/task/assign?taskId=${id}&department=${data.data.task.department}`)}
+                  onPress={() => {
+                    AsyncStorage.setItem(
+                      "employeeList",
+                      JSON.stringify(data?.data.employeeTask ?? [])
+                    );
+                    router.push(`/manager/task/assign?taskId=${id}&department=${data.data.task.department}`)
+                  }}
                 >
                   <FontAwesome5 name="user-plus" size={24} color="white" />
                 </Pressable>

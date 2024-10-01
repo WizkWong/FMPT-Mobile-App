@@ -55,7 +55,7 @@ const AssignEmployeePage = () => {
     key: "employeeList",
     onSuccess: (data) => setEmployeeTaskList([...data]),
     onError: (error) => {
-      Alert.alert("Error!", error, [
+      Alert.alert("Error!", error.message, [
         { text: "Close & Go Back", onPress: () => router.back() },
       ]);
     },

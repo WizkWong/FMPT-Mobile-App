@@ -9,6 +9,7 @@ import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import Ionicons from "@expo/vector-icons/Ionicons";
+import config from "../../constants/config";
 
 const AdminPage = () => {
   const queryClient = useQueryClient();
@@ -43,37 +44,37 @@ const AdminPage = () => {
     {
       title: "User",
       onPress: () => router.push("/admin/users/list"),
-      image: <FontAwesome5 name="user-alt" size={24} color="#111827" />,
+      image: <FontAwesome5 name="user-alt" size={24} color={config.colorTheme.icon} />,
     },
     {
       title: "Department",
       onPress: () => router.push("/admin/department"),
-      image: <MaterialIcons name="groups" size={36} color="#111827" />,
+      image: <MaterialIcons name="groups" size={36} color={config.colorTheme.icon} />,
     },
     {
       title: "Product",
       onPress: () => router.push("/admin/products/list"),
-      image: <MaterialCommunityIcons name="table-chair" size={36} color="#111827" />,
+      image: <MaterialCommunityIcons name="table-chair" size={36} color={config.colorTheme.icon} />,
     },
     {
       title: "Product Part",
       onPress: () => router.push("/admin/parts/list"),
-      image: <MaterialCommunityIcons name="ruler-square" size={36} color="#111827" />,
+      image: <MaterialCommunityIcons name="ruler-square" size={36} color={config.colorTheme.icon} />,
     },
     {
       title: "Order",
       onPress: () => router.push("/admin/orders/list"),
-      image: <FontAwesome5 name="clipboard-list" size={36} color="#111827" />,
+      image: <FontAwesome5 name="clipboard-list" size={36} color={config.colorTheme.icon} />,
     },
     {
       title: "Analytic",
       onPress: () => router.push("/admin/analytic"),
-      image: <Ionicons name="analytics" size={36} color="#111827" />,
+      image: <Ionicons name="analytics" size={36} color={config.colorTheme.icon} />,
     },
     {
       title: "Logout",
       onPress: () => logOut(),
-      image: <MaterialIcons name="logout" size={36} color="#111827" />,
+      image: <MaterialIcons name="logout" size={36} color={config.colorTheme.icon} />,
     },
   ];
 
