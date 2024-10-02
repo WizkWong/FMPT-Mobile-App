@@ -99,6 +99,11 @@ const OrderSchedule = ({ orderId }: { orderId: number }) => {
           ? new Date(task.completeDateTime)
           : null;
 
+        // If status in progress, set completed datetime to now
+        if (startDateTime && task.status === Status.IN_PROGRESS) {
+          completeDateTime = new Date();
+        }
+
         // If startDateTime is null, set it based on previousCompleteDateTime (or current time if it's the first step)
         if (!startDateTime && previousCompleteDateTime) {
           startDateTime = roundToNext30Minutes(previousCompleteDateTime); // Start at the next 30-minute mark
